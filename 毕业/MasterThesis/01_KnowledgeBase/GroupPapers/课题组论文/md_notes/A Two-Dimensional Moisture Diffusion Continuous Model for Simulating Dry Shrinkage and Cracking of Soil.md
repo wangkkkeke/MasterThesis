@@ -1,0 +1,56 @@
+# A Two-Dimensional Moisture Diffusion Continuous Model for Simulating Dry Shrinkage and Cracking of Soil
+
+## Abstract
+
+:Dryshrinkagecrackingofsoilisacommonphenomenoninnature.Theshrinkingandcrackingofsoilhavebeenlinkedtoseveral geologicaldisasters.Tosimulatedryshrinkagecrackinginsoil,wepresentacontinuous2Dmoisturediffusionmodel,whichisimplemented inaGPUparallelmultiphysicsfinite-discreteelementsoftware,namelyMultiFracS.Inthismodel,themoisturedistributionofthesystemis analyzedinitially,thentheshrinkagestresscausedbythechangeofmoistureiscalculated.Finally,theshrinkagestressisappliedtothegov- erningequationofFDEMtocalculatethemechanicalfracture.Byrepeatingtheprecedingprocedures,thesoilshrinkagecrackingproblem canbesimulatedandinvestigated.Wefirstverifythecorrectnessofthemodelindealingwiththemoisturediffusionprobleminacontinuous medium.Thenwestudythesoildryshrinkageandcracking,andcomparethesimulationresultswiththeexperimentalresults.Thesimulation resultsareingoodagreementwiththeanalyticalsolutionortheexistingliteratureresults,whichverifiestheeffectivenessofthe2Dmoisture diffusioncontinuousmodeltosimulatethe
+
+## Keywords
+
+Soil;Shrinkagecracking;Moisturediffusion;Finite-discreteelementmethod;FDEM. Introduction 2006; Rodríguez et al. 2007; Tang et al. 2008, 2010; Vogel et al.
+
+## Extracted Text (First Pages)
+
+```
+A Two-Dimensional Moisture Diffusion Continuous Model
+for Simulating Dry Shrinkage and Cracking of Soil
+Chengzeng Yan1; Hui Ma2; Zhicheng Tang3; and Wenhui Ke4
+Abstract:Dryshrinkagecrackingofsoilisacommonphenomenoninnature.Theshrinkingandcrackingofsoilhavebeenlinkedtoseveral
+geologicaldisasters.Tosimulatedryshrinkagecrackinginsoil,wepresentacontinuous2Dmoisturediffusionmodel,whichisimplemented
+inaGPUparallelmultiphysicsfinite-discreteelementsoftware,namelyMultiFracS.Inthismodel,themoisturedistributionofthesystemis
+analyzedinitially,thentheshrinkagestresscausedbythechangeofmoistureiscalculated.Finally,theshrinkagestressisappliedtothegov-
+erningequationofFDEMtocalculatethemechanicalfracture.Byrepeatingtheprecedingprocedures,thesoilshrinkagecrackingproblem
+canbesimulatedandinvestigated.Wefirstverifythecorrectnessofthemodelindealingwiththemoisturediffusionprobleminacontinuous
+medium.Thenwestudythesoildryshrinkageandcracking,andcomparethesimulationresultswiththeexperimentalresults.Thesimulation
+resultsareingoodagreementwiththeanalyticalsolutionortheexistingliteratureresults,whichverifiestheeffectivenessofthe2Dmoisture
+diffusioncontinuousmodeltosimulatethedryshrinkagecrackingofsoil.DOI:10.1061/(ASCE)GM.1943-5622.0002570.©2022Amer-
+icanSocietyofCivilEngineers.
+Authorkeywords:Soil;Shrinkagecracking;Moisturediffusion;Finite-discreteelementmethod;FDEM.
+Introduction 2006; Rodríguez et al. 2007; Tang et al. 2008, 2010; Vogel et al.
+2005;Yanetal.2021a).Manyscholarscarriedoutinsituorindoor
+Dryshrinkageandcrackingofsoilareverycommoninnature.Due experiments to comprehensively study the phenomenon of soil
+to the dry climate, the moisture in the soil evaporates and cracks shrinkage cracking. Tang et al. (2011) and Kodikara and Costa
+occur on the soil surface (Goehring et al. 2015; Morris et al. (2013) pointed out that the tensile stress increases with the loss
+1992).Thecrackscausedbydryshrinkagecrackingleadtosignifi- of moisture content. When the tensile stress exceeds the tensile
+cantchangesinpermeabilityandstrengthofthesoil,thusreducing strength ofthe soil, thesoil may leads tocracking. Groisman and
+thestructuralstabilityofsoilandaffectingitsperformance(Konrad Kaplan(1994)andZengetal.(2019)studiedtheinfluenceofcon-
+andAyad1997;Trabelsietal.2012).Forexample,claylinersare tainergeometryandboundaryroughnessonsoilcracking.Linetal.
+usually used to store hazardous and solid wastes. The liner may (2021) and Gui et al. (2016) discussed the influence of interfacial
+crackduringdryingsothatitcannotbeusedasahydraulicbarrier friction coefficient on dry shrinkage cracking of soil and found
+(Omidietal.1996).Inpavementengineering,theweakeningofthe
+thatwiththefrictioncoefficientincreases,theoverallmorphology
+soil mechanical properties caused by cracks affects the long-term of the cracks is similar, and the number of cracks remains
+performance of the road (DeCarlo and Shokri 2014; Guo et al. unchanged.
+2018).Inaddition,drycrackscauseslopeinstabilityandgeological Inaddition,manyscholarsalsostudythedryshrinkagecracking
+disasters such as landslides and mudslides (AghaKouchak et al. ofsoilbyusingdifferentnumericalmethods,whichmainlyinclude
+2015; McKay et al. 1993; Omidi et al. 1996; Senior 1981; Van thecontinuumanddiscontinuousapproaches.Inthecontinuumap-
+Baars2005;Yesilleretal.2000).Asaresult,itiscriticaltoinves- proach,Hirobe(2018)builtamodelthatdividesdrycrackinginto
+thecouplingofthreephysicalprocessesofdryshrinkage,deforma- tigatethesoildryshrinkagecracking.
+tion, and fracture. Trabelsi et al. (2012) built a model that linked Soil is a highly complex material. Its cracking behavior is re-
+porosityevolutionwithsuctionandtensilestrengthwhichcancap-
+stricted by many factors such as mineral composition, boundary
+turecrackinitiationandpropagationinathinlayerofdryclay.Vo
+conditions, soil thickness, and so on (Nahlawi and Kodikara
+etal.(2017)describedthedamageelasticcohesivefracturelawof
+crack behavior by considering the coupling between hydraulic
+1Professor, Faculty
+```

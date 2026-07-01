@@ -1,0 +1,33 @@
+09_Log/
+
+│
+
+├── Daily/
+
+├── Weekly/
+
+├── Meeting/
+
+├── Bug/
+
+├── LessonsLearned/
+
+└── Archive/
+
+例如：
+
+Daily：
+
+2026-07-01.md
+
+2026-07-02.md
+
+内容：
+
+今天完成：
+
+Bug：
+
+结果：
+
+明天：

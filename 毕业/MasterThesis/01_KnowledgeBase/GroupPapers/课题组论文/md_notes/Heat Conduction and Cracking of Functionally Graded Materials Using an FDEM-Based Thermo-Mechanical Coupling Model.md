@@ -1,0 +1,77 @@
+# Heat Conduction and Cracking of Functionally Graded Materials Using an FDEM-Based Thermo-Mechanical Coupling Model
+
+## Abstract
+
+:Inthispaper,thesteady-stateandtransientheattransferprocessesoffunctionallygraded materials(FGMs)areanalyzedusingacoupledthermo-mechanicalmodelinaGPUparallelmulti- physicsfinite–discreteelementsoftware,namelyMultiFracS.First,thecoupledmodeltohandlethe heattransferproblemofheterogeneousmaterialsisverified.Then,theadvantagesanddisadvantages ofFGMsandcompositematerialsinresponsetothermalshockloadsarecomparedandtheresults indicatethatFGMscanovercomeextremeenvironmentsbetterthancompositematerials. Finally, theinfluenceofthegeometricdistributioncharacteristicsofthedouble-edgecracksinthegradient materialplateonthecrackpropagationisanalyzed.Thesimulationresultsshowthattheinteraction Citation:Han,D.;Fan,H.;Yan,C.; betweenthecracksaffectsthecrackpropagationpathunderthethermalload.Theinclinationangle Wang,T.;Yang,Y.;Ali,S.;Wang,G. andspacingofdouble-edgecracksgreatlyinfluencecrackpropagation.Specifically,alargerinclina- HeatConductionandCrackingof tionangleandspacingcanleadtoasmallercrackpropagat
+
+## Keywords
+
+functionallygradedmaterials;thermalcracking;thermalstress;compositematerials;FDEM app122312279 AcademicEditors:JongWanHuand LuisaF.Cabeza
+
+## Extracted Text (First Pages)
+
+```
+applied
+sciences
+Article
+Heat Conduction and Cracking of Functionally Graded
+Materials Using an FDEM-Based Thermo-Mechanical
+Coupling Model
+DuHan1,HongweiFan2,*,ChengzengYan1,3,* ,TieWang1,YuYang1,SajidAli1andGangWang4,5
+1 FacultyofEngineering,ChinaUniversityofGeosciences,Wuhan430079,China
+2 ChangjiangRiverScientificResearchInstitute,Wuhan430010,China
+3 InternationalJointResearchCenterforDeepEarthDrillingandResourceDevelopment,
+ChinaUniversityofGeosciences,Wuhan430074,China
+4 HKUSTShenzhen-HongKongCollaborativeInnovationResearchInstitute,Shenzhen440300,China
+5 DepartmentofCivilandEnvironmentalEngineering,HongKongUniversityofScienceandTechnology,
+ClearWaterBay,HongKong999077,China
+* Correspondence:13155487120@163.com(H.F.);yancz@cug.edu.cn(C.Y.)
+Abstract:Inthispaper,thesteady-stateandtransientheattransferprocessesoffunctionallygraded
+materials(FGMs)areanalyzedusingacoupledthermo-mechanicalmodelinaGPUparallelmulti-
+physicsfinite–discreteelementsoftware,namelyMultiFracS.First,thecoupledmodeltohandlethe
+heattransferproblemofheterogeneousmaterialsisverified.Then,theadvantagesanddisadvantages
+ofFGMsandcompositematerialsinresponsetothermalshockloadsarecomparedandtheresults
+indicatethatFGMscanovercomeextremeenvironmentsbetterthancompositematerials. Finally,
+theinfluenceofthegeometricdistributioncharacteristicsofthedouble-edgecracksinthegradient
+materialplateonthecrackpropagationisanalyzed.Thesimulationresultsshowthattheinteraction
+Citation:Han,D.;Fan,H.;Yan,C.; betweenthecracksaffectsthecrackpropagationpathunderthethermalload.Theinclinationangle
+Wang,T.;Yang,Y.;Ali,S.;Wang,G. andspacingofdouble-edgecracksgreatlyinfluencecrackpropagation.Specifically,alargerinclina-
+HeatConductionandCrackingof tionangleandspacingcanleadtoasmallercrackpropagationangle. Theapproachinthispaper
+FunctionallyGradedMaterialsUsing
+providesanewquantitativetoolforinvestigatingthethermal,elastic,andcrackingoffunctionally
+anFDEM-BasedThermo-Mechanical
+gradedmaterials.
+CouplingModel.Appl.Sci.2022,12,
+12279. https://doi.org/10.3390/
+Keywords:functionallygradedmaterials;thermalcracking;thermalstress;compositematerials;FDEM
+app122312279
+AcademicEditors:JongWanHuand
+LuisaF.Cabeza
+1. Introduction
+Received:18September2022
+Accepted:25November2022 TheJapanesematerialsthatscientistsproposedforthefunctionallygradientmaterials
+Published:30November2022 (FGMs)wereusedtoenhancethemechanicalpropertiesofheat-resistantmaterialsand
+reducetheuneventhermalexpansion,thermalstress,andresidualstressofthematerial
+Publisher’sNote:MDPIstaysneutral
+inahigh-temperatureenvironment[1]. FGMsareheterogeneousmaterialswithasimilar
+withregardtojurisdictionalclaimsin
+applicationenvironmenttoceramicmaterialsbutamoreprominentfunctionalstructure.
+publishedmapsandinstitutionalaffil-
+InFGMs,thecompositionofthematerialchangescontinuously,andthereisnoobvious
+iations.
+interfacesothattheperformanceofthematerialchangessmoothlyandcontinuously. The
+characteristicsofmicrostructureandcompositiontransitioncanincreasethermodynamic
+properties, making it a promising prospect for deep geological drilling. For example,
+Copyright: © 2022 by the authors. gradientcuttingtoolswithahardoutsideandtoughinsidehavehighercuttingefficiency,
+Licensee MDPI, Basel, Switzerland. wearresistance,andservicelifecomparedwithcementedcarbidecuttingtools. Therefore,
+This article is an open access article thethermalresponseanalysisofFGMsisveryimportantformaterialdesign,optimization,
+distributed under the terms and and engineering applications. The modeling of FGMs and their response in a thermal
+conditionsoftheCreativeCommons environmenthasalwaysbeenahottopicforscholars.
+Attribution(CCBY)license(https:// Manyanalyticalmethodsareusedtosolvethethermo-mechanicalcouplingproblem
+creativecommons.org/licenses/by/ ofFGMs. Forexample,Tang[2]derivedananalyticalsolutionforthetemperaturefield
+4.0/).
+Appl.Sci.2022,12,12279.https://doi.org/10.3390/app122312279 https://www.mdpi.com/journal/applsci
+--- PAGE BREAK ---
+Appl.Sci.2022,12,12279 2of21
+distributioni
+```

@@ -1,0 +1,36 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+x64/
+Debug/
+Release/
+bin/
+obj/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE / tooling
+.cursorindexingignore
+.specstory/
+.vscode/
+
+# MultiFracS binaries and outputs
+*.exe
+*.dll
+*.vtk
+*.vtu
+out-*/
+*.csv
+
+# Misplaced system files under MultiFracS Source
+毕业/MasterThesis/02_MultiFracS/Source/Users/
+
+# Literature PDFs (long paths + large binaries)
+毕业/MasterThesis/01_KnowledgeBase/Literature/文献全文/

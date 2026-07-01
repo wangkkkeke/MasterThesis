@@ -1,0 +1,62 @@
+# 2024 A 3D discrete model for soil desiccation cracking in consideration of moisture diffusion
+
+## Abstract
+
+Articlehistory: Soil desiccation cracking is a common phenomenon on the earth surface. Numerical modeling is an Received26December2022 effectiveapproachtostudythedesiccationcrackingmechanismofsoil.Thisworkdevelopsanovel3D Receivedinrevisedform moisture diffusion discrete model that is capable of dynamically assessing the effect of cracking on 31October2023 moisture diffusion and allowing moisture to be discontinuous on both sides of the cracks. Then, the Accepted4December2023 parametricanalysisofthemoistureexchangecoefficientinthe3Dmoisturediffusiondiscretemodelis Availableonlinexxx carriedoutformoisturediffusionincontinuousmedia,andtheselectioncriterionofthemoistureex- changecoefficientfortheunbrokencohesiveelementisgiven.Subsequently,anexampleofmoisture
+
+## Extracted Text (First Pages)
+
+```
+JournalofRockMechanicsandGeotechnicalEngineeringxxx(xxxx)xxx
+ContentslistsavailableatScienceDirect
+Journal of Rock Mechanics and
+Geotechnical Engineering
+journal homepage: www.jrmge.cn
+Full Length Article
+A 3D discrete model for soil desiccation cracking in consideration of
+moisture diffusion
+Chengzeng Yana,b,c,*, Tie Wanga
+aFacultyofEngineering,ChinaUniversityofGeosciences,Wuhan,430074,China
+bStateKeyLaboratoryofIntelligentConstructionandHealthyOperationandMaintenanceofDeepUndergroundEngineering,ChinaUniversityofMiningand
+Technology,Xuzhou,221116,China
+cNationalCenterforInternationalResearchonDeepEarthDrillingandResourceDevelopment,ChinaUniversityofGeosciences,Wuhan,430074,China
+a r t i c l e i n f o a b s t r a c t
+Articlehistory: Soil desiccation cracking is a common phenomenon on the earth surface. Numerical modeling is an
+Received26December2022 effectiveapproachtostudythedesiccationcrackingmechanismofsoil.Thisworkdevelopsanovel3D
+Receivedinrevisedform moisture diffusion discrete model that is capable of dynamically assessing the effect of cracking on
+31October2023
+moisture diffusion and allowing moisture to be discontinuous on both sides of the cracks. Then, the
+Accepted4December2023 parametricanalysisofthemoistureexchangecoefficientinthe3Dmoisturediffusiondiscretemodelis
+Availableonlinexxx
+carriedoutformoisturediffusionincontinuousmedia,andtheselectioncriterionofthemoistureex-
+changecoefficientfortheunbrokencohesiveelementisgiven.Subsequently,anexampleofmoisture
+Keywords:
+migrationinamediumwithonecrackisprovidedtoillustratethecrackhinderingeffectonmoisture
+Moisturemigration
+Soildesiccationcracking
+migration.Finally,combiningthe3Dmoisturediffusiondiscretemodelwiththefinite-discreteelement
+Crackhinderingeffect method(FDEM),themoisturediffusion-fracturecouplingmodelisbuilttostudythedesiccationcracking
+Crackpattern inastripsoilandthecrackpatternofarectangularsoil.Theevolutionofcrackareaandvolumewith
+Finite-discreteelementmethod(FDEM) moisturecontentisquantitativelyanalyzed.Themodelingnumberandaveragewidthofcracksinthe
+stripsoilshowagoodconsistencywiththeexperimentalresults,andthecrackpatternoftherectangular
+soilmatcheswellwiththeexistingnumericalresults,validatingthecoupledmoisturediffusion-fracture
+model.Additionally,theparametricstudyofsoildesiccationcrackingisperformed.Thedevelopedmodel
+offersapowerfultoolforexploringsoildesiccationcracking.
+(cid:1)2024InstituteofRockandSoilMechanics,ChineseAcademyofSciences.Productionandhostingby
+ElsevierB.V.ThisisanopenaccessarticleundertheCCBY-NC-NDlicense(http://creativecommons.org/
+licenses/by-nc-nd/4.0/).
+1. Introduction (Askaretal.,2020)(Fig.1f1andf2).Inhydraulicengineering,cracks
+ontheembankmentsurfacemayprovideachannelfortheseepage
+Soil desiccation cracking is a commonphenomenon in nature ofreservoirwater,makingtheembankmentmorepronetofailure
+(Tangetal.,2021)(Fig.1aandb).Generationofdesiccationcracks (Yuetal.,2021)(Fig.1e1ande2).Besides,cracksmaydamagethe
+can greatly influence the moisture migration and mechanical soillinersysteminlandfillcovers(AlbrechtandBenson,2001),and
+propertiesofsoil(Tangetal.,2021).Ingeologicalengineering,the change water storage condition in estimating the surface runoff
+desiccationcracksincreaserainfallinfiltrationandfurtherreduce (Arnoldetal.,2005).Therefore,itisurgenttostudythemechanism
+thesoilstrength,aswellaschangethewaterflowdirection,leading ofsoildesiccationcracking,whichisofgreatsignificancetoengi-
+toshallowlandslidesandcausingdamagetootherinfrastructures neeringprotectionandenvironmentalgovernance.
+(Ji et al., 2012; Trabelsiet al., 2012) (Fig.1c) and slope instability Theoreticalmodelshavebeenproposedtoestimatetheinitia-
+(Gaoetal.,2021)(Fig.1d1-d3).Inagriculture,thedesiccationcracks tion of cracks and predict quantitative indicators such as crack
+prevent nutrient transport in soil, further reducing crop yield depthandwidth.Basedonthelinearelasticfracturemechanics,Lee
+etal.(1988)predictedthelengthofthecracksdevelopedduringthe
+crackingprocessofthe
+```

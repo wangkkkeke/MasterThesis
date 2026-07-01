@@ -1,0 +1,21 @@
+00_Project/
+
+├── README.md                    ← 项目简介（必建）
+
+├── ThesisOutline.md             ← 大论文总体框架（必建）
+
+├── ChapterPlan.md               ← 每章详细计划（必建）
+
+├── FigureTablePlan.xlsx         ← 图表清单（必建）
+
+├── Requirement.md               ← 研究目标
+
+├── Milestone.md                 ← 时间节点
+
+├── WeeklyPlan.md                ← 每周任务
+
+├── Progress.md                  ← 当前完成情况
+
+├── TODO.md                      ← 下一步任务
+
+└── DefenseNotes.md              ← 开题、导师意见

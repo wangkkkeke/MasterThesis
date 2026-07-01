@@ -1,0 +1,55 @@
+# A new 2D continuous-discontinuous heat conduction model for modeling heat transfer and thermal cracking in quasi-brittle materials
+
+## Abstract
+
+Keywords: Thispaperproposesanew2D continuous-discontinuousheatconductionmodeltosimulateheattransfer Heatconduction andthermalcrackinginfracturedquasi-brittlematerialsbycombiningwithmechanicalcalculationsofthe FDEM Finite-DiscreteElementMethod.Byupdatingthesharingrelationshipofthenodesatthecracks,themodel Thermalcracking canaccuratelypredictthetemperatureevolution,crackpropagationandconsiderstheeffectofcrackingon Quasi-brittlematerials heatconduction.Weverifiedthecorrectnessofthecontinuous-discontinuousheatconductionmodelusing examplesofheatconductionin acontinuum, mediawithsingleormultiplecracks,thermaldeformation problems,andcrackinginducedbytemperaturegradientandthermalmismatch.Thenumericalresultsin- dicatethatthecontinuous-discontinuousheatconductionmodelwellreflectstheeffectofcrackpropagation onheatconductionandthediscontinuityoftemperatureacrossthecracks.Itprovidesapowerfultoolfor studyingthewholeprocessandmechanism analysisofthermalcrackingofquasi-brittlematerials.
+
+## Extracted Text (First Pages)
+
+```
+Computers and Geotechnicsxxx(xxxx)104231
+ContentslistsavailableatScienceDirect
+Computers and Geotechnics
+journal homepage:www.elsevier.com/locate/compgeo
+ResearchPaper
+A new 2D continuous-discontinuous heat conduction model for modeling
+heat transfer and thermal cracking in quasi-brittle materials
+ChengzengYana,b, Yu Yanga, GangWangb,⁎
+aFacultyofEngineering,ChinaUniversityofGeosciences,Wuhan,China
+bDepartmentofCivilandEnvironmentalEngineering,HongKongUniversityofScienceandTechnology,ClearWaterBay,HongKongSpecialAdministrative
+Region
+ARTICLE INFO ABSTRACT
+Keywords: Thispaperproposesanew2D continuous-discontinuousheatconductionmodeltosimulateheattransfer
+Heatconduction andthermalcrackinginfracturedquasi-brittlematerialsbycombiningwithmechanicalcalculationsofthe
+FDEM Finite-DiscreteElementMethod.Byupdatingthesharingrelationshipofthenodesatthecracks,themodel
+Thermalcracking
+canaccuratelypredictthetemperatureevolution,crackpropagationandconsiderstheeffectofcrackingon
+Quasi-brittlematerials
+heatconduction.Weverifiedthecorrectnessofthecontinuous-discontinuousheatconductionmodelusing
+examplesofheatconductionin acontinuum, mediawithsingleormultiplecracks,thermaldeformation
+problems,andcrackinginducedbytemperaturegradientandthermalmismatch.Thenumericalresultsin-
+dicatethatthecontinuous-discontinuousheatconductionmodelwellreflectstheeffectofcrackpropagation
+onheatconductionandthediscontinuityoftemperatureacrossthecracks.Itprovidesapowerfultoolfor
+studyingthewholeprocessandmechanism analysisofthermalcrackingofquasi-brittlematerials.
+1. Introduction tron microscope (SEM) (Kumari et al., 2019; Mahanta et al., 2016;
+Ouedraogoetal.,2011),CT microscopyscanningtechnology(Kimet
+Quasi-brittle materials, such as rock, concrete, and ceramics, are al.,2011),thermalstressdevice(TSD)(Aminetal.,2009),opticalmi-
+widely used in modern engineering practice. Conduction of heat in croscope(Pengetal.,2019),etc.,havebeenusedtostudythethermal
+thesesolidsisan importantconsideration(Carslaw andJaeger,1959; and mechanical properties of a quasi-brittle material (Ahmed et al.,
+Ezekoye,2016),asthetemperaturechangemayalterthethermaland 2018;Kimetal.,2011;Sunetal.,2016).However,theexperimental
+mechanicalpropertiesof quasi-brittlematerials(Gautametal.,2018; study isnot only time-consuming andcostly but alsodifficult to ob-
+Heuze,1983),andevencausethematerialtodeteriorateorresultinen- servetheinitiationandpropagationofmicro-cracksduringthethermal
+gineeringaccidents.Forexample,whenaconcretestructureisonfire, cracking process. Thus, numerical methods are useful to explore the
+itstemperaturecanriserapidlyto700°Corhigherinashorttime(Ulm mechanismofthermalcrackinginquasi-brittlematerials,whichisthe
+etal.,1999).Alargetemperaturegradientinconcretecancausether- scopeofthepresentstudy.
+mal cracking in the structure (Committee, 2007). In CO2 geological Thenumericalsimulation methodsforthermalcracking of quasi-
+storage,whenCO2isinjectedinto thebrinelayerat a depthof about brittlematerialscanbegenerallydividedinto twotypes:continuum-
+1000–2500m,thesurroundingsaltyrockmayshrinkorevencrackdue based method and discontinuous-based method. In the continuum-
+tothelow-temperatureCO2(TaylorandBryant,2014).Intheunder- basedmethods,finiteelementmethod(FEM)(BouJaoudeetal.,2018;
+ground storage of nuclear waste, the heat released in nuclear decay Fuetal.,2017;MeguidandHu,1999;Nechnechetal.,2002)andits
+mayheat thesurroundingrockandcausethermalcracking.Accidents variants,suchasextendedfiniteelementmethod(XFEM) (Areiasand
+ofnuclideleakagemayevenhappen(Kimetal.,2011).Therefore,itis Belytschko,2005;BelytschkoandBlack,1999;Jiangetal.,2020;Moës
+ofgreatsignificancetostudythethermalcrackingmechanismofquasi- etal.,2017)andparticlefiniteelementmethod(PFEM) (Rodriguezet
+brittlematerialsunderthecoupledthermal-mechanicaleffect. al.,2016),arethemostwidelyusedtomodelthethermalcrackingof
+A variety of experimental technologies, such as acoustic emission quasi-brittle materials, followed by finite difference meth
+```

@@ -1,0 +1,1112 @@
+--- 第1页 ---
+ 
+ 
+ 
+ 
+中国地质大学(武汉) 
+ 
+学历博士研究生学位论文 
+ 
+开题报告登记表 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+学    号: 2202110240 
+姓    名: 郑雨辰 
+学    院: 工程学院 
+学科专业: 土木工程 
+研究方向: 岩石破裂仿真 
+导师姓名: 严成增 
+ 
+2022 年9 月13 日 
+ 
+
+
+--- 第2页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 1 - 
+ 
+ 
+论文题目 
+FDEM-SPH 数值仿真算法及岩土工程应用研究 
+选题来源 
+国家自然科学基金项目 
+论文类型 
+基础研究 
+开题日期 
+2022-12-01 
+开题地点 
+工程楼401 
+一、立题依据（包括研究目的、意义、国内外研究现状和发展趋势，需结合科学研究发展趋
+势来论述科学意义；或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应
+用前景。附主要参考文献目录） 
+选题来源 
+本课题选题来源于导师严成增教授主持的《考虑热破裂影响的水岩换热三维数值模型及
+验证研究》（项目编号：11872340），该项目针对岩体开裂和流体流动等特点，发挥有限-离散
+元法模拟固体变形破坏和光滑粒子流体动力学模拟真实流体状态的优势，建立FDEM-SPH 流
+固耦合模型，揭示库岸建/构筑物在涌浪作用下的受力规律和失稳破坏机理，为岩土工程中的
+实践与应用提供指导。 
+1.1. 研究目的和意义 
+岩土力学是研究岩土体在各种力场作用下变形和破坏规律的理论及其实际应用的科学[1, 
+2]。岩土力学广泛应用于建筑工程、交通工程、地质灾害治理工程、能源开发工程、港口工
+程、水利水电工程、军事工程、探矿工程等领域。在漫长的地质作用中，岩土体其内部蕴含
+着大量呈非贯通展布的节理、裂隙、断层、破碎带等不连续面，而且在不同的地质环境中还
+会呈现不同的特点（如在岸边会受到水的影响）。因此，岩土体实际上是离散-连续混合体系的
+材料，并且会与环境发生相互作用。如何对大型工程中的连续-离散体系进行精确快速模拟，
+如何考虑岩土体与环境中的水的相互作用关系，特别是如何分析工程中岩土体在流体作用下
+的变形、失稳、破坏过程和岩土体入水后产生的涌浪等问题，发展相适应的研究分析方法势
+在必行。 
+岩土体工程的变形和破坏以大位移、非连续变形、开裂、破碎为基本特征，对这一问题
+的计算及仿真模拟一直是岩体力学数值计算领域的热点和难点之一[3]。目前最常使用的有限元
+方法（Finite Element Method，FEM）和在岩土工程领域广泛使用的基于有限差分法的FLAC
+（Fast Lagrangian Analysis of Continuum），都属于连续类数值方法，难以模拟起裂，难以处理
+复杂裂缝的交汇。唐春安教授提出的真实破裂过程分析（RFPA）方法考虑了材料性质的非均
+性、缺陷分布的随机性，从而使得非均匀性材料破坏过程的数值模拟得以实现，并且能够较
+好地模拟复杂裂缝的萌生扩展[4]，但不能显式的考虑接触，单元或者块体不能有很大的相对位
+移。块体离散元方法虽然可以通过将连续介质划分成维诺多边形，通过单元间的接触关系的
+去留，来模拟裂缝的萌生或者扩展，但是该方法在一开始就启动接触计算，非常耗时。颗粒
+离散元由于使用球颗粒对求解域进行离散，圆球之间是一定存在有空隙的，因此裂纹表征不
+够直观，而且由于颗粒流方法中的圆球是刚性的，连续介质应力-应变的概念不再直接存在。
+石根华提出的非连续变形分析（DDA）和数值流形法（NMM）将拓扑流形和微分流形中的有
+限覆盖思想引入到数值计算，从而实现了连续-非连续问题的统一求解[5-8]，但是由于要寻找关
+键块体，并且需要处理复杂的接触关系，直接导致其计算效率难以提升。有限-离散元法
+（Finite-Discrete Element Method，FDEM）通过节理单元的断裂模拟裂缝的萌生及扩展，可以
+非常自然的处理裂缝的起裂及复杂裂缝的交汇，非常适合用于岩石发生大规模变形甚至破裂
+问题的模拟。 
+在流体力学问题的数值模拟中，用来描述物理控制方程的基本方法有两种：欧拉
+（Euler）描述法和拉格朗日（Lagrange）描述法。欧拉描述法是对空间的描述方法，拉格朗日
+描述法是对物质点的描述方法。当流体单元从某一点流过时，流体单元的性质可能会改变，
+引起流体单元性质改变的原因：1、在这个点上，随着时间的改变，流场的性质可能发生变
+
+
+--- 第3页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 2 - 
+ 
+化；2、当流体单元在一定的时间内从流场的某一位置运动到流场的另一个位置后，流场在各
+个不同位置的性质可能是不同的（迁移项）。当采用的是欧拉描述法时，模拟前必须划分流体
+网格，在处理几何边界不规则的计算域时会十分困难，而且由于只能追踪流过网格单元边界
+的质量、动量和能量，所以对于自由表面和变形边界就很难的到精确的描述。当采用拉格朗
+描述法时，网格附着与物质上，控制方程中不存在迁移项，计算更简单，而且易于处理复杂
+的几何形状。当采用拉格朗日描述法模拟流体时，一般会采用网格法或无网格法。基于拉格
+朗日网格方法在模拟过程中网格变形太大的时候求解精度会大大降低，而且时间步受到最小
+网格尺寸的限制，过小的网格会导致计算效率的大幅下降。采用无网格粒子法的光滑粒子流
+体动力学（SPH）可以将复杂的物理场引入其控制方程中，从而很好地模拟复杂自由表面，直
+观地表示流体在流动过过程中得状态，很方便的处理流体的大变形问题，在模拟溃坝、涌浪
+等方面具有明显的有优势[9]，所以SPH 方法在计算流体力学和计算固体力学领域的实际问题
+中得到了广泛的应用。 
+降水和地震会使含有地质隐患的斜坡更不稳定，甚至诱发滑落，从而导致涌浪的发生。
+滑坡涌浪是近水滑坡灾害链上的一个重要致灾方式，直接影响了相关水域航道通行安全，并
+对沿岸居民生命财产安全及附近的水工建（构）筑物以及工程建设安全产生直接威胁。大型
+的滑坡涌浪常常会导致巨大的灾难性事件。意大利瓦伊昂水库由于水库蓄水，于1963 年在库
+区左岸发生滑坡，近三亿方的滑坡体涌入水中，形成的高过坝顶约100 米涌浪，涌浪翻过大坝
+形成洪水，对下游的5 个市镇带来了毁灭性的灾害，3000 多人因此丧生[10]。1959 年意大利的
+庞特塞拱坝库区发生的滑坡灾害引发的涌浪超过20 米高，并漫过了坝顶。，湖南柘溪水库近坝
+库区右岸于1961 年由于滑坡形成的涌浪翻过正在施工的大坝坝顶，造成了严重的损失[11]。
+2009 年小湾电站库区坝上游的荒田滑坡的三千多万方滑体冲入水中，诱发了30 多米高的涌浪
+[12]。1958 年美国Lituya 海湾发生了大型滑坡灾害，涌入海中的滑体诱发了高达524 米的涌
+浪，涌浪的速度一度超过150 km/h[13]；格陵兰岛海岸的Nuugaatsiaq 村在2017 年发生大型滑
+坡也诱发了超100 米高的涌浪灾害[14]。滑坡涌浪由于其特殊性很难进行试验研究，因此通过
+数值模拟的方式研究滑坡涌浪的成因、涌浪的传播特性和滑坡涌浪对沿岸的影响具有重要意
+义。 
+综上所述，本课题针对岩土工程中的真实流体和固体相互作用，考虑流体流动状态和涌
+浪冲击对岸边建/构筑物的影响，将有限-离散元法和光滑粒子流体动力学进行耦合，发挥两种
+数值方法各自的优势，建立FDEM-SPH 流固耦合模型，开发相应的数值仿真程序，通过多个
+数值算例验证程序的准确性，最后将提出的模型用于岩土工程应用中，为实际的工程建设活
+动提供理论与实践指导。 
+1.2.国内外研究现状、发展趋势及存在问题 
+1.2.1. 有限-离散元法研究现状 
+为了模拟连续-非连续体的转换，固体的断裂和破碎，Munjiza 于1995 年提出了有限-离散
+元法，该方法吸收了显式有限元求解变形和应力的优势，同时又吸收离散元方法处理接触和
+粘聚单元模型（cohesive element model）模拟破裂的优势。该方法通过将求解域划分为实体有
+限元网格（二维模型对应三节点三角形单元，三维模型对应四节点四面体单元），通过在实体
+单元的边界上插入初始零厚度的节理单元（二维模型对应四节点节理单元，三维模型对应六
+节点节理单元）,通过实体单元的变形及未断裂节理单元的粘结作用表征连续体的变形及应力,
+通过节理单元的断裂来模拟裂缝的萌生及扩展。有限-离散元法近年来发展十分迅速，在爆破
+[15, 16]、海洋和港口工程[17, 18]、岩石力学[19-21]、砌体结构[22]、古建筑[23]、水力压裂[24]、地热开
+采[25]、边坡[26]、隧道[27]、颗粒堆积[28]、生物医学[29]等领域获得了广泛应用。 
+有限-离散元法力学计算模块包含以下几个模块接触检测、势接触力、三角形单元变形及
+应力计算、节理单元变形及断裂计算、节点速度和位置更新。随后，一些研究者在其基础上
+开发了一系列新的模块，使得其功能不断完善。例如Mahabadi 等[30]的Y-geo 开发了地应力模
+块、吸收边界、库伦静摩擦力，使得该方法适用于地质力学问题的求解。严成增等[31]开发了
+
+
+--- 第4页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 3 - 
+ 
+三维静摩擦模块，使得三维有限-离散元法可以考虑库伦静摩擦力。Fukuda 等[32]添加了接触阻
+尼，使得其可以考虑碰撞引起的能量损耗。 
+在接触检测算法方面，Munjiza[33]首先采用NBS 接触检测算法及势接触力方法来处理裂缝
+闭合、滑动以及块体碰撞引起的接触问题。Munjiza[34]后来又提出MR 接触检测算法，该算法
+可以高效处理单元尺寸差异很大的接触检测问题，克服了原有NBS 接触检测算法处理单元尺
+寸差异很大时接触检测效率低的问题。针对Munjiza 的势接触力，不少研究者也对其做出了改
+进。例如，严成增等[35, 36]提出一种新的势函数克服原有势函数即便嵌入量相同，但计算出的
+接触力大小不同的问题。Zhao 等[37]提出了距离势函数，可以处理任意多边形或多面体的接触
+力计算问题，物理意义明确。另外，Zhao 等也对切向接触力的计算方式也做了改进，采用总
+的法向力及作用点计算接触力，而不是按接触边界逐边或逐面计算切向摩擦力，计算时耗费
+内存小。Lei 等[38]提出了光滑接触力算法，该算法基于有限元网格拓扑提出引入一种光滑势
+场。 
+在实体单元变形及应力计算方面，Lei 提出了十节点四面体单元，从而规避了低阶的四节
+点四面体单元存在的体积自锁问题。Lei[39]又针对岩土材料，开发通用的各项异性变形公式。
+Fukuda[40]也引入了各项异性弹性本构方程用于模拟岩石在准静态和动态加载下的破坏。 
+在节理单元变形及应力计算方面，Lisjiak 等[41]提出了横观各项同性本构，以便对层状岩
+体的变形及破裂进行模拟。Fukuda 等对[32]原有Munjiza 的节理单元本构进行了改进，增添了
+卸载和重复加载的应力-位移关系。Fukuda 等[20]尝试采用将开发基于Extrinsic Cohesive Zone 
+Model（ECZM）的三维有限-离散元法，自适应地插入节理单元。 
+需要指出的是，尽管有限-离散元法中的输入参数大部分可以与室内试验获得的参数相对
+应，但是微观参数的取值仍然无法和宏观试验参数直接关联，需要通过标定获得。为此，一
+些研究者对有限-离散元法中细观输入参数的确定开展了系统的研究，例如，Mahabadi[42]和
+Lisjak[19]对有限-离散元法中的细观参数进行大量的敏感性分析。Tatone 等[43]提出了一种通过单
+轴压缩和巴西劈裂试验标定二维数值试样微观参数的方法，该参数标定方法深化了对有限-离
+散元法中细观参数的认识，但是整个标定过程非常耗时繁琐，仍然不便于实用。严成增等[44]
+对有限-离散元法中节理单元罚参数进行了研究，指出有限-离散元法中节理单元的罚参数要取
+为弹性模量的至少100 倍，才能使得有限-离散元法中求解连续介质的变形应力与解析解接
+近。Deng 等[45]对三角形单元间的接触罚参数进行研究，指出接触罚参数要取为0.1448 倍弹性
+模量，才能保证节理单元断裂时，节理单元连接的三角形单元间的相互作用力的光滑过渡。 
+此外，在并行计算方面，严成增等[46]基于OpenMP 实现了FDEM 程序的并行化，在12 核
+电脑实现了8 倍的加速。Lisjak[47]基于OpenCL 开发GPU 并行FDEM 程序Irazu，在AMD 的
+GPU 上实现了100 倍加速。Fukuda 等[32]采用CUDA 编程在NVIDIA 的显卡上实现了128 倍加
+速。Xiang 等[48]采用OpenMP 实现的FDEM 的并行化，并在12 核的电脑上获得了9 倍的加
+速。Lei 等[49]采用MPI 实现了FDEM 的集群并行化，并行规模的可扩展性非常强。 
+1.2.2. 光滑粒子流体动力学研究现状 
+光滑粒子流体动力学（Smoothed Particle Hydrodynamics，SPH）是一种具有拉格朗日性质
+的无网格粒子法，通过使用一系列承载各种物理量（如质量、密度、粘度、压力、速度、坐
+标、能量、温度等）的粒子对流体进行离散和建模，非常适合模拟大变形问题，常用于真实
+流体流动状态的模拟仿真。SPH 方法最早于1977 年由Lucy[50]、Gingold 和 Monaghan[51]分别
+提出，应用于天体物理学现象的模拟。随后经过几十年的发展，光滑粒子流体动力学的应用
+领域已经不仅仅限于天体物理学，在流体力学相关领域、固体断裂、大变形和冲击荷载问
+题、爆炸现象等的模拟中也取得了广泛的应用。 
+起初光滑粒子流体动力学主要应用于天体物理学现象的模拟。Benz[52, 53]，Monaghan[54]和
+Frederic 等[55]分别研究了双子星和行星碰撞。Lee[56, 57]使用光滑粒子流体动力学方法模拟了黑
+洞和中子星的合并。Hutman 等[58]模拟了星系的形成，研究了椭圆星系的结构和动力学效应。
+
+
+--- 第5页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 4 - 
+ 
+Monaghan 等[59]、Berczik[60-62]等先后建立了气体动力学模型，研究了星系的形成和瓦解。Garc
+ía-Senz 等[63]模拟了白矮星的单次爆炸和多重爆炸。Monaghan[64]对各种天体物理现象建模的问
+题进行了讨论，采用光滑粒子流体动力学模拟的方法为恒星形成到宇宙演化等一系列问题的
+探索提供了新的解决方案。 
+随着光滑粒子流体动力学在不同领域广泛应用的过程中，其数值算法也得到了显著的发
+展与改进，为了得到更高精度更真实的模拟仿真结果，一系列的修正公式和改进方法也被提
+出。例如：Chen 等提出了修正的光滑粒子方法（Corrective Smoothed Particle Method，
+CSPM）[65] ；Liu 等提出了离散光滑粒子流体动力学（Discontinuous Smoothed Particle 
+Hydrodynamics， DSPH）方法[66]；Bonet 等提出了修正光滑粒子流体动力学（Corrected 
+Smoothed Particle Hydrodynamics，CSPH）方法[67]；Borve 等提出了规则光滑粒子流体动力学
+（Regularized Smoothed Particle Hydrodynamics，RSPH）方法[68]等。 
+由于光滑粒子流体动力学采用离散的粒子来描述计算域，所以粒子的数量很大程度上决
+定了计算的精度、速度以及计算达到稳定花费的时间。如果要保证计算精度，就要使用尽可
+能多的粒子。但同时也会使得计算的时间增加。因此如何在保证模拟精度的前提下减少粒子
+数目，从而缩短计算花费的时间是一个有待解决的问题。最近相邻粒子搜索算法很大程度上
+决定了计算的速度，最简单的搜索方法是直接遍历所有粒子间的距离，但是这种算法计算量
+非常大。随着光滑粒子流体动力学的发展，新的相邻粒子搜索算法也被开发出来。
+Monaghan[69]使用了链表搜索（Link-List 算法），之后Hockney 等[70]和Rhoades[71]也采用了这种
+算法，使得光滑粒子流体动力学的计算更加高效与实用，Simpson[72]还将此算法推广到三维问
+题的模拟中。但是链表搜索算法只适用于光滑半径为常量的情况。随着计算需求的升级，
+Hemquist 和Katz[73]开发了树状链表搜索算法，该算法适用于可变光滑半径和粒子数量非常庞
+大的问题的求解。此外Liu 和Tu[74, 75]还开发了Bucket 算法应用于MFree2D 程序中。 
+由于在光滑粒子流体动力学中采用的核插值算法的特点，粒子在边界附近会发生截断效
+应，从而导致计算失真，结合不同的研究问题，已经提出各种边界处理方法，以提升边界附
+近的计算精度。 
+Monaghan[76, 77]在边界外设置一层虚粒子，通过给边界虚粒子给邻近边界的粒子施加一个
+排斥力，从而解决光滑粒子流体动力学中边界阶段的问题。该方法的本质是边界粒子对一定
+距离内的流体粒子施加一个基于Lennard-Jones 势的作用力，与Peskin[78]表述的排斥力相同。
+后续Monaghan 和Kos[77]优化了这一算法。Colagrossi 等[79]也采用相同的思路，也通过边界虚
+粒子对周围粒子添加排斥作用来处理边界问题。 
+Kulasegaram 等[80]在采用光滑粒子流体动力学模拟中当粒子靠近边界时，引入了一个附加
+函数来提高模拟精度，这里已经应用了通过半解析公式优化边界问题的思想。Mayrhofer 等[81]
+提出了一种半解析边界处理公式，模拟了溃坝问题，提高了计算精度。Nair 等[82]在不可压缩
+光滑粒子流体动力学的基础上，提出了一种更精确的半解析方法在自由表面上施加了狄利克
+雷边界，从而更精确地模拟了自由界面的压力分布。Leroy 等[83]在不可压缩光滑粒子流体动力
+学中，基于传统的半解析方法，提出了一种新的开放边界的处理算法，可以更好地模拟复杂
+的流动问题。 
+还有一种边界算法，通过在边界布置虚粒子（动态粒子）并赋予其性质，边界粒子参与
+流体压力密度等的更新，这就是动态边界条件（Dynamic Boundary Conditions，DBC）的基本
+思路。采用上述思路处理边界问题不需要额外的算法，而且边界粒子容易排布，可以应对复
+杂的边界问题，从提出以来就得到的了广泛的应用。Dalrymple 和Knio[84]最早提出了动态边界
+条件的思想，随后Go´mez-Gesteira 等[85, 86]和Crespo 等[87]将这种边界处理方法用于波浪与海
+岸构筑物相互作用的模拟中。之后Crespo[87]等集中研究了动态边界条件。Morris 等[88]首次提
+出了一种动态生成镜像虚粒子的方法，使生成的镜像虚粒子参与到流体粒子密度和压力的计
+算中，并将这种新的边界处理方法用于对低雷诺数的流体的模拟中，但是此方法在边界较为
+复杂时，取得的效果并不理想。Colagrossi 等[79]也采用了动态生成镜像虚粒子的边界处理方
+
+
+--- 第6页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 5 - 
+ 
+法，在模拟直边界问题中取得了较好的效果。Hu 等[89]通过在固体边界生成虚粒子，并在固体
+内部设置镜像虚粒子，只是这些虚粒子被认为是另一种相态，但是又具有与流体粒子相同的
+属性，该方法本质上与Morris 等[88]的镜像虚粒子方法类似，所以只有在处理直边界问题时效
+果较好。Liu 等[90]采用光滑粒子流体动力学模拟水下爆炸问题时，将Morris 等[88]提出的镜像
+虚粒子方法与排斥力边界方法相结合，通过在边界上设置一层虚粒子，再在边界外生成两层
+镜像的虚粒子，边界粒子产生排斥力以防止粒子穿透，边界粒子和镜像虚粒子均参与流体粒
+子密度的更新。采用这种方法处理边界问题，提高了边界处的精度，宝整理粒子不会发生穿
+透现象，但是该方法需要动态更新虚粒子的过程较为复杂，难以处理复杂的边界场景。
+Marrone 等[91]提出了一种只需在初始时刻设置边界虚粒子的方法，该方法在边界附近生成2-3
+层虚粒子并赋予其属性，之后将虚粒子镜像对称到流场内部，生成相对应的插值点，赋予这
+些插值点与虚粒子相同的属性，并且这些插值点会参与到流体粒子密度的计算中。这种方法
+的优点在于不需要动态更新边界的虚粒子，但是在存在尖角或边界为复杂几何形状的应用场
+景中，内部插值点构造复杂，模拟效果不好。Adami 等[92]在固体边界附近设置多层虚粒子，
+将流体粒子的压力直接赋予虚粒子，并在此基础上利用状态方程反推出边界虚粒子的密度，
+通过虚粒子对流体粒子施加压力作用。该方法可以用于复杂边界，但是当流体中出现压力振
+荡时，虚粒子的压力可能会出现负值，导致流体粒子穿透边界。此外刘虎等[93]认为该方法利
+用压力反推密度是多余的，对计算无实质性影响。类似的，刘虎等[93]在边界布置多层虚粒
+子，并将其当作流体粒子的扩展，参与到流体粒子的压力、速度等的计算中，从而对流体的
+密度产生影响。开源的光滑粒子流体动力学代码DualSPHysics 也采用了动态边界条件算法
+[94]，English 等[95]还提出了修正动态边界条件（Modified dynamic boundary conditions，
+mDBC）。 
+光滑粒子流体动力学算法本身不太复杂，比较容易实现，而且该算法易于矢量编程，适
+合并行计算。Morris 等[96]实现了多孔介质中流体流动的并行模拟。Ferrari 等[97]采用信息传递
+接口（Message passing interface，MPI）技术对三维的光滑粒子流体动力学算法进行并行化，
+提高了模拟的计算效率。Domínguez 等[98-100]实现了光滑粒子流体动力学方法在中央处理单元
+（CPU）和图形处理单元（GPU）中的算法优化，采用OpenMP 来高效应用CPU 的所有内
+核，采用CUDA 语言编程，充分利用GPU 的高并行计算能力，最后采用MPI 通过网络将多个
+计算节点组合起来，实现了高效稳定的并行计算。上述技术都已在开源的光滑粒子流体动力
+学代码DualSPHysics[95]中实现。此外Longshaw 等[101]、Mokos 等[102]、Fourtakas 等[103, 104]、
+Chow 等[105-107]、Guo 等[108]、Yang 等[109]、O’Connor 等[110, 111]也都实现了光滑粒子流体动力学
+的GPU 并行算法，用于大规模算例的高效模拟计算。在国内聂霄[112]提出了一种基于图形处理
+器（Graphics processing unit，GPU）的粒子模拟框架，实现了不可压缩光滑粒子流体动力学在
+GPU 上的并行加速计算。邵绪强等[113]提出了一种处理微可压缩流体与刚体以及弹性体的双向
+耦合算法，并在GPU 上实现了加速计算。何建东[114]、姜庆郁[115]也实现了光滑粒子流体的
+GPU 加速技术，并进行了流固耦合的数值模拟。 
+1.3. 滑坡涌浪模拟方法研究现状 
+孔增增[116]运用Flow-3D 软件建立V 形河谷滑坡冲击波浪传播的数值模型，对不同得工况
+进行数值模拟试验，分析了滑坡体的入水速度、入水体积、水下滑行时长以及滑坡角度和对
+岸爬坡角度对最大波浪高度的影响。黄筱云[117]也模拟分析了滑坡体体积、滑坡入水速度、滑
+坡角度、爬坡角度及滑坡体水下滑行时长等对涌浪爬高的影响。邱昕[118]采用有限体积法，基
+于流体计算软件FLUENT 建立二维数值模型，模拟了滑体沿斜坡入水产生涌浪及其传播过
+程，并以新滩滑坡为实例，分析了滑坡体以一定初速度进入水体所引起的最大涌浪高度、对
+岸最大爬坡高度、自由面形态以及流场动压力分布。阿如汉[119]采用有限体积法，基于流体计
+算软件FLUENT，以西藏聂拉木县嘉龙错为例，模拟了嘉龙错补给冰川发生冰崩导致冰湖涌
+浪的过程。邓成进[120, 121]同样基于流体计算软件FLUENT，模拟某水电站库区近坝变形体可能
+失稳后下滑引起库区水面变化过程，分析初始涌浪形成以及涌浪在对岸爬坡和涌浪沿岸传播
+的过程。Pastor[122]构建了基于水平集技术的三维通用欧拉有限元模型，模拟了滑坡与水库水的
+相互作用。Liu[123]建立了基于大涡模拟（LES）方法的数值模拟模型，提出了一种描述滑动体
+
+
+--- 第7页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 6 - 
+ 
+运动的数值算法。Biscarini[124]使用商业计算流体力学CFD 代码FLUENT 模拟了滑坡材料与水
+碰撞产生的波的形成和传播，并将该模型应用于1958 年Lituya 湾海啸事件的二维简化几何模
+拟。 
+Qiu[125]采用SPH 方法模拟滑坡引起的非线性涌浪，对其产生和传播进行精确的数值预
+测。石传奇[126]采用光滑粒子动力学方法（SPH），建立了能模拟的滑坡涌浪产生过程的数值模
+型,并将其应用于复现小湾荒田滑坡涌浪灾害产生的全过程。Ataie-Ashtiani[127]采用ISPH 方法
+研究了刚性楔沿斜面滑入水中的数值计算方法。此外Ataie-Ashtiani[128]还应用二维四阶
+boussinesq 型数值模型估算了滑坡波对大坝水库的影响。并利用该数值模型研究了伊朗西北部
+的Maku 和北部的Shafa-Roud 大坝水库中滑坡产生的波浪的波高、波升、坝顶以上的最大波
+高和坝顶溢出量等现象。Ataie-Ashtiani[129]还构建了多流体Navier-Stokes 模型，计算域被划分
+为水、空气和滑动区域，有效改进了滑坡涌浪的模拟预测。 
+Bu[130]提出一种在宏观尺度上处理粒子与流体相互作用的光滑粒子流体动力学（SPH）与
+离散元法（DEM）耦合算法。该算法考虑了固体中流体渗透速度与压力之间的相互关系，在
+此耦合框架下，建立滑坡产生的浪涌波模型，对水下潜水变形滑坡和高速非潜水变形滑坡产
+生的浪涌波作为典型滑坡实例进行模拟分析。Tan[131-133]提出了一种DEM-SPH 混合模型来模
+拟滑坡并再现其产生的浪涌波。实现了对刚性滑坡产生的涌浪和海底颗粒状变形滑块产生的
+浪涌的模拟。Xu[134]也建立了光滑粒子流体动力学-离散元方法耦合代码，并应用于滑坡涌浪
+的模拟过程。徐文杰[135-137]证明耦合的欧拉与拉格朗日算法（CEL）在滑坡涌浪问题分析的可
+行性和可靠性。并进行了多组正交数值试验研究了滑坡体形状、滑坡体前缘形态、滑坡体体
+积、滑面摩擦角及水面宽度等对滑坡涌浪的影响。此外还构建SPH-DEM 流固耦合算法——
+CoDEM，并以1963 年意大利Vajont 库区滑坡涌浪灾害为例，成功再现了从“滑坡运动-涌浪
+形成及传播-冲击大坝及漫顶”的灾害链全过程的模拟。王志超[138]也构建了SPH-DEM 耦合算
+法，并建立滑坡涌浪数学模型，有效性模拟分析了离散体滑坡产生涌浪以及涌浪传播的过
+程。 
+1.4. 发展趋势及存在问题 
+经过多年的发展，有限-离散元法和光滑粒子流体动力学各自都已经形成了较为成熟的理
+论体系，FDEM 尤其适合应用于涉及岩体开裂及裂纹拓展的研究中，SPH 则特别适合模拟真
+实流体的流动形态如波浪和涌浪问题，两种模拟仿真方法都已得到广泛的推广和应用。但在
+现有的相关研究依旧存在极大的提升空间。 
+（1）传统的FDEM 要考虑三角形单元的相互作用关系，但是接触检测和接触计算十分复
+杂，从而使得计算效率大大降低，所以开发一种不启动接触计算也可以模拟小规模破裂的算
+法十分必要。 
+（2）当前的FDEM 中节理单元本构对准弹性岩石的模拟效果较好，但仍然难以准确反应
+半弹性以及非弹性岩石的性质，必须开发多样化的本构模型。 
+（3）现有的FDEM 水力耦合算法基于立方定律，要求渗流网络不能发生过大的变化，开
+发一种基于FDEM 的能考虑真实流体的流动状态的水力耦合模型势在必得。 
+（4）SPH 在模拟流体运动中取得了较好的效果，但是在流体与固体相互作用的问题中仍
+存在很多局限，所以开发一种基于SPH 的可以考虑固体变形破坏的流固耦合模型具有长远的
+意义。 
+ 
+ 
+ 
+ 
+
+
+--- 第8页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 7 - 
+ 
+主要参考文献： 
+[1] 刘佑荣, 唐辉明. 岩体力学 [M]. 北京: 化学工业出版社, 2008. 
+[2] 李广信, 张丙印, 于玉贞. 土力学 [M]. 北京: 清华大学出版社, 2013. 
+[3] 唐辉明, 晏鄂川, 胡新丽. 工程地质数值模拟的理论与方法 [M]. 武汉: 中国地质大学出版社, 
+2001. 
+[4] 唐春安, 赵文. 岩石破裂全过程分析软件系统RFPA^2D [J]. 岩石力学与工程学报, 1997, 
+16(5): 2. 
+[5] Shi G H. Manifold method of material analysis, F 1991, 1991 [C]. 
+[6] 裴觉民. 数值流形方法与非连续变形分析 [J]. 岩石力学与工程学报, 1997, 16(03): 80-93. 
+[7] Goodman R E, Shi G. Block theory and its application to rock engineering [M]. United States: 
+Prentice Hall,Englewood Cliffs, NJ, 1985. 
+[8] Shi G-H, Goodman R E. Two dimensional discontinuous deformation analysis [J]. International 
+Journal for Numerical and Analytical Methods in Geomechanics, 1985, 9: 541-56. 
+[9] Liu G R, Liu M B. Smoothed Particle Hydrodynamics: A Meshfree Particle Method [M]. 2003. 
+[10] 钟立勋. 意大利瓦依昂水库滑坡事件的启示 [J]. 中国地质灾害与防治学报, 1994, (02): 77-
+84. 
+[11] 杜伯辉. 柘溪水库塘岩光滑坡——我国首例水库蓄水初期诱发的大型滑坡; proceedings of 
+the 第二届全国岩土与工程学术大会, 中国湖北武汉, F, 2006 [C]. 
+[12] 吴佳壕. 山区河道型水库库岸坡涌浪灾害研究与预测 [D]; 成都理工大学, 2011. 
+[13] Fritz H M, Mohammed F, Yoo J. Lituya Bay Landslide Impact Generated Mega-Tsunami 50th 
+Anniversary [J]. Pure and Applied Geophysics, 2009, 166(1): 153-75. 
+[14] Schiermeier Q. Huge landslide triggered rare Greenland mega-tsunami [J]. Nature, 2017. 
+[15] Han H, Fukuda D, Liu H, et al. FDEM simulation of rock damage evolution induced by contour 
+blasting in the bench of tunnel at deep depth [J]. Tunnelling and Underground Space 
+Technology, 2020, 103. 
+[16] Han H, Fukuda D, Liu H, et al. Combined finite-discrete element modelling of rock fracture and 
+fragmentation induced by contour blasting during tunnelling with high horizontal in-situ stress 
+[J]. International Journal of Rock Mechanics and Mining Sciences, 2020, 127. 
+[17] Latham J-P, Munjiza A, Mindel J, et al. Modelling of massive particulates for breakwater 
+engineering using coupled FEMDEM and CFD [J]. Particuology, 2008, 6(6): 572-83. 
+[18] Latham J-P, Xiang J, Farsi A, et al. A class of particulate problems suited to FDEM requiring 
+accurate simulation of shape effects in packed granular structures [J]. Computational Particle 
+Mechanics, 2019, 7(5): 975-86. 
+[19] Lisjak A, Liu Q, Zhao Q, et al. Numerical simulation of acoustic emission in brittle rocks by 
+two-dimensional finite-discrete element analysis [J]. Geophysical Journal International, 2013, 
+195(1): 423-43. 
+[20] Fukuda D, Nihei E, Cho S-H, et al. Development of a Numerical Simulator for 3-D Dynamic 
+Fracture Process Analysis of Rocks Based on Hybrid FEM-DEM Using Extrinsic Cohesive Zone 
+Model [J]. Materials Transactions, 2020, 61: 1767-74. 
+[21] Deng P, Liu Q, Huang X, et al. Sensitivity analysis of fracture energies for the combined finite-
+discrete element method (FDEM) [J]. Engineering Fracture Mechanics, 2021. 
+[22] Munjiza A, Smoljanović H, Živaljić N, et al. Structural applications of the combined finite–
+discrete element method [J]. Computational Particle Mechanics, 2019, 7(5): 1029-46. 
+[23] Smoljanović H, Živaljić N, Nikolić Ž, et al. Numerical analysis of 3D dry-stone masonry 
+structures by combined finite-discrete element method [J]. International Journal of Solids and 
+Structures, 2018, 136-137: 150-67. 
+[24] Lisjak A, Kaifosh P, He L, et al. A 2D, fully-coupled, hydro-mechanical, FDEM formulation for 
+modelling fracturing processes in discontinuous, porous rock masses [J]. Computers and 
+Geotechnics, 2017, 81: 1-18. 
+[25] Yan C, Jiao Y Y. FDEM‐TH3D: A three‐dimensional coupled hydrothermal model for 
+fractured rock [J]. International Journal for Numerical and Analytical Methods in Geomechanics, 
+2018, 43: 415-40. 
+[26] Chen X, Wang H. Slope Failure of Noncohesive Media Modelled with the Combined Finite–
+
+
+--- 第9页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 8 - 
+ 
+Discrete Element Method [J]. Applied Sciences, 2019, 9(3): 579. 
+[27] Lisjak A, Grasselli G, Vietor T. Continuum–discontinuum analysis of failure mechanisms 
+around unsupported circular excavations in anisotropic clay shales [J]. International Journal of 
+Rock Mechanics and Mining Sciences, 2014, 65: 96-115. 
+[28] 严成增, 郑宏, 孙冠华, et al. 粗粒料多边形表征及二维FEM/DEM 分析 [J]. 岩土力学, 2015, 
+36(S2): 95-103. 
+[29] Xu D, Ji C, Avital E, et al. An Investigation on the Aggregation and Rheodynamics of Human 
+Red Blood Cells Using High Performance Computations [J]. Scientifica, 2017, 2017: 6524156. 
+[30] Mahabadi O K, Lisjak A, Munjiza A, et al. Y-Geo: New Combined Finite-Discrete Element 
+Numerical Code for Geomechanical Applications [J]. International Journal of Geomechanics, 
+2012, 12(6): 676-88. 
+[31] 严成增, 孙冠华, 郑宏, et al. 三维FEM/DEM 中摩擦力的实施及验证 [J]. 岩石力学与工程学
+报, 2014, 33(6)(06): 1248-56. 
+[32] Fukuda D, Mohammadnejad M, Liu H, et al. Development of a 3D Hybrid Finite-Discrete 
+Element Simulator Based on GPGPU-Parallelized Computation for Modelling Rock Fracturing 
+Under Quasi-Static and Dynamic Loading Conditions [J]. Rock Mechanics and Rock 
+Engineering, 2019, 53(3): 1079-112. 
+[33] Munjiza A, Andrews K R F. NBS contact detection algorithm for bodies of similar size [J]. 
+International Journal for Numerical Methods in Engineering, 1998, 43(1): 131-49. 
+[34] Munjiza A, Rougier E, John N W M. MR linear contact detection algorithm [J]. International 
+Journal for Numerical Methods in Engineering, 2006, 66(1): 46-71. 
+[35] Yan C Z, Zheng H. A new potential function for the calculation of contact forces in the 
+combined finite-discrete element method [J]. International Journal for Numerical and Analytical 
+Methods in Geomechanics, 2017, 41(2): 265-83. 
+[36] 严成增, 郑宏, 葛修润. 基于统一标定的势接触力计算 [J]. 岩土力学, 2015, 36(1)(01): 249-56. 
+[37] Zhao L, Liu X, Mao J, et al. A Novel Contact Algorithm Based on a Distance Potential Function 
+for the 3D Discrete-Element Method [J]. Rock Mechanics and Rock Engineering, 2018, 51(12): 
+3737-69. 
+[38] Lei Z, Rougier E, Euser B, et al. A smooth contact algorithm for the combined finite discrete 
+element method [J]. Computational Particle Mechanics, 2020, 7(5): 807-21. 
+[39] Lei Z, Rougier E, Knight E E, et al. A generalized anisotropic deformation formulation for 
+geomaterials [J]. Computational Particle Mechanics, 2015, 3(2): 215-28. 
+[40] Fukuda D, Mohammadnejad M, Liu H, et al. Development of a GPGPU-parallelized hybrid 
+finite-discrete element method for modeling rock fracture [J]. International Journal for 
+Numerical and Analytical Methods in Geomechanics, 2019, 43(10): 1797-824. 
+[41] Lisjak A, Tatone B S A, Grasselli G, et al. Numerical Modelling of the Anisotropic Mechanical 
+Behaviour of Opalinus Clay at the Laboratory-Scale Using FEM/DEM [J]. Rock Mechanics and 
+Rock Engineering, 2012, 47(1): 187-206. 
+[42] Mahabadi O, Kaifosh P, Marschall P, et al. Three-dimensional FDEM numerical simulation of 
+failure processes observed in Opalinus Clay laboratory samples [J]. Journal of Rock Mechanics 
+and Geotechnical Engineering, 2014, 6(6): 591-606. 
+[43] Tatone B S A, Grasselli G. A calibration procedure for two-dimensional laboratory-scale hybrid 
+finite–discrete element simulations [J]. International Journal of Rock Mechanics and Mining 
+Sciences, 2015, 75: 56-72. 
+[44] Yan C, Tong Y. Calibration of Microscopic Penalty Parameters in the Combined Finite–
+Discrete-Element Method [J]. International Journal of Geomechanics, 2020, 20(7): 04020092. 
+[45] Deng P, Liu Q, Huang X, et al. Acquisition of normal contact stiffness and its influence on rock 
+crack propagation for the combined finite-discrete element method (FDEM) [J]. Engineering 
+Fracture Mechanics, 2021, 242. 
+[46] 严成增, 郑宏, 孙冠华, et al. 基于OpenMP 的二维有限元-离散元并行分析方法 [J]. 岩土力
+学, 2014, 35(9)(09): 2717-24. 
+[47] Geomechanica Inc. Irazu [Z]. Toronto, Canada. 2017 
+[48] Xiang J, Latham J-P, Farsi A. Algorithms and Capabilities of Solidity to Simulate Interactions 
+and Packing of Complex Shapes; proceedings of the Proceedings of the 7th International 
+Conference on Discrete Element Methods, Singapore, F 2017//, 2017 [C]. Springer Singapore. 
+
+
+--- 第10页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 9 - 
+ 
+[49] Lei Z, Rougier E, Knight E E, et al. A framework for grand scale parallelization of the combined 
+finite discrete element method in 2d [J]. Computational Particle Mechanics, 2014, 1(3): 307-19. 
+[50] Lucy L B. A numerical approach to the testing of the fission hypothesis [J]. The Astronomical 
+Journal, 1977, 82: 1013-24. 
+[51] Gingold R A, Monaghan J J. Smoothed particle hydrodynamics: theory and application to non-
+spherical stars [J]. Monthly notices of the royal astronomical society, 1977, 181(3): 375-89. 
+[52] Benz W. Applications of Smooth Particle Hydrodynamics (SPH) to astrophysical problems [J]. 
+Computer Physics Communications, 1988, 48(1): 97-105. 
+[53] Benz W. Smooth Particle Hydrodynamics: A Review [M]//BUCHLER J R. The Numerical 
+Modelling of Nonlinear Stellar Pulsations: Problems and Prospects. Dordrecht; Springer 
+Netherlands. 1990: 269-88. 
+[54] Monaghan J J. Smoothed Particle Hydrodynamics [J]. Annual Review of Astronomy and 
+Astrophysics, 1992, 30(1): 543-74. 
+[55] Rasio F A, Lombardi J C. Smoothed particle hydrodynamics calculations of stellar interactions 
+[J]. Journal of Computational and Applied Mathematics, 1999, 109(1): 213-30. 
+[56] Lee C W, Lee H M, Ann H B, et al. Smoothed Particle Hydrodynamic Simulations of Galactic 
+Gaseous Disk with Bar: Distribution and Kinematic Structure of Molecular Clouds toward the 
+Galactic Center [J]. The Astrophysical Journal, 1999, 513(1): 242. 
+[57] Lee W H. Newtonian hydrodynamics of the coalescence of black holes with neutron stars — III. 
+Irrotational binaries with a stiff equation of state [J]. Monthly Notices of the Royal Astronomical 
+Society, 2000, 318(2): 606-24. 
+[58] Hultman J, Pharasyn A. Hierarchical, dissipative formation of elliptical galaxies: is thermal 
+instability the key mechanism?. Hydrodynamical simulations including supernova feedback, 
+multi-phase gas and metal enrichment in CDM: structure and dynamics of elliptical galaxies [J]. 
+Astronomy and Astrophysics, 1999, 347: 769-98. 
+[59] Monaghan J J, Lattanzio J C. A Simulation of the Collapse and Fragmentation of Cooling 
+Molecular Clouds [J]. The Astrophysical Journal, 1991, 375: 177. 
+[60] Berczik P P, Kolesnik I G. Smoothed particle hydrodynamics and its application to astrophysical 
+problems [J]. Kinematics and Physics of Celestial Bodies, 1993, 9: 1-11. 
+[61] Berczik P, Kolesnik I G. Gasodynamical model of the triaxial protogalaxy collapse [J]. 
+Astronomical & Astrophysical Transactions, 1998, 16(3): 163-85. 
+[62] Berczik P. Modeling the Star Formation in Galaxies Using the Chemo-DynamicalSPH Code [J]. 
+Astrophysics and Space Science, 2000, 271(2): 103-26. 
+[63] García-Senz D, Bravo E, Woosley S E. Single and multiple detonations in white dwarfs [J]. 
+Astronomy and Astrophysics, 1999, 349: 177-88. 
+[64] Monaghan J J. Modelling The Universe [J]. Publications of the Astronomical Society of 
+Australia, 1990, 8(3): 233-7. 
+[65] Chen J K, Beraun J E. A generalized smoothed particle hydrodynamics method for nonlinear 
+dynamic problems [J]. Computer Methods in Applied Mechanics and Engineering, 2000, 190(1): 
+225-39. 
+[66] Liu M B, Liu G R, Lam K Y. A one-dimensional meshfree particle formulation for simulating 
+shock waves [J]. Shock Waves, 2003, 13(3): 201-11. 
+[67] Bonet J, Kulasegaram S. A simplified approach to enhance the performance of smooth particle 
+hydrodynamics methods [J]. Applied Mathematics and Computation, 2002, 126(2): 133-55. 
+[68] Børve S, Omang M, Trulsen J. Regularized Smoothed Particle Hydrodynamics: A New 
+Approach to Simulating Magnetohydrodynamic Shocks [J]. The Astrophysical Journal, 2001, 
+561(1): 82. 
+[69] Monaghan J J. Particle methods for hydrodynamics [J]. Computer Physics Reports, 1985, 3(2): 
+71-124. 
+[70] Hockney R W, Eastwood J W. Computer simulation using particles [M]. Boca Raton: Taylor & 
+Francis, 1988. 
+[71] Rhoades C E. A fast algorithm for calculating particle interactions in smooth particle 
+hydrodynamic simulations [J]. Computer Physics Communications, 1992, 70(3): 478-82. 
+[72] Simpson J C. Numerical Techniques for Three-dimensional Smoothed Particle Hydrodynamics 
+Simulations: Applications to Accretion Disks [J]. The Astrophysical Journal, 1995, 448: 822. 
+[73] Hernquist L, Katz N. TREESPH-A unification of SPH with the hierarchical tree method [J]. The 
+
+
+--- 第11页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 10 - 
+ 
+Astrophysical Journal Supplement Series, 1989, 70: 419-46. 
+[74] Liu G R, Tu Z H. MFree2DS©: an adaptive stress analysis package based on mesh-free 
+technology [M]. 2001: 327-9. 
+[75] Liu G R, Tu Z H. An adaptive procedure based on background cells for meshless methods [J]. 
+Computer Methods in Applied Mechanics and Engineering, 2002, 191(17): 1923-43. 
+[76] Monaghan J J, Thompson M C, Hourigan K. Simulation of free surface flows with SPH [Z]. 
+Proceedings of the 1994 ASME Fluids Engineering Division Summer Meeting Part 9 (of 18). 
+American Society of Mechanical Engineers (ASME). 1994: 375-80 
+[77] Monaghan J J, Kajtar J B. SPH particle boundary forces for arbitrary boundaries [J]. Computer 
+Physics Communications, 2009, 180(10): 1811-20. 
+[78] Peskin C S. Numerical analysis of blood flow in the heart [J]. Journal of Computational Physics, 
+1977, 25(3): 220-52. 
+[79] Colagrossi A, Landrini M. Numerical simulation of interfacial flows by smoothed particle 
+hydrodynamics [J]. Journal of Computational Physics, 2003, 191(2): 448-75. 
+[80] Kulasegaram S, Bonet J, Lewis R W, et al. A variational formulation based contact algorithm for 
+rigid boundaries in two-dimensional SPH applications [J]. Computational Mechanics, 2004, 
+33(4): 316-25. 
+[81] Mayrhofer A, Rogers B D, Violeau D, et al. Investigation of wall bounded flows using SPH and 
+the unified semi-analytical wall boundary conditions [J]. Computer Physics Communications, 
+2013, 184(11): 2515-27. 
+[82] Nair P, Tomar G. An improved free surface modeling for incompressible SPH [J]. Computers & 
+Fluids, 2014, 102: 304-14. 
+[83] Leroy A, Violeau D, Ferrand M, et al. A new open boundary formulation for incompressible 
+SPH [J]. Computers & Mathematics with Applications, 2016, 72(9): 2417-32. 
+[84] Dalrymple Robert A, Knio O. SPH Modelling of Water Waves; proceedings of the Coastal 
+Dynamics '01, F, 2001 [C]. 
+[85] Gomez-Gesteira M. Using a 3D SPH method for wave impact on a tall structure [J]. J 
+Waterways, Port, Coastal, Ocean Engineering, 2004, 130(2): 630-69. 
+[86] Gómez-Gesteira M, Cerqueiro D, Crespo C, et al. Green water overtopping analyzed with a SPH 
+model [J]. Ocean Engineering, 2005, 32(2): 223-38. 
+[87] Crespo A J C, Gómez-Gesteira M, Dalrymple R A. 3D SPH Simulation of large waves 
+mitigation with a dike [J]. Journal of Hydraulic Research, 2007, 45(5): 631-42. 
+[88] Morris J P, Fox P J, Zhu Y. Modeling Low Reynolds Number Incompressible Flows Using SPH 
+[J]. Journal of Computational Physics, 1997, 136(1): 214-26. 
+[89] Hu X Y, Adams N A. A multi-phase SPH method for macroscopic and mesoscopic flows [J]. 
+Journal of Computational Physics, 2006, 213(2): 844-61. 
+[90] Liu M B, Liu G R, Lam K Y. Investigations into water mitigation using a meshless particle 
+method [J]. Shock Waves, 2002, 12(3): 181-95. 
+[91] Marrone S, Antuono M, Colagrossi A, et al. δ-SPH model for simulating violent impact flows 
+[J]. Computer Methods in Applied Mechanics and Engineering, 2011, 200(13-16): 1526-42. 
+[92] Adami S, Hu X Y, Adams N A. A generalized wall boundary condition for smoothed particle 
+hydrodynamics [J]. Journal of Computational Physics, 2012, 231(21): 7057-75. 
+[93] 刘虎, 强洪夫, 陈福振, et al. 一种新型光滑粒子动力学固壁边界施加模型 [J]. 物理学报, 
+2015, 64(09): 384-97. 
+[94] Domínguez J M, Fourtakas G, Altomare C, et al. DualSPHysics: from fluid dynamics to 
+multiphysics problems [J]. Computational Particle Mechanics, 2021. 
+[95] English A, Domínguez J M, Vacondio R, et al. Modified dynamic boundary conditions (mDBC) 
+for general-purpose smoothed particle hydrodynamics (SPH): application to tank sloshing, dam 
+break and fish pass problems [J]. Computational Particle Mechanics, 2021: 1-15. 
+[96] Morris J P, Zhu Y, Fox P J. Parallel simulations of pore-scale flow through porous media [J]. 
+Computers and Geotechnics, 1999, 25(4): 227-46. 
+[97] Ferrari A, Dumbser M, Toro E F, et al. A new 3D parallel SPH scheme for free surface flows [J]. 
+Computers & Fluids, 2009, 38(6): 1203-17. 
+[98] Dominguez J M, Crespo A J C, Gómez-Gesteira M. Optimization strategies for CPU and GPU 
+implementations of a smoothed particle hydrodynamics method [J]. Computer Physics 
+Communications, 2013, 184(3): 617-27. 
+
+
+--- 第12页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 11 - 
+ 
+[99] Dominguez J M, Crespo A J C, Valdez-Balderas D, et al. New multi-GPU implementation for 
+Smoothed Particle Hydrodynamics on heterogeneous clusters [J]. Computer Physics 
+Communications, 2013, 184: 1848-60. 
+[100]Dominguez J M, Barreiro A, Crespo A J C, et al. Parallel CPU/GPU computing for smoothed 
+particle hydrodynamics models [J]. Environmental Science and Engineering (Subseries: 
+Environmental Science), 2016: 477-91. 
+[101]Longshaw S M, Rogers B D. Automotive fuel cell sloshing under temporally and spatially 
+varying high acceleration using GPU-based Smoothed Particle Hydrodynamics (SPH) [J]. 
+Advances in Engineering Software, 2015, 83: 31-44. 
+[102]Mokos A. Multi-phase Modelling of Violent Hydrodynamics Using Smoothed Particle 
+Hydrodynamics (SPH) on Graphics Processing Units (GPUs) [D]. Ann Arbor; The University of 
+Manchester (United Kingdom), 2014. 
+[103]Fourtakas G, Rogers B D. Modelling multi-phase liquid-sediment scour and resuspension 
+induced by rapid flows using Smoothed Particle Hydrodynamics (SPH) accelerated with a 
+Graphics Processing Unit (GPU) [J]. Advances in Water Resources, 2016, 92: 186-99. 
+[104]Fourtakas G, Dominguez J M, Vacondio R, et al. Local uniform stencil (LUST) boundary 
+condition for arbitrary 3-D boundaries in parallel smoothed particle hydrodynamics (SPH) 
+models [J]. Computers & Fluids, 2019, 190: 346-61. 
+[105]Chow A D. Incompressible SPH (ISPH) on the GPU [D]. Ann Arbor; The University of 
+Manchester (United Kingdom), 2018. 
+[106]Chow A D, Rogers B D, Lind S J, et al. Incompressible SPH (ISPH) with fast Poisson solver on 
+a GPU [J]. Computer Physics Communications, 2018, 226: 81-103. 
+[107]Chow A D, Rogers B D, Lind S J, et al. Numerical wave basin using incompressible smoothed 
+particle hydrodynamics (ISPH) on a single GPU with vertical cylinder test cases [J]. Computers 
+& Fluids, 2019, 179: 543-62. 
+[108]Guo X, Rogers B D, Lind S, et al. New massively parallel scheme for Incompressible Smoothed 
+Particle Hydrodynamics (ISPH) for highly nonlinear and distorted flow [J]. Computer Physics 
+Communications, 2018, 233: 16-28. 
+[109]Yang E, Bui H H, De Sterck H, et al. A scalable parallel computing SPH framework for 
+predictions of geophysical granular flows [J]. Computers and Geotechnics, 2020, 121: 103474. 
+[110]O’Connor J, Rogers B D. A fluid–structure interaction model for free-surface flows and flexible 
+structures using smoothed particle hydrodynamics on a GPU [J]. Journal of Fluids and 
+Structures, 2021, 104: 103312. 
+[111]O'Connor J, Domínguez J M, Rogers B D, et al. Eulerian incompressible smoothed particle 
+hydrodynamics on multiple GPUs [J]. Computer Physics Communications, 2022, 273: 108263. 
+[112]聂霄. 不可压缩SPH 流体的真实感模拟及其加速技术研究 [D]; 电子科技大学, 2015. 
+[113]邵绪强, 周忠, 张劲松, et al. 微可压缩SPH 流体的稳定性固体边界处理算法 [J]. 计算机辅助
+设计与图形学学报, 2014, 26(11): 1915-22+29. 
+[114]何建东. 基于SPH 的流固耦合数值模拟方法及其GPU 加速技术研究 [D]; 北京理工大学, 
+2018. 
+[115]姜庆郁. 基于GPU 并行算法的扩展多面体DEM-SPH 流-固耦合数值模拟 [D]; 大连理工大
+学, 2019. 
+[116]孔增增, 翟建国, 黄筱云, et al. V 形河谷滑坡最大冲击波面高度估计 [J]. 水利水电科技进展, 
+2018, 38(03): 15-21. 
+[117]黄筱云, 沈保兴, 刘珺婧, et al. V 形河谷滑坡涌浪爬高估计 [J]. 长沙理工大学学报(自然科学
+版), 2020, 17(03): 37-44. 
+[118]邱昕, 邢爱国, 王国章. 基于FLUENT 数值模拟的滑坡涌浪分析 [J]. 中国地质灾害与防治学
+报, 2013, 24(03): 26-31. 
+[119]阿如汉, 涂杰楠, 刘红岩, et al. 基于Fluent 数值模拟的冰湖涌浪分析——以西藏聂拉木县嘉
+龙错为例 [J]. 冰川冻土, 2018, 40(04): 837-45. 
+[120]邓成进, 党发宁, 陈兴周. 库区滑坡涌浪传播及其与大坝相互作用机理研究 [J]. 水利学报, 
+2019, 50(07): 815-23. 
+[121]邓成进, 袁秋霜, 侯延华, et al. 基于FLUENT 的库区涌浪数值模拟 [J]. 水利水运工程学报, 
+2014, (03): 84-91. 
+
+
+--- 第13页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 12 - 
+ 
+[122]Pastor M, Herreros I, Fernández Merodo J A, et al. Modelling of fast catastrophic landslides and 
+impulse waves induced by them in fjords, lakes and reservoirs [J]. Engineering Geology, 2009, 
+109(1): 124-34. 
+[123]Liu P L F, Wu T R, Raichlen F, et al. Runup and rundown generated by three-dimensional 
+sliding masses [J]. Journal of Fluid Mechanics, 2005, 536: 107-44. 
+[124]Biscarini C. Computational fluid dynamics modelling of landslide generated water waves [J]. 
+Landslides, 2010, 7(2): 117-24. 
+[125]Qiu L-C. Two-Dimensional SPH Simulations of Landslide-Generated Water Waves [J]. Journal 
+of Hydraulic Engineering, 2008, 134(5): 668-71. 
+[126]石传奇, 安翼, 杨家修. 滑坡涌浪的三维SPH 方法模拟及其工程应用 [J]. 中国科学:物理学 
+力学 天文学, 2015, 45(10): 57-65. 
+[127]Ataie-Ashtiani B, Shobeyri G. Numerical simulation of landslide impulsive waves by 
+incompressible smoothed particle hydrodynamics [J]. International Journal for Numerical 
+Methods in Fluids, 2008, 56(2): 209-32. 
+[128]Ataie-Ashtiani B, Yavari-Ramshe S. Numerical simulation of wave generated by landslide 
+incidents in dam reservoirs [J]. Landslides, 2011, 8(4): 417-32. 
+[129]Abadie S, Morichon D, Grilli S, et al. Numerical simulation of waves generated by landslides 
+using a multiple-fluid Navier–Stokes model [J]. Coastal Engineering, 2010, 57(9): 779-94. 
+[130]Bu S, Li D, Chen S, et al. Numerical simulation of landslide-generated waves using a SPH-DEM 
+coupling model [J]. Ocean Engineering, 2022, 258. 
+[131]Tan H, Chen S. A hybrid DEM-SPH model for deformable landslide and its generated surge 
+waves [J]. Advances in Water Resources, 2017, 108: 256-76. 
+[132]Tan H, Xu Q, Chen S. Subaerial rigid landslide-tsunamis: Insights from a block DEM-SPH 
+model [J]. Engineering Analysis with Boundary Elements, 2018, 95: 297-314. 
+[133]谭海, 徐青, 陈胜宏, et al. 基于DEM-SPH 耦合模型的散粒体滑坡涌浪仿真模拟 [J]. 岩土力
+学, 2020, (S2): 1-11. 
+[134]Xu W-J, Dong X-Y. Simulation and verification of landslide tsunamis using a 3D SPH-DEM 
+coupling method [J]. Computers and Geotechnics, 2021, 129. 
+[135]徐文杰. 基于CEL 算法的滑坡涌浪研究 [J]. 工程地质学报, 2012, 20(03): 350-4. 
+[136]徐文杰. 滑坡涌浪影响因素研究 [J]. 工程地质学报, 2012, 20(04): 491-507. 
+[137]徐文杰. 滑坡涌浪流–固耦合分析方法与应用 [J]. 岩石力学与工程学报, 2020, 39(07): 
+1420-33. 
+[138]王志超, 李大鸣. 基于SPH-DEM 流-固耦合算法的滑坡涌浪模拟 [J]. 岩土力学, 2017, 
+38(04): 1226-32. 
+ 
+ 
+ 
+
+
+--- 第14页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 13 - 
+ 
+二、研究内容和目标（说明课题的具体研究内容，研究目标和效果，以及拟解决的关键科学问
+题。此部分为重点阐述内容） 
+2.1. 研究目标 
+（1）在现有限-离散元耦合方法（FDEM）力学模块的基础上，对已有节理单元本构模型进
+行修正，提出新的节理单元断裂准则，更全面地模拟岩石的弹模演化、压缩强度等力学性质。 
+（2）基于光滑粒子流体动力学（SPH）理论，实现模拟流体运动的SPH 算法，开发可用于
+模拟计算的程序代码，实现对真实流体流动状态的数值仿真。 
+（3）将SPH 算法与现有FDEM 力学模块结合，提出适用于大尺度FDEM-SPH 水力耦合算
+法，研究涌浪对岸边建/构筑物影响的模拟。 
+2.2. 研究内容 
+（1）有限-离散元耦合方法中新的节理单元本构模型 
+1、提出基于三角形单元和节理单元拓扑连接关系的，不启用接触判断和接触力计算的裂缝
+处的法向压应力和切向摩擦力算法。 
+2、研究能记录节理单元损伤量的卸载本构。 
+3、研究如何在FDEM 中实现新的节理单元断裂准则，实现对岩石弹性模量演化、单轴/三轴
+压缩强度等力学性质更全面的模拟。 
+（2）光滑粒子流体动力学算法 
+1、理解质量守恒、动量守恒和能量守恒在流体力学中的应用，通过有限控制体和无穷小小
+流体单元推导拉格朗日型的Navier-Stokes 方程组。 
+2、基于狄拉克函数，选取合适的光滑核函数取代函数，实现函数积分表示的核近似法。 
+3、研究并实现将连续积分表示式转化为支持域内所有粒子叠加求和的离散化形式的SPH 粒
+子近似算法。 
+4、研究如何对SPH 中粒子的密度（梯度）应用SPH 近似法，实现粒子密度的离散化算法。 
+5、研究如何对微分形式的动量方程中的梯度项直接应用SPH 近似法，实现动量方程的粒子
+近似算法。 
+6、研究如何利用应变率和压力功，采用SPH 近似法获得内能的计算式。 
+7、研究减小求解域内非物理震荡的方法，研究在物理压力项中加入人工粘度的算法，将动
+能转化为热能耗散掉，并且有效防止粒子接近时的非物理穿透。 
+8、研究选取何种状态方程能有效模拟微可压缩流体，研究通过引入人工压缩率求解压力对
+时间的导数的算法。 
+9、研究如何对离散化的SPH 方程进行积分，研究SPH 时间积分中临界时间步长的选取。 
+
+
+--- 第15页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 14 - 
+ 
+10、研究计算相关粒子在以比例因子k 乘光滑长度h 为半径的支持域中包含的有限粒子的最
+近相邻粒子搜索算法。 
+（3）FDEM-SPH 耦合算法 
+1、由于在边界上或临近边界处粒子存在缺陷，即存在积分时边界截断的问题，研究相应的
+处理边界条件和解决粒子缺陷问题的改进方案。 
+2、研究通过在边界处添加虚粒子，并利用虚粒子对内部粒子施加边界排斥力的算法，达到
+防止内部粒子穿透边界并补偿边界附近粒子受力的目的。 
+3、研究动态边界条件及其实现方式，提高边界附近粒子的计算精度。 
+4、研究FDEM 中固体与流体作用面的检测算法，研究将SPH 粒子作用力以外力形式添加到
+FDEM 控制方程中的算法，实现FDEM-SPH 耦合算法。 
+5、研究FDEM-SPH 并行算法。 
+（4）验证及工程应用 
+1、设计验证性算例，将模拟结果和理论解对比，验证新的节理单元本构模型的正确性。通
+过对比其它软件模拟结果、对比室内试验结果等方式验证光滑粒子流体动力学代码和FDEM-
+SPH 耦合算法的可靠性。 
+2、研究基于新节理单元本构的岩石微观物理力学参数标定方法。 
+3、联系相关背景资料，建立数值模型，模拟涌浪对岸边建/构筑物的影响，验证程序在实际
+工程应用中的可靠性。 
+2.3. 拟解决的关键科学问题 
+本课题以有限-离散元耦合方法为基础，修正力学模块的节理单元本构模型，开发光滑粒子
+流体动力学模块，并将光滑粒子流体动力学与有限-离散元耦合方法进行耦合，采用理论分析、
+算法设计、程序开发、算例验证、工程模拟应用等相结合的方法，主要解决以下关键科学问题： 
+（1）未断裂节理单元断裂模型及已断裂节理单元处法向应力和摩擦力算法； 
+（2）新本构下岩石试样微观力学参数标定； 
+（3）光滑粒子流体动力学基础算法和FDEM-SPH 耦合算法； 
+（4）涌浪冲击岸边建/构筑物的数值仿真模型。 
+ 
+ 
+
+
+--- 第16页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 15 - 
+ 
+ 
+三、研究方案设计及可行性分析（包括：研究方法，技术路线，理论分析、计算、实验方法和步
+骤及其可行性） 
+3.1. 研究方法 
+本课题拟采用文献阅读、理论分析、算法设计、程序开发、算例验证、工程模拟应用相
+结合的方法进行研究。 
+（1）文献阅读、理论分析 
+大量收集和阅读国内外有限-离散元法和光滑粒子流体动力学方面的文献和专著资料。 
+1、了解FDEM 和SPH 的研究现状及发展趋势。 
+2、学习FDEM 方法的基本控制方程，了解FDEM 中现有的节理单元法向连接力和切向
+力连接力的计算方法。 
+3、学习拉格朗日型的Navier-Stokes 方程组，明确用SPH 粒子近似法求解Navier-Stokes
+方程组的理论。 
+（2）算法设计、程序开发 
+基于Microsoft Visual Studio 平台，通过动态链接库的形式，采用C 语言作为编程语言，
+在MultiFracS 软件中添加新的用户自定义节理单元本构和光滑粒子流体动力学模块。 
+1、有效利用有限-离散元法中三角形单元和节理单元的连接关系，利用断裂节理单元的
+法向张开度和切向滑移量（图1.a）计算法向应力和摩擦力，实现在不启动接触判断和接触
+力计算模块的前提下，得到断裂节理单元处的受力状态的算法。 
+2、在传统的有限-离散元法的基础上，给三角形单元间插入的节理单元添加一个虚拟的
+厚度（图1.b），实现在不改变计算网格的前提下，考虑微裂缝对整体力学性质的影响的算
+法。 
+3、使用新的强度准则替代现有的摩尔库伦准则计算节理单元的抗剪强度（图1.c），实现
+新的节理单元断裂准则。 
+ 
+（a）节理单元张开度  
+（b）节理单元本构 
+ 
+（c）强度包络线  
+ 
+图1  FDEM 算法设计 
+4、使用全配对搜索算法遍历SPH 粒子，获得相关粒子在支持域中包含的粒子列表（图
+2.a）。 
+
+
+--- 第17页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 16 - 
+ 
+5、使用连续密度法求解连续方程，获得粒子密度随时间的变化关系或通过正则化修正
+的密度求和法，直接获得粒子的密度。 
+6、引入人工压缩率，将理论不可压缩流体考虑为微可压缩流体，应用流体状态方程求
+解压力对时间的导数。 
+7、引入人工粘度，并将其加入物理压力项中，将一部分动能转化为热能耗散掉，减小
+模拟中产生的数值震荡，并有效防止粒子相互接近是的非物理穿透现象。 
+8、将压力和粘度带入动量方程，采用SPH 粒子近似算法获得粒子速度对时间的导数。 
+9、采用Courant–Friedrich–Levy 条件估计粒子的时间步长，采用Leap-Frog 显式积分法
+对离散化的SPH 方程进行积分。 
+10、将FDEM 中流固交互边界转化为虚粒子（图2.b），通过在边界虚粒子处添加排斥
+力，修正SPH 粒子在边界处的缺陷，并将反作用力以外力的形式添加到FDEM 的控制方程
+中，实现SPH 的边界处理和FDEM-SPH 水力耦合计算。 
+11、实现FDEM-SPH 算法的并行计算。 
+ 
+（a）NNPS  
+（b）边界虚粒子 
+图2  SPH 算法设计 
+（3）算例验证 
+利用含解析解的算例和经典模型来进行程序验证和算法分析。 
+1、采用简单的斜面滑块模型，通过分析滑块的速度和位移，验证节理单元压力和摩擦
+力计算的正确性（图2.a）。 
+2、采用腔内剪切流动算例，将SPH 模拟结果和采用有限体积法得到的结果进行对比，
+验证SPH 程序的正确性（图2.b）。 
+3、建立水槽模型，模拟并记录水槽中流体和水槽壁的压力分布规律，与解析解相对
+比，验证FDEM-SPH 耦合模型的正确性（图2.c）。 
+ 
+（a）滑块模型 
+（b）腔内剪切流动 
+（c）水槽模型 
+图3  验证算例 
+
+
+--- 第18页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 17 - 
+ 
+（4）工程模拟应用 
+利用相关工程数据资料，建立数值模型，验证程序在实际工程应用中的可靠性。 
+1、通过单轴/三轴压缩模拟，记录岩石的应力应变曲线，分析其弹性模量的演化和压缩
+强度的变化规律，研究岩石的物理力学性质（图4.a）。 
+2、建立重力坝模型，实现在真实流体作用下重力坝失稳开裂的全过程模拟（图4.b）。 
+3、建立涌浪模型，模拟分析涌浪对岸边建/构筑物的冲击作用（图4.c）。 
+ 
+（a）单轴压缩 
+（b）重力坝模型  
+ 
+（c）涌浪模型 
+ 
+ 
+ 
+图4  应用算例 
+3.2. 技术路线 
+ 
+图5  技术路线图 
+
+
+--- 第19页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 18 - 
+ 
+3.3. 可行性分析 
+（1）项目基础方面：本研究课题依托导师主持的国家自然科学基金面上项目《考虑热
+破裂影响的水岩换热三维数值模型及验证研究》中的主要研究内容，具有充分的理论和实践
+依据。 
+（2）研究内容方面：有限-离散元法和光滑粒子流体动力学都已发展出成熟的理论体
+系，FDEM 在库岸边坡、坝基稳定性分析中得到有效的应用，SPH 在波浪模拟、海岸工程中
+也有广泛的应用。本课题在前人研究基础上，对现有FDEM 中节理单元本构模型进行创新，
+并将SPH 方法与FDEM 相结合，开发出可以模拟真实流体的FDEM-SPH 流固耦合模型是完
+全可行的。 
+（3）科研基础方面：本人自本科毕业以来，阅读了大量数值模拟方面的相关文献，系
+统学习了有限-离散元法和光滑粒子流体动力学的理论知识，初步掌握了MultiFracS、
+ABAQUS、FLAC 等数值仿真软件的使用，在对数值理论推导和算法研究中积累了一定科研
+经验，准备工作充足。 
+（4）计算机编程方面：本人具有使用MATLAB 编写程序脚本的经验，初步具备使用C
+语言进行光滑粒子流体动力学代码编写的能力，能够根据理论计算式在程序中实现相应的算
+法与功能。 
+ 
+ 
+
+
+--- 第20页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 19 - 
+ 
+ 
+四、本研究课题的特色与新颖之处 
+（1）本课题研究了有限-离散元耦合方法中新的节理单元本构模型，实现对岩石弹性模
+量演化、单轴/三轴压缩强度等力学性质更全面的模拟。同时通过断裂节理单元受力算法，
+在破坏不改变网格整体拓扑关系的前提下，不启用接触判断和接触力计算模块即可计算裂缝
+处的法向压应力和切向摩擦力，大大提高了FDEM 程序力学模块的计算效率。 
+（2）研究了光滑粒子流体动力学算法，并采用面向过程的思想基于C 语言编写相应的
+光滑粒子流体动力学模拟程序并实现模拟结果的可视化，程序可实现对真实流体流动状态的
+数值仿真。 
+（3）本课题研究了基于FDEM-SPH 耦合大尺度的水力耦合算法，克服传统基于立方定
+律的裂隙渗流模型中裂隙压力的计算依赖于裂缝的张开度，开裂后裂缝的宽度不能太大，只
+能模拟小型水力压裂的缺点。FDEM-SPH 水力耦合模型可以模拟涌浪对岸边建/构筑物的冲
+击作用。 
+五、研究基础与工作条件（1.与本项目相关的研究工作积累基础 2.包括已具备的实验条件，尚缺
+少的实验条件和拟解决途径） 
+（1）本研究课题依托导师主持的国家自然科学基金面上项目，导师团队拥有完善的基
+于有限-离散元法的数值仿真软件MultiFracS，为本课题研究工作的开展提供了理论和软件
+支持。 
+（2）已基本完成有限-离散元法中新的节理单元本构模型的构建，正在进行新本构模型
+的测试和相关参数的调试工作。 
+（3）已基本掌握光滑粒子流体动力学中核心方程的离散化的算法，正在编写相关的程
+序代码，后续将对开发的SPH 模拟程序进行验证，检验数值仿真代码的正确性。 
+（4）FDEM-SPH 耦合算法涉及SPH 边界条件的优化和FDEM 外部作用力的施加，目
+前掌握的相关算法较为欠缺，后续将针对目前研究计划内容进行逐步完善。 
+（5）本人长期从事数值模拟仿真方面的相关研究工作，在硕士期间已发表两篇FDEM
+相关论文，为博士论文的完成奠定了一定的基础。发表文章如下： 
+[1] Yan C, Zheng Y, Huang D, et al. A coupled contact heat transfer and thermal cracking model 
+for discontinuous and granular media [J]. Computer Methods in Applied Mechanics and 
+Engineering, 2021, 375: 113587. 
+[2] Yan C, Zheng Y, Ke W, et al. A FDEM 3D moisture migration-fracture model for simulation of 
+soil shrinkage and desiccation cracking [J]. Computers and Geotechnics, 2021, 140: 104425. 
+ 
+ 
+
+
+--- 第21页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 20 - 
+ 
+学位论文工作计划 
+时间 
+研究内容 
+预期效果 
+2021.09~2022.02 
+理论和软件学习，文献调研 
+学习学校相关课程，熟悉相关软件使
+用，自学计算机编程基础，积累相关
+研究基础 
+2022.03~2022.10 
+SPH 和FDEM 理论学习及相关控制方
+程推导和算法实现 
+掌握有限-离散元法和光滑粒子流体
+动力学基本原理，训练程序编写能
+力，进行简单的代码开发 
+2022.11~2022.12 
+博士论文开题 
+论文选题，确定研究方向 
+2023.01~2023.03 
+开发新的节理单元本构模型 
+修正未断裂节理单元本构模型，提出
+新的节理单元断裂准则；提出新的已
+断裂节理单元处压力和摩擦力算法 
+2023.04~2024.01 
+编写光滑粒子流体动力学代码，实现
+FDEM-SPH 耦合算法 
+实现拉格朗日型的Navier-Stokes 方程
+组中密度方程、动量方程和能量方程
+的粒子近似算法，实现最近相邻粒子
+搜索算法，实现边界粒子处理算法，
+实现FDEM-SPH 耦合算法 
+2024.01~2024.08 
+程序测试，案例计算，撰写期刊论文 
+调试程序，改进程序，通过验证算例
+测试程序，模拟工程案例应用程序 
+2024.09~2024.03 
+程序测试，案例计算，撰写期刊论文 
+调试程序，改进程序，通过验证算例
+测试程序，模拟工程案例应用程序 
+2024.09~2024.03 
+成果整理，撰写博士论文 
+整理博士期间研究成果，完成博士论
+文初稿，准备预答辩 
+2025.03~2025.05 
+博士论文送审 
+修改论文，通过论文盲审和答辩环节 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- 第22页 ---
+ 
+博士研究生2202110240-郑雨辰-学位论文开题报告
+ 
+- 21 - 
+ 
+ 
+评 
+定 
+小 
+组 
+成 
+员 
+姓 名 
+职 称 
+单位名称 
+职务 
+张浠 
+教授 
+中国地质大学(武汉) 
+组长 
+汪洋 
+教授 
+中国地质大学(武汉) 
+成员 
+唐志成 
+教授 
+中国地质大学(武汉) 
+成员 
+吕加贺 
+特任教授 
+中国地质大学(武汉) 
+成员 
+骆进 
+副教授 
+中国地质大学(武汉) 
+成员 
+ 
+ 
+ 
+ 
+ 
+程毅 
+特任副教授 
+中国地质大学(武汉) 
+秘书 
+导师意见： 
+ 
+导师（签章）： 
+ 
+日期：     年    月    日 
+开题报告评议小组意见： 
+ 
+ 
+ 
+组长（签章）：              组员（签章）： 
+ 
+日期：     年     月    日 
+学院意见： 
+ 
+ 
+负责人（签章）：                 单位（公章） 
+ 
+日期：     年    月    日 
+ 

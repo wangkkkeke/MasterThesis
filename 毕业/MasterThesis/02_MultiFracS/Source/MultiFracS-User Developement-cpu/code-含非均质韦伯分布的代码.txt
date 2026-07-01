@@ -1,0 +1,60 @@
+------FGM------
+//将弹性模量设置为韦伯分布
+void FGM_ela(int ie, Real x, Real y, Real z, Real* ela)
+{
+	double m, randNum;
+	m = 40.0;  //均质度系数，取值越大，材料越均匀
+                srand(1); //1作为种子
+	for (int i = 0; i <= ie; i++)
+	{
+		randNum = (double)(rand()+1) / (double)((RAND_MAX + 2.0)); //rand()返回0到RAND_MAX的伪随机数
+		if (i == ie)	*ela = *ela * pow((-log(1.0 - randNum)), (1.0 / m));
+	}
+}
+
+
+void FGM_ela(int ie, double x, double y, double z, double* ela)
+{
+	*ela *= pow((-log(1.0 - (rand() / (RAND_MAX + 1.0)))), (1.0 / 5));
+}
+
+------InSitu------
+void InitPorePre(int itype, double x, double y, double z, double* p)
+{
+	if (itype == 2)	*p = (y < 0.75) ? (10000 * (0.75 - y)) : 0;
+}
+
+------VBoundary------
+void User_node_velocity_boundary(int itype, int nstep, double dtm, double* x, double* y, double* z,  double* vx, double* vy, double* vz, int *ifix, int *ifiy, int* ifiz)
+{
+	if (itype == 10)
+	{
+		*ifix = 1;	*vx = sin(10 * nstep * dtm);	*x += （*vx) * dtm;
+		*ifiy = 1;	*vy = 0;				*y += (*vy) * dtm;
+	}
+}
+
+------SBoundary------
+void User_surface_fore_boundary(int itype, int nstep, double dtm, double Ela, double vp, double ro,  double x, double y, double z, double vn, double vs, double* pre, double* tao)
+{
+	double t = nstep * dtm;
+	if (itype == 6)
+	{
+		double cp = sqrt(Ela * (1 - vp) / (ro * (1 - 2 * vp) * (1 + vp)));	*pre = -1 * (ro * cp) * vn; 	
+		double cs = sqrt(Ela / (2 * ro * (1 + vp)));				*tao = -1 * (ro * cs) * vs;
+	}
+	else if (itype == 10)
+		*pre = 500e6 * (exp(-81093.02 * t) - exp(-121639.53 * t)) / (exp(-81093.02 * 10e-6) - exp(-121639.53 * 10e-6));	//b/a=1.5,t0=10us
+}
+
+------Boundary------
+void Moisture_qflow_per_area_boundary(int itype, int nstep, double dtw, double dtm, double* qflow)
+{
+	if (itype == 10)
+	{
+		if (nstep < 1500)			*qflow = 1e-5;
+		else if (nstep < 1800)		*qflow = -1e-5;
+		else if (nstep < 2400)		*qflow = 1e-5;
+		else					*qflow = 0;
+	}
+}

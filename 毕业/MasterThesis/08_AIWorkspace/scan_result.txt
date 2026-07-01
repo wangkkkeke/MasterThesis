@@ -1,0 +1,433 @@
+﻿[D] 00_Project
+  [F] ChapterPlan.md (14245B)
+  [F] C璇█缂栫▼瑙勮寖.txt (2581B)
+  [F] FigureTablePlan.md (11073B)
+  [F] MasterRoadmap.md (16071B)
+  [F] ProgressTracker.md (11138B)
+  [F] ProjectConstitution.md (732B)
+  [F] ProjectRoadmap.md (12104B)
+  [F] ThesisOutline.md (4497B)
+  [F] ThesisWritingGuide.md (19295B)
+  [F] 寮€鍙戦噰鐢╟璇█SOA鏁版嵁缁撴瀯.txt (0B)
+  [D] 寮€棰樺伐浣?
+    [F] 2026-06-12_05-45-11Z-research-value-of-multifracs-method.md (1459256B)
+    [F] 2026-06-23_06-51-50Z-纭曞＋璁烘枃妗嗘灦涓庣粨鏋勫垎鏋?md (171440B)
+    [F] 瀛︿綅璁烘枃宸ヤ綔璁″垝.txt (1616B)
+    [F] 瀛︿綅璁烘枃寮€棰樻姤鍛?鐜嬪彲-缁堢増.docx (554573B)
+    [F] 寮€棰樺悗绠椾緥鍙傛暟寰呮煡.txt (1716B)
+    [F] 璁烘枃WBS宸ヤ綔鍒嗚В琛?md (19268B)
+    [F] 璁烘枃鎬讳綋妗嗘灦_v1.md (8763B)
+  [F] 寮€棰樻姤鍛奯缁堢増_extracted.txt (169835B)
+  [F] 鏂囦欢鐩綍锛堜粎鍙傝€冿級.txt (682B)
+  [F] 璁烘枃绠椾緥鏁版嵁鎻愪氦璇存槑.txt (565B)
+  [D] 璇鹃鏉ユ簮椤圭洰
+    [F] 鑱斿悎鍗忚闄勪欢2锛氶潰鍚戣繄鏇︽樉寮忓姩鍔涘鐨勬湁闄愬厓绂绘暎鍏冭嚜閫傚簲鑰﹀悎绠楁硶鐮斿彂鏂板満鏅柊鎶€鏈」鐩渶姹傞€愮偣绛斿鍙婇獙鏀舵爣鍑?csv (56525B)
+    [F] 鑱斿悎鍗忚闄勪欢4锛氶潰鍚戣繄鏇︽樉寮忓姩鍔涘鐨勬湁闄愬厓绂绘暎鍏冭嚜閫傚簲鑰﹀悎绠楁硶鐮斿彂鏂板満鏅柊鎶€鏈」鐩В棰樻柟鎶€鏈缓璁功.docx (764752B)
+  [F] 闄勪欢4_鎶€鏈缓璁功_extracted.txt (56767B)
+[D] 01_KnowledgeBase
+  [D] GroupPapers
+    [D] 寰€灞婃瘯涓氳鏂?
+      [F] 2021-浠诲畤鑸?鍩轰簬FDEM-flow鐨勬按鍔涘帇瑁傝缂濇墿灞曞奖鍝嶅洜绱犵爺绌?pdf (5960444B)
+      [F] 2021-浠诲畤鑸?鍩轰簬FDEM-flow鐨勬按鍔涘帇瑁傝缂濇墿灞曞奖鍝嶅洜绱犵爺绌?txt (146200B)
+      [F] 2021-妯婂畯浼?鍩轰簬FDEM-TM鐨勫噯鑴嗘€ф潗鏂欑儹鐮磋鍒嗘瀽.pdf (4108653B)
+      [F] 2021-妯婂畯浼?鍩轰簬FDEM-TM鐨勫噯鑴嗘€ф潗鏂欑儹鐮磋鍒嗘瀽.txt (142859B)
+      [F] 2021-绔ョ懚-鍩轰簬FDEM-flow鐨勫鏉傝闅欏博浣撴敞娴嗘ā鎷熷強褰卞搷鍥犵礌鐮旂┒.pdf (4334611B)
+      [F] 2021-绔ョ懚-鍩轰簬FDEM-flow鐨勫鏉傝闅欏博浣撴敞娴嗘ā鎷熷強褰卞搷鍥犵礌鐮旂┒.txt (126018B)
+      [F] 2021-楂樹簹鐞?鍩轰簬FDEM鏂规硶鍗曡酱鍘嬬缉涓嬭闅欏博浣撳彉褰㈢牬鍧忓強鑳介噺鐗瑰緛鐮旂┒.pdf (6286932B)
+      [F] 2021-楂樹簹鐞?鍩轰簬FDEM鏂规硶鍗曡酱鍘嬬缉涓嬭闅欏博浣撳彉褰㈢牬鍧忓強鑳介噺鐗瑰緛鐮旂┒.txt (167159B)
+      [F] 2022-鏉ㄧ窘-鍩轰簬FDEM鐨勯毀閬撶垎鐮村鏃㈡湁閭昏繎闅ч亾鐨勫奖鍝嶅洜绱犵爺绌?pdf (7955566B)
+      [F] 2022-鏉ㄧ窘-鍩轰簬FDEM鐨勯毀閬撶垎鐮村鏃㈡湁閭昏繎闅ч亾鐨勫奖鍝嶅洜绱犵爺绌?txt (138603B)
+      [F] 2022-鐜嬬彛-鍩轰簬MultiFracS鐨勫姩鎬佽嵎杞戒綔鐢ㄤ笅宀╀綋鐮磋杩囩▼鍒嗘瀽.pdf (5721310B)
+      [F] 2022-鐜嬬彛-鍩轰簬MultiFracS鐨勫姩鎬佽嵎杞戒綔鐢ㄤ笅宀╀綋鐮磋杩囩▼鍒嗘瀽.txt (134393B)
+      [F] 2022-璋㈤懌-鍩轰簬MultiFracS鐨勯潪甯歌娌规皵鍌ㄥ眰姘村姏瑁傜紳鎵╁睍褰卞搷鍥犵礌鍒嗘瀽.pdf (5054156B)
+      [F] 2022-璋㈤懌-鍩轰簬MultiFracS鐨勯潪甯歌娌规皵鍌ㄥ眰姘村姏瑁傜紳鎵╁睍褰卞搷鍥犵礌鍒嗘瀽.txt (140385B)
+      [F] 2022-榄忓ぇ鑳?鍩轰簬MultiFracS鐨勯珮娓╅毀娲炲博鐭抽潪鍧囪川鐑姏鑰﹀悎鏁板€兼ā鎷熺爺绌?pdf (7547706B)
+      [F] 2022-榄忓ぇ鑳?鍩轰簬MultiFracS鐨勯珮娓╅毀娲炲博鐭抽潪鍧囪川鐑姏鑰﹀悎鏁板€兼ā鎷熺爺绌?txt (161447B)
+      [F] 2023-缃楀織寮?鍩哄潙闄嶆按寮€鎸栨暟鍊兼ā鎷熷強鍩轰簬鏈哄櫒瀛︿範涓嶇‘瀹氬垎鏋愭浛浠ｆā鍨?pdf (8757250B)
+      [F] 2023-缃楀織寮?鍩哄潙闄嶆按寮€鎸栨暟鍊兼ā鎷熷強鍩轰簬鏈哄櫒瀛︿範涓嶇‘瀹氬垎鏋愭浛浠ｆā鍨?txt (166252B)
+      [F] 2023-璧靛瓙鎭?姘瀛愭墿鏁ｅ紩璧锋贩鍑濆湡閽㈢瓔閿堣殌鐨勬湁闄?绂绘暎鍏冩暟鍊兼ā鎷熺爺绌?pdf (8483821B)
+      [F] 2023-璧靛瓙鎭?姘瀛愭墿鏁ｅ紩璧锋贩鍑濆湡閽㈢瓔閿堣殌鐨勬湁闄?绂绘暎鍏冩暟鍊兼ā鎷熺爺绌?txt (150973B)
+      [F] 2023-閮緣-鍩轰簬MutiFracS鐨勫博璐ㄨ竟鍧℃暟鍊兼ā鎷熺爺绌?.pdf (52870132B)
+      [F] 2023-閮緣-鍩轰簬MutiFracS鐨勫博璐ㄨ竟鍧℃暟鍊兼ā鎷熺爺绌?.txt (182249B)
+      [F] 2023-椹緣-鍩轰簬MultiFracS鐨勬崯浼ゆā鍧楀紑鍙戝強搴旂敤.pdf (6716913B)
+      [F] 2023-椹緣-鍩轰簬MultiFracS鐨勬崯浼ゆā鍧楀紑鍙戝強搴旂敤.txt (173832B)
+      [F] 2024-涔旀瀵?FDEM鏂拌妭鐞嗗崟鍏冩湰鏋勬ā鍨嬪強宀╃煶鐮磋涓夌淮鏁板€兼ā鎷熺爺绌?pdf (20880653B)
+      [F] 2024-涔旀瀵?FDEM鏂拌妭鐞嗗崟鍏冩湰鏋勬ā鍨嬪強宀╃煶鐮磋涓夌淮鏁板€兼ā鎷熺爺绌?txt (190130B)
+      [F] 2024-鍒樺缓瓒?涓夌淮鎺ヨЕ绠楁硶寮€鍙戝強鍏跺湪杈瑰潯鍗卞博浣撶牬鍧忔ā鎷熶腑鐨勫簲鐢?pdf (7154960B)
+      [F] 2024-鍒樺缓瓒?涓夌淮鎺ヨЕ绠楁硶寮€鍙戝強鍏跺湪杈瑰潯鍗卞博浣撶牬鍧忔ā鎷熶腑鐨勫簲鐢?txt (170505B)
+      [F] 2024-鍛ㄦ稕-鍩轰簬FDEM鏂规硶鐨勫湡浣撳共缂╁紑瑁傛ā鎷熺爺绌?pdf (4531373B)
+      [F] 2024-鍛ㄦ稕-鍩轰簬FDEM鏂规硶鐨勫湡浣撳共缂╁紑瑁傛ā鎷熺爺绌?txt (149501B)
+      [F] 2024-鐜嬬窘閼?鍩轰簬FDEM鐨勭洿浜曞钩闈㈡殏鍫佃浆鍚戝帇瑁傝缂濇墿灞曞奖鍝嶅洜绱犳ā鎷熺爺绌?pdf (8427137B)
+      [F] 2024-鐜嬬窘閼?鍩轰簬FDEM鐨勭洿浜曞钩闈㈡殏鍫佃浆鍚戝帇瑁傝缂濇墿灞曞奖鍝嶅洜绱犳ā鎷熺爺绌?txt (136000B)
+      [F] 2024-鐜嬮搧-鍩轰簬FDEM闈炲潎璐ㄦ箍搴?鏂鑰﹀悎妯″瀷鐨勫垁鍏风牬纰庡惈姘存偿宀╂暟鍊兼ā鎷熺爺绌?pdf (26831880B)
+      [F] 2024-鐜嬮搧-鍩轰簬FDEM闈炲潎璐ㄦ箍搴?鏂鑰﹀悎妯″瀷鐨勫垁鍏风牬纰庡惈姘存偿宀╂暟鍊兼ā鎷熺爺绌?txt (373015B)
+      [F] 2024-闊╅兘-宀╁湡璐ㄨ竟鍧＄牬鍧忕殑鐗╄川鐐?绂绘暎鍏冭€﹀悎娉曟ā鎷?pdf (6985254B)
+      [F] 2024-闊╅兘-宀╁湡璐ㄨ竟鍧＄牬鍧忕殑鐗╄川鐐?绂绘暎鍏冭€﹀悎娉曟ā鎷?txt (160338B)
+      [F] 2025-瀛欎笘榫?瑗胯棌娉㈠瘑鍘跨背鍫嗘矡鍐版箹婧冨喅鈥斺€旀偿鐭虫祦鐏惧閾炬垚鐏炬ā寮忎笌椋庨櫓璇勪环.pdf (13101715B)
+      [F] 2025-瀛欎笘榫?瑗胯棌娉㈠瘑鍘跨背鍫嗘矡鍐版箹婧冨喅鈥斺€旀偿鐭虫祦鐏惧閾炬垚鐏炬ā寮忎笌椋庨櫓璇勪环.txt (182878B)
+      [F] 2025-寮犱繆妤?楂樻俯浣滅敤涓嬬巹姝﹀博澶氬昂搴﹀姏瀛︽€ц川鐨勬紨鍙樿寰嬬爺绌?pdf (25624514B)
+      [F] 2025-寮犱繆妤?楂樻俯浣滅敤涓嬬巹姝﹀博澶氬昂搴﹀姏瀛︽€ц川鐨勬紨鍙樿寰嬬爺绌?txt (168831B)
+      [F] 2025-鑳℃案搴?鍩轰簬FDEM鐨勫眰鐘跺洿宀╅毀閬撳彉褰㈢牬鍧忔満鐞嗕笌鏀姢浼樺寲鐮旂┒.pdf (17478384B)
+      [F] 2025-鑳℃案搴?鍩轰簬FDEM鐨勫眰鐘跺洿宀╅毀閬撳彉褰㈢牬鍧忔満鐞嗕笌鏀姢浼樺寲鐮旂┒.txt (196764B)
+      [F] 2025-璧垫棴鍓?FDEM瑁傜汗鎵╁睍妯℃嫙姝ｇ‘鎬ч獙璇佸強搴旂敤鐮旂┒.pdf (9735009B)
+      [F] 2025-璧垫棴鍓?FDEM瑁傜汗鎵╁睍妯℃嫙姝ｇ‘鎬ч獙璇佸強搴旂敤鐮旂┒.txt (188197B)
+      [D] 2025-閮戦洦杈?FDEM-SPH娴佸浐鑰﹀悎绠楁硶鍙婂叾鍦ㄦ粦鍧℃秾娴豢鐪熶腑鐨勫簲鐢?
+      [F] 2025-閮工-澶ф浮娌抽珮灞卞场璋峰尯鍦拌川鐏惧闅愭偅缁煎悎閬ユ劅绮剧粏璇嗗埆鈥斺€斾互娉稿畾鍘夸负渚?pdf (14418946B)
+      [F] 2025-閮工-澶ф浮娌抽珮灞卞场璋峰尯鍦拌川鐏惧闅愭偅缁煎悎閬ユ劅绮剧粏璇嗗埆鈥斺€斾互娉稿畾鍘夸负渚?txt (130595B)
+      [F] _group_papers_summary.md (46564B)
+      [F] extract_text.py (4086B)
+    [D] 璇鹃缁勮鏂?
+      [F] 2023 Modified joint element constitutive model for FDEM to simulate the nonlinear mechanical behavior of rocks .pdf (6410294B)
+      [F] 2024 A 3D discrete model for soil desiccation cracking in consideration of moisture diffusion.pdf (10529911B)
+      [F] 2024 Investigation on rock breaking and optimum spacing of TBM cutters under.pdf (28247745B)
+      [F] A 2D FDEM-based moisture diffusion鈥揻racture coupling model for simulating soil desiccation cracking.pdf (4068147B)
+      [F] A 2D adaptive finite-discrete element method for simulating fracture and fragmentation in geomaterials.pdf (17016965B)
+      [F] A 2D continuous-discrete mixed seepage model considering the fluid exchange and the pore pressure discontinuity across the fracture for simulating fluid-driven fracturing.pdf (4805291B)
+      [F] A 2D coupled hydro-thermal model for the combined finite-discrete element method.pdf (1786793B)
+      [F] A 2D discrete heat transfer model considering the thermal resistance effect of fractures for simulating the thermal cracking of brittle.pdf (4258619B)
+      [F] A 2D discrete moisture diffusion model for simulating desiccation cracking.pdf (30712689B)
+      [F] A 2D fully coupled hydro-mechanical finite-discrete element model with real pore seepage for simulating the deformation and fracture of porous medium driven by fluid.pdf (4054971B)
+      [F] A 2D mixed fracture鈥損ore seepage model and hydromechanical coupling for fractured porous media.pdf (6654599B)
+      [F] A 3D thermal cracking model for聽rockbased on聽the聽combined finite鈥揹iscrete element method.pdf (11217488B)
+      [F] A FDEM 3D moisture migration-fracture model for simulation of soil shrinkage and desiccation cracking.pdf (11581872B)
+      [F] A FDEM based 3D discrete mixed seepage model for simulating fluid driven fracturing.pdf (20340760B)
+      [F] A FDEM-based 2D coupled thermal-hydro-mechanical model for multiphysical simulation of rock fracturing.pdf (10211953B)
+      [F] A Three-Dimensional Grouting Model Considering Hydromechanical Coupling Based on the Combined Finite-Discrete Element Method.pdf (3304085B)
+      [F] A Two-Dimensional Moisture Diffusion Continuous Model for Simulating Dry Shrinkage and Cracking of Soil.pdf (3283261B)
+      [F] A coupled contact heat transfer and thermal cracking model for discontinuous and granular media.pdf (7913003B)
+      [F] A coupled thermo-mechanical model based on the combined finite discrete element method for simulating thermal cracking of rock.pdf (1718936B)
+      [F] A fully coupled three-dimensional hydro-mechanical finite discrete element approach with real porous seepage for simulating 3D hydraulic fracturing.pdf (2209791B)
+      [F] A new 2D continuous-discontinuous heat conduction model for modeling heat transfer and thermal cracking in quasi-brittle materials.pdf (3980372B)
+      [F] A new 3D continuous-discontinuous heat conduction model and coupled thermomechanical model for simulating the thermal cracking of brittle materials.pdf (7122543B)
+      [F] A new potential function for the calculation of contact forces in the combined finite鈥揹iscrete element method.pdf (1489468B)
+      [F] A surrogate model based on deep convolutional neural networks for solving deformation caused by moisture diffusion.pdf (26716208B)
+      [F] A three-dimensional thermal-hydro-mechanical coupling model for simulation of fracturing driven by multiphysics.pdf (23944491B)
+      [F] A three鈥恉imensional heat transfer and thermal cracking model considering the effect of cracks on heat transfer.pdf (3489190B)
+      [F] A two-dimensional coupled hydro-mechanical finite-discrete model considering porous media flow for simulating hydraulic fracturing.pdf (3642457B)
+      [F] A two-dimensional grouting model considering hydromechanical coupling and fracturing for fractured rock mass .pdf (7757052B)
+      [F] Calibration of Microscopic Penalty Parameters in the Combined Finite鈥揇iscrete-Element Method.pdf (2373063B)
+      [F] Combined Finite-Discrete Element Method for Simulation of Hydraulic Fracturing.pdf (9040717B)
+      [F] Dynamic fragmentation and chip formation of water-soaked rock in linear cutting with a coupled moisture migration-fracture model.pdf (31860274B)
+      [F] Evaluating the impact of calcite and heterogeneity on the.pdf (15537638B)
+      [F] FDEM-flow3D A 3D hydro-mechanical coupled model considering the pore seepage of rock matrix for simulating three-dimensional hydraulic fracturing.pdf (3857554B)
+      [F] FDEM鈥怲H3D A three鈥恉imensional coupled hydrothermal model for fractured rock.pdf (2969049B)
+      [F] Fracture characteristics and failure analysis of underground caverns in Longyou Grottoes induced by humidity change.pdf (41691274B)
+      [F] Heat Conduction and Cracking of Functionally Graded Materials Using an FDEM-Based Thermo-Mechanical Coupling Model.pdf (7921684B)
+      [F] Insights into the Effect of Water Content on Mudstone Fragmentation and Cutter Force during TBM Cutter Indentation via the Combined Finite-Discrete Element Method.pdf (7126985B)
+      [F] Insights into the breaking mechanism and fragment pattern of soft rock assisted by free face under TBM wedge cutter indentation.pdf (11663613B)
+      [F] Investigating the influence of water on swelling deformation and mechanical behavior of mudstone considering water softening effect.pdf (28264685B)
+      [F] Mechanical analysis of toppling failure using FDEM A case study for soft-hard interbedded anti-dip rock slope.pdf (35649625B)
+      [F] Microfracture behavior and energy evolution of heterogeneous mudstone subjected to moisture diffusion.pdf (18545171B)
+      [F] Numerical Study of Rock Damage Mechanism Induced by Blasting Excavation Using Finite Discrete Element Method.pdf (49640627B)
+      [F] Numerical study on the deformation and failure of soft rock roadway induced by humidity diffusion.pdf (11832339B)
+      [F] Numerical study on the effect of meso-structure on hydraulic conductivity of soil-rock mixtures.pdf (25534492B)
+      [F] Optimum spacing and rock breaking efficiency of TBM double disc cutters penetrating in water-soaked mudstone with FDEM.pdf (39673346B)
+      [F] Simulation of the thermal shock of brittle materials using the finite-discrete element method.pdf (6438047B)
+      [F] Three-Dimensional Hydromechanical Model of Hydraulic Fracturing with Arbitrarily Discrete Fracture Networks using Finite-Discrete Element Method.pdf (9090607B)
+      [F] Three-dimensional continuous-discrete pore-fracture mixed seepage model and hydro-mechanical coupling model to simulate hydraulic fracturing.pdf (10098809B)
+      [F] Three-dimensional finite discrete element-based contact heat transfer model considering thermal cracking in continuous鈥揹iscontinuous media.pdf (7605855B)
+      [F] _group_papers_summary.md (28517B)
+      [D] md_notes
+  [F] KnowledgeSummary.md (22104B)
+  [D] Literature
+    [F] 寮€棰樻姤鍛婃枃鐚敮鎾戠煩闃?xlsx (13512B)
+    [D] 鏂囩尞鍏ㄦ枃
+      [D] A绫伙紙鏍稿績鏂囩尞锛氬繀椤荤簿璇伙紝绠楁硶涓庣悊璁哄熀纭€锛?
+      [D] B绫伙紙閲嶈鏀拺鏂囩尞锛氭妧鏈矾绾夸笌绠椾緥渚濇嵁锛?
+      [D] C绫伙紙涓€鑸弬鑰冩枃鐚細鑳屾櫙琛ュ厖锛?
+      [F] 鏂囩尞绠＄悊瑙勮寖.txt (199B)
+    [D] 棰樺綍鎽樿
+      [F] (K=鍐呰仛鍔涙ā鍨?OR K=铏氭嫙棰楃矑 OR K=缃氬嚱鏁? AND (K=鏂鍑嗗垯 OR K=鐣岄潰) NOT K=娴佸浐鑰﹀悎.txt (103410B)
+      [F] (K=鍛ㄦ湡鎬ц竟鐣?OR K=闈炲潎璐ㄦā鍨?OR K=鍥涢潰浣? AND (K=Voronoi OR K=Delaunay) AND K=绂绘暎鍏?txt (1937B)
+      [F] (K=鍥涢潰浣撶綉鏍?OR K=鍛ㄦ湡鎬ц竟鐣? AND (K=绂绘暎鍏?OR K=鍫嗙Н绠楁硶).txt (9290B)
+      [F] (K=鏈夐檺鍏?绂绘暎鍏?OR U=FDEM OR K=杩炵画-闈炶繛缁? AND (K=宀╃煶鐮磋 OR K=鍔ㄦ€佸搷搴?OR K=鏄惧紡鍔ㄥ姏瀛?.txt (5642B)
+      [F] (K=娣遍儴宀╀綋鍔涘 OR K=澶嶆潅鍦拌川浣?OR K=寮哄姩杞? AND (K=鏁板€兼ā鎷?OR K=宀╃煶鐮磋).txt (11800B)
+      [F] (T=Brazilian testOR T=Brazilian disc) AND (U=FDEMOR U=FEM-DEMOR K=dynamic splitting).txt (21308B)
+      [F] (T=disc cutterOR K=rock cutting OR U=TBM) AND (U=FEM-DEM OR K=discrete element).txt (14297B)
+      [F] (T=鍔ㄦ€佹柇瑁?OR T=鐮村博鏈虹悊) AND (K=鏄惧紡鍔ㄥ姏瀛?OR K=搴斿彉鐜囨晥搴?OR K=鑳介噺鑰楁暎).txt (16237B)
+      [F] (T=宸磋タ鍔堣 OR T=婊氬垁鐮村博 OR U=TBM) AND (K=鏈夐檺鍏?绂绘暎鍏?OR U=FDEM OR K=鏁板€兼ā鎷?1.txt (76375B)
+      [F] (T=宸磋タ鍔堣 OR T=婊氬垁鐮村博 OR U=TBM) AND (K=鏈夐檺鍏?绂绘暎鍏?OR U=FDEM OR K=鏁板€兼ā鎷?2.txt (83269B)
+      [D] 鏂囩尞搴?锛堢爺绌惰儗鏅級
+      [D] 鏂囩尞搴?锛堟牳蹇冿級
+      [D] 鏂囩尞搴?锛堢晫闈㈠鐞嗭級
+      [D] 鏂囩尞搴?锛堟樉寮忓姩鍔涘锛?
+      [D] 鏂囩尞搴?锛堥獙璇佺畻渚嬶級
+  [D] Notes
+  [D] PreviousChats
+    [F] 2026-01-22_11-35Z-coupled-simulation-architecture-feasibility.md (1755773B)
+    [F] 2026-03-29_07-56-58Z-3d-tetrahedral-mohr-coulomb-model-development.md (903564B)
+    [F] 2026-06-15_07-57-33Z-content-extraction-from-flac-8.0-documents.md (654213B)
+    [F] 2026-06-18_06-37-23Z-backup-record-file-inquiry.md (1273741B)
+  [D] ProjectRequirement
+  [D] Proposal
+  [D] Summary
+  [D] Theory
+[D] 02_MultiFracS
+  [F] Architecture.md (9860B)
+  [F] CallGraph.md (11451B)
+  [F] DataStructure.md (14086B)
+  [F] DeveloperGuide.md (19917B)
+  [D] Source
+    [D] 2026-05-08
+      [F] Bhm.dll (14848B)
+      [F] Boundary.dll (17920B)
+      [F] Ccjoint.dll (14848B)
+      [F] Cd2D.dll (35328B)
+      [F] Cd3D.dll (37888B)
+      [F] Ce2D.dll (22528B)
+      [F] Ce3D.dll (18432B)
+      [F] Cf2D.dll (34304B)
+      [F] Cf3D.dll (61952B)
+      [F] Cjoint.dll (18432B)
+      [F] Cjoint2D.dll (16384B)
+      [F] Cjoint3D.dll (16384B)
+      [F] Exca.dll (14336B)
+      [F] FGM.dll (14336B)
+      [F] InSitu.dll (20992B)
+      [F] Mech.dll (14336B)
+      [F] Moisture.dll (14336B)
+      [F] MultiFracS.exe (31733248B)
+      [F] Plug.dll (14336B)
+      [F] SBoundary.dll (14848B)
+      [F] SKE.dll (17408B)
+      [F] SRM.dll (14336B)
+      [F] Seepage.dll (14336B)
+      [F] Thermal.dll (14336B)
+      [F] User_solver.dll (77824B)
+      [F] VBoundary.dll (14336B)
+      [F] Viscosity.dll (12800B)
+      [F] cseepage.dll (14336B)
+      [F] cudart64_12.dll (583680B)
+      [F] gpu_Boundary_T.dll (198144B)
+      [F] gpu_Boundary_cf.dll (155648B)
+      [F] gpu_Boundary_crack_Tw.dll (89088B)
+      [F] gpu_Boundary_pf.dll (158720B)
+      [F] gpu_Boundary_w.dll (250880B)
+      [F] gpu_Cd2D.dll (448000B)
+      [F] gpu_Cd3D.dll (526336B)
+      [F] gpu_Ce2D.dll (126976B)
+      [F] gpu_Ce3D.dll (208896B)
+      [F] gpu_Cf2D.dll (1795584B)
+      [F] gpu_Cf3D.dll (3708416B)
+      [F] gpu_Cjoint2D.dll (378368B)
+      [F] gpu_Cjoint3D.dll (598528B)
+      [F] gpu_Exca.dll (75264B)
+      [F] gpu_Mech.dll (360448B)
+      [F] gpu_Moisture.dll (144384B)
+      [F] gpu_SBoundary.dll (477696B)
+      [F] gpu_Seepage.dll (152064B)
+      [F] gpu_Thermal.dll (236544B)
+      [F] gpu_User_solver.dll (1030656B)
+      [F] gpu_VBoundary.dll (418304B)
+    [D] MultiFracS 绉戠爺涓撲笟鐗?2026-6-15
+      [D] MultiFracS 绉戠爺涓撲笟鐗?2026-6-15
+    [D] MultiFracS-User Developement-cpu
+      [D] 0 Wave
+      [D] 1 InSitu
+      [D] 2 VBoundary
+      [D] 3 Boundary-Moisture
+      [D] 4 FGM-random mat
+      [F] Bhm.c (471B)
+      [F] Bhm.h (142B)
+      [F] Boundary.c (6806B)
+      [F] Boundary.h (2038B)
+      [F] Ccjoint.c (2433B)
+      [F] Ccjoint.h (524B)
+      [F] Ce2D.c (1173B)
+      [F] Ce2D.h (203B)
+      [F] Ce3D.c (742B)
+      [F] Ce3D.h (247B)
+      [F] Cjoint.c (9493B)
+      [F] Cjoint.h (602B)
+      [F] Cjoint2D.c (6053B)
+      [F] Cjoint2D.h (829B)
+      [F] Cjoint3D.c (3815B)
+      [F] Cjoint3D.h (538B)
+      [F] Cjoint_user.h (813B)
+      [F] Exca.c (2444B)
+      [F] Exca.h (139B)
+      [F] FGM.c (2656B)
+      [F] FGM.h (1064B)
+      [F] InSitu.c (8343B)
+      [F] InSitu.h (1328B)
+      [F] Mech.c (1981B)
+      [F] Mech.h (609B)
+      [F] Moisture.c (1550B)
+      [F] Moisture.h (856B)
+      [F] Plug.c (903B)
+      [F] Plug.h (127B)
+      [F] Real.h (3678B)
+      [F] SBoundary.c (1182B)
+      [F] SBoundary.h (298B)
+      [F] SKE.c (4028B)
+      [F] SKE.h (136B)
+      [F] SRM.c (905B)
+      [F] SRM.h (393B)
+      [F] Seepage.c (1234B)
+      [F] Seepage.h (746B)
+      [F] Thermal.c (2713B)
+      [F] Thermal.h (1587B)
+      [F] VBoundary.c (4152B)
+      [F] VBoundary.h (462B)
+      [F] Viscosity.c (182B)
+      [F] Viscosity.h (109B)
+      [F] code-鍚潪鍧囪川闊︿集鍒嗗竷鐨勪唬鐮?txt (2004B)
+      [D] dll_generate_template
+    [D] Users
+      [D] multifracs
+  [D] User_solver
+    [F] Cpucore.h (1606B)
+    [F] Cpuuser.h (302B)
+    [F] Cpuuser_abstract.h (545B)
+    [F] User_create.c (421B)
+    [F] User_postprocess.c (2833B)
+    [F] User_preprocess.c (1061B)
+    [F] User_solve.c (512B)
+    [F] solve_for_user.c (283B)
+  [F] inp鏁版嵁鏍煎紡鏂囦欢5.8.md (51232B)
+  [F] mc_tunnel_circle_flac81_dil0_multifracs.inp (1630171B)
+  [F] 娴嬭瘯鏈瀯鏁版嵁杈撳叆.txt (6533B)
+[D] 03_Development
+  [D] Debug
+  [D] Design
+    [F] 寤鸿鏂囨。瀛樻斁.txt (77B)
+  [F] DevelopmentHistory.md (12945B)
+  [D] Feature
+  [D] Issues
+    [F] Issue001_UserSolver妗嗘灦缂栬瘧.md (1381B)
+    [F] Issue002_CPUUSER鏁版嵁缁撴瀯璁捐.md (2361B)
+    [F] Issue003_鐣岄潰棰楃矑璇嗗埆.md (2391B)
+    [F] Issue004_浠ｇ悊棰楃矑閫熷害鏄犲皠.md (2037B)
+    [F] Issue005_InterfaceBond寮圭哀鍔涜绠?md (3514B)
+    [F] Issue006_鍔涙敞鍏ヤ笌绋冲畾鎬ч獙璇?md (3026B)
+    [F] Issue007_InterfaceBond鏂鍑嗗垯.md (2502B)
+    [F] Issue008_Kn_Kt鍙傛暟鏍囧畾.md (2320B)
+    [F] Issue009_GhostForce閲忓寲涓庢秷闄?md (2383B)
+    [F] Issue010_InterfaceBond_VTK杈撳嚭.md (1843B)
+    [F] Issue011_鎮噦姊丗EM寤烘ā.md (2413B)
+    [F] Issue012_鍗曡酱鎷変几FEM-DEM寤烘ā.md (2256B)
+    [F] Issue013_鍗曡酱鎷変几缁撴灉鍒嗘瀽.md (2195B)
+    [F] Issue014_宸磋タ鍔堣寤烘ā涓庤绠?md (2270B)
+    [F] Issue015_宸磋タ鍔堣缁撴灉鍒嗘瀽.md (1955B)
+    [F] Issue016_妯″紡I瑁傜汗鏉垮缓妯?md (2522B)
+    [F] Issue017_妯″紡I瑁傜汗鏉跨粨鏋滃垎鏋?md (2137B)
+    [F] Issue018_璁＄畻鏁堣兘瀵规瘮鍒嗘瀽.md (2899B)
+  [D] Performance
+  [D] ReleaseNotes
+  [D] Review
+  [D] Test
+[D] 04_VerificationCases
+  [D] 01_Cantilever
+    [F] 鎻愰啋.txt (297B)
+  [D] 02_TensionBar
+  [D] 03_Brazilian
+  [D] 04_ModeI
+  [D] Common
+[D] 05_Research
+  [D] DEM
+  [D] Derivation
+  [D] ExplicitDynamics
+  [D] FEM
+  [D] Formula
+  [F] FormulaIndex.md (25784B)
+  [D] Ideas
+  [D] InterfaceBond
+  [F] TheoryGuide.md (17233B)
+  [F] 鎻愰啋.txt (141B)
+[D] 06_Results
+  [D] Animation
+  [D] CSV
+  [D] Comparison
+  [D] Excel
+  [D] Figures
+  [D] Tables
+  [D] VTK
+  [D] 缁樺埗鏇茬嚎锛岃鍐欐枃浠跺埌tecplot
+    [F] PlotFreeSurface.m (9505B)
+    [F] Plot_TH_analysis_fluid.m (1407B)
+    [F] Plot_TH_analysis_fluid_script.m (734B)
+    [F] Plot_TH_analysis_solid.m (1190B)
+    [F] Plot_TH_analysis_solid_script.m (1845B)
+    [F] Plot_TH_tecplot.m (606B)
+    [F] Plot_TH_tecplot_script.m (339B)
+    [F] Plot_fluid_single_crack_conduction_convection.m (887B)
+    [F] Plot_fluid_single_crack_conduction_convection_script.m (1196B)
+    [F] Plot_tezhengdian_wendu.m (1605B)
+    [F] WriteDataToTecplot.m (487B)
+    [F] Write_monitor_line_data_from_tecplot_node_data.m (13673B)
+    [F] plotAEHistory.m (1205B)
+    [F] plotAEdistribution.m (2048B)
+    [F] plotCrackLength.m (640B)
+    [F] plotHistory.m (733B)
+    [F] plotHistory_old.m (382B)
+    [F] plotMonitorLineStressScript.m (1313B)
+    [F] plotMonitorLineStressScript_zheng.m (1306B)
+    [F] plotPlateHistory.m (489B)
+    [F] plotPlateHistoryScript.m (732B)
+    [F] plotQiLieHypre.m (205B)
+    [F] plotRadiusStressScript.m (792B)
+    [F] plotRoseHist.m (1622B)
+    [F] plotWaterPorePressure.m (698B)
+    [F] plotWaterPressureScript.m (4263B)
+    [F] plot_KGD_Lisjak_numerical_script.m (2231B)
+    [F] plot_KGD_Lt_Wt_to_tecplot.m (1403B)
+    [F] plot_Point_Temperature_to_tecplot.m (748B)
+    [F] plot_Point_Temperature_to_tecplot_shuiyazhilie.m (452B)
+    [F] plot_Point_disp_y.m (1370B)
+    [F] plot_Point_disp_y_to_tecplot.m (592B)
+    [F] plot_T_point.m (5501B)
+    [F] plot_Temperature_to_tecplot_cuboid_3D_TM.m (1276B)
+    [F] plot_Temperature_to_tecplot_cuboid_3D_TM_script.m (1511B)
+    [F] plot_hypre_tezheng_point.m (5342B)
+    [F] plot_joint_line_script.m (292B)
+    [F] plot_juxing_2D_unsat_seepage_numerical_anaytical.m (436B)
+    [F] plot_maxprinstress_to_tecplot.m (903B)
+    [F] plot_maxprinstress_to_tecplot_script.m (429B)
+    [F] plot_monitor_line_Temperature_to_tecplot.m (446B)
+    [F] plot_pressure_to_tecplot_juxing_2D_sat.m (839B)
+    [F] plot_pressure_to_tecplot_juxing_2D_sat_script.m (467B)
+    [F] plot_pressure_to_tecplot_juxing_2D_unsat_numerical.m (4709B)
+    [F] plot_triangle.m (384B)
+    [F] plot_triangle_script.m (232B)
+    [F] plot_two_line_minus.m (8430B)
+    [F] plot_v91_Ex2_juxing_1D_unsat_numerical_tecplot.m (4709B)
+    [F] plot_v91_ex3_flow_around_cylinder.m (469B)
+    [F] plot_v91_ex3_yuanpan_jingxiangliu.m (423B)
+    [F] write_curve_To_teclplot.m (486B)
+    [F] write_curve_To_teclplot_script.m (875B)
+    [F] write_curve_to_dxf.m (840B)
+[D] 07_Thesis
+  [D] Chapter01
+  [D] Chapter02
+  [D] Chapter03
+  [D] Chapter04
+  [D] Chapter05
+  [D] Figures
+  [D] Final
+  [D] References
+  [D] Tables
+  [D] Template
+[D] 08_AIWorkspace
+  [D] CursorRules
+    [F] architecture.md (5979B)
+    [F] coding.md (5522B)
+    [F] debug.md (5277B)
+    [F] issue.md (4050B)
+    [F] paper.md (5880B)
+    [F] review.md (4162B)
+    [F] solver.md (6644B)
+    [F] style.md (5296B)
+    [F] 鐩綍.txt (90B)
+  [D] Docs
+  [D] KnowledgeGraph
+    [F] 璺緞.txt (100B)
+  [D] Memory
+  [D] PromptLibrary
+  [D] Sessions
+  [D] Templates
+  [F] scan_result.txt (18747B)
+[D] 09_Log
+  [F] 寤鸿.txt (273B)
+[F] README.md (0B)
+[F] WorkspaceOverview.md (9713B)
+[F] readme寤鸿.txt (149B)

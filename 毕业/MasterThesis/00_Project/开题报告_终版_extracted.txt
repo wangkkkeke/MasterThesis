@@ -1,0 +1,650 @@
+中国地质大学(武汉)
+学历硕士研究生学位论文
+开题报告登记表
+学    号:   1202410423
+姓    名:   王可
+学    院:   工程学院
+学科(专业): 土木工程
+研究方向:   岩土工程数值模拟理论及应用
+导师姓名:   严成增
+攻读学位:   工学硕士学位
+2026年6月21日
+学位论文工作计划及预期研究成果
+论文题目中文 | 显式动力学有限元-离散元共生耦合方法及验证研究 | 显式动力学有限元-离散元共生耦合方法及验证研究 | 显式动力学有限元-离散元共生耦合方法及验证研究 | 显式动力学有限元-离散元共生耦合方法及验证研究
+论文题目英文 | Development and Verification of a Symbiotically Coupled Finite Element-Discrete Element Method for Explicit Dynamics | Development and Verification of a Symbiotically Coupled Finite Element-Discrete Element Method for Explicit Dynamics | Development and Verification of a Symbiotically Coupled Finite Element-Discrete Element Method for Explicit Dynamics | Development and Verification of a Symbiotically Coupled Finite Element-Discrete Element Method for Explicit Dynamics
+选题来源 | 企、事业单位委托项目 | 企、事业单位委托项目 | 企、事业单位委托项目 | 企、事业单位委托项目
+论文类型 | 应用研究 | 论文是否涉密 | 否 | 否
+开题日期 | 2026-06-22 | 开题地点 | 开题地点 | 深地中心4楼会议室
+一、选题依据（包括选题的来源，研究的目的、意义；国内外研究现状和发展趋势；结合科学研究发展趋势来论述，或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应用前景。附主要参考文献目录）
+1选题背景、目的及意义
+1.1研究背景
+目前，我国基础设施建设所涉及的地质条件日益复杂，工程实践中遭遇土石混合体等非均质地质体的情形逐渐增多[1]。这类岩土介质往往具有显著的非均质特征与结构面效应，内部常发育有节理网络[2]或层状复合结构[3]。在爆破开挖或冲击等动力荷载作用下，应力易于在材料软弱面附近产生集中，进而诱发局部开裂，甚至可能导致陡峭边坡等工程岩体的整体失稳破坏[2,4]。对于此类问题，在数值分析中合理刻画岩石类材料在动载下由连续变形向非连续破裂演化的全过程，是计算力学领域的一项关键议题[5]。这种跨尺度演化过程的准确模拟，直接关系到工程岩体动力失稳与稳定性评价的可靠性[4]。
+就现有数值方法而言，材料在动载作用下的破坏通常会经历由连续变形、开裂乃至最终碎裂的过程；相关的多尺度与多场耦合建模不仅要反映结构的宏观连续变形，还须兼顾局部的强非连续特征[6-8]。传统的有限元法（FEM）在常规弹性分析中计算效率较高，但在处理强非连续演化及破裂后的接触问题时仍存在固有局限[9]。离散元法（DEM）虽适合处理复杂的接触与大变形问题，但细尺度模型庞大的计算开销往往制约了其在大区域问题中的直接应用[7]。对于爆破、冲击等高速动力问题，显式时间积分方法能够避免大型矩阵迭代求解，在处理强非线性、大变形及接触碰撞问题方面具有天然优势，因此被广泛应用于动力断裂与显式接触分析领域[10]。在这一脉络下，有限–离散元统一法（FDEM）通过构建更新拉格朗日力学框架，在单一求解器内实现了对材料从连续向非连续破裂全过程的覆盖[5]，并已广泛应用于岩石类材料的断裂模拟[11]。然而，作为统一求解架构，全域密布内聚力单元并持续进行海量接触检测，依然面临着极大的算力压力[7,9]。因此，让FEM与DEM在同一模型中协同求解的共生耦合方法受到越来越多关注[6,7]；与此同时，并发多尺度建模理论也为突破跨尺度动力破坏模拟的算力限制提供了重要思路[12]。
+对于岩石冲击破坏、爆破及高速动力响应等问题，破坏往往呈现出局部强非连续、远场以连续变形为主的空间特征。现有共生耦合方法虽已建立桥接域、Arlequin等重叠域方案，但针对三维显式动力学问题的系统验证研究仍相对有限，界面协调机制在动力条件下的适用性仍有待进一步评估[6,13]；而InterfaceBond等界面键连接方法在三维显式动力学场景下的力学有效性，以及面向连续—断裂全过程的系统验证体系，仍有待进一步研究[14]。因此，在显式动力学框架下，以预分区局部FEM–DEM共生方法与InterfaceBond界面机制为对象，构建从连续响应到断裂破坏的系统验证链条，对推动共生耦合方法在三维动力断裂分析中的工程应用具有重要意义[6,7,13]。
+在矿山工程、隧道开挖及重大基础设施建设等进程中，岩体爆破、冲击致裂与边坡失稳等动力学问题较为普遍[2-4]。工程实践不仅需要在关键的破裂区域保证动力学模拟的精度，同时也对大尺度岩体破坏全过程的分析效率提出了迫切要求。在此背景下，开展有限元–离散元共生耦合方法研究，能够为上述工程问题的数值预测提供支撑，具有明确的工程应用需求。
+1.2研究目的
+本课题旨在建立并验证预分区局部FEM-DEM共生耦合方法。课题的数值试验在MultiFracS上进行，其中本人独立负责共生耦合子模块的机制研究与算例验证。
+该方法的核心建模原则为：在同一连续部件（如岩石试件、岩柱、岩梁及含预制裂纹岩板等连续体构件）内，远场采用纯FEM描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，通过界面键（InterfaceBond）传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+具体而言，本课题将开展以下四项工作：（1）在MultiFracS共生耦合框架内建立预分区局部FEM-DEM模型，并配置全域共生参照算例，明确远场纯FEM区与潜在破裂区带键DEM子域的划分与界面连接方式。（2）明确界面键的法向/切向刚度与断裂准则，分析键断裂前后界面的力–位移连续传递与非连续分离机制[14]。（3）在显式动力学框架下，考察由异质子域引起的界面Ghost力、应力波异常反射及临界时间步失配等问题[10,13,15]。在此过程中，异步长并行[15]与粗粒化界面映射[16,17]仅作为可借鉴的理论参照，不作为本课题的核心贡献。（4）构建由显式动力学验证、连续响应验证、共生耦合验证及断裂行为验证组成的递进式验证体系：以三维悬臂梁大位移算例验证显式时间积分有限元求解器在几何非线性条件下的计算精度，并与Abaqus非线性有限元结果进行对比[5]；以三维单轴拉伸杆算例检验共生耦合模型在连续响应阶段的界面传递正确性，并与纯FEM结果进行对比；以巴西劈裂及模式I裂纹板等典型断裂算例通过数值复现与结果对比，验证共生耦合模型在裂纹扩展与动力响应预测方面的力学正确性[11,18-21]；并对比局部共生与全域共生参照模型在接触检索规模及计算耗时上的差异，评价预分区策略的计算效能。
+1.3研究意义
+（1）理论意义：本课题有助于深化对同部件内连续–非连续并发耦合机制的认识。通过探索显式动力学条件下的界面键连接规律，补充异质交界面的力学协调与求解稳定性评价体系[10,13,14]。将离散颗粒与接触检索限制在潜在破裂区，为权衡"力学保真度与计算效率"提供了可检验的理论路径[6,7]，丰富了共生耦合由全域重叠向局部预分区方向演进的学术讨论[6,16]。
+（2）方法与应用参考价值：作为一项算法验证型工作，本研究不展开大尺度地质工程设计，而是致力于形成可复用的标准化验证流程与评价指标。具体涵盖：以三维悬臂梁大位移算例对显式时间积分有限元求解器的几何非线性能力进行基准检验[5]；单轴拉伸杆的不开裂阶段波传播与界面连续传递[11]；巴西劈裂的拉剪混合开裂[18,19,22]；以及模式I裂纹板的动态裂纹扩展与界面穿越[20,21]等文献经典算例的数值复现与对标验证。该验证流程可为后续复杂岩石动力学数值研究提供基础参照[4,23]。
+2研究现状、发展趋势、存在问题及切入点
+2.1FEM-DEM与FDEM研究现状
+有限元法（FEM）在处理连续介质变形与多场耦合中具备成熟优势，但在应对强动载导致的强非连续演化及破裂后接触问题时存在固有局限[9]。离散元法（DEM）虽能自然处理颗粒分离与大变形，但利用细尺度模型表征完整连续体时存在宏观等效参数匹配困难，且全域模拟的庞大计算开销极大限制了其应用规模[7,24]。为兼顾连续与非连续特征，FEM-DEM耦合、近场动力学（PD）与有限元或边界元耦合[25,26]以及物质点与连续–非连续元法耦合[27]等多尺度路线不断发展。其中，传统的跨部件分区耦合多用于落石冲击防护结构[28]、大坝与边坡工程抗震[29,30]等本就相互独立的子系统，其界面以接触传力为主，通常不承担同一物理部件由完整连续体向非连续开裂演化的全过程。
+与此同时，有限–离散元统一法（FDEM）作为另一条代表性路线，在单一求解器内基于更新拉格朗日框架与四面体单元，通过嵌入内聚力单元实现材料的非连续化断裂[5]。近年来，该方法在二维与三维接触算法[31,32]以及数据驱动与GPGPU异构并行加速[9,34]上取得进展，并被广泛应用于节理岩体爆破破碎[2]、陡峭岩坡渐进破坏[4]及土石混合体破裂[1]以及嵌岩桩基失稳[33]等工程场景。总体而言，FDEM与FEM-DEM共生耦合是处理复杂断裂问题的两条并列路线：前者强调整体网格的统一求解，后者强调异质子域的并发协同[6,7]。然而，在面对远场弹性变形、近场剧烈破裂的跨尺度问题时，全域内聚断裂与海量接触检索仍消耗大量算力[7,9]；如何在局部高分辨率与整体计算成本之间取得平衡，是此类方法共同面临的矛盾[12]。
+2.2共生耦合研究现状
+共生耦合允许同一模型内有限元（FEM）宏观连续区与离散元（DEM）细观离散区同时存在并同步求解[12,35]。针对不同子域的边界处理，现有研究大体形成两类思路：一类是以重叠域能量加权为核心的协调方法，包括桥接域法（Bridging Domain）[6,7,36]与Arlequin方法[38,39]，通过在重叠区内对各子域能量进行加权混合，实现跨域位移协调与能量一致性；另一类是在非匹配节点间建立界面键（InterfaceBond）的边界连接方法，通过法向与切向弹簧约束传递跨域力与位移[14]。在此基础上，多尺度耦合框架得到广泛拓展。例如，Voisin-Leprince等基于桥接与重叠域框架，实现了宏观小变形与微观断裂的双尺度并发模拟[6,7]；此外，通过引入拉格朗日乘子或Arlequin方法，可在重叠域内对不同尺度的能量进行加权混合以实现强运动学约束[37-39]。为处理极端局部化失效，直接FE²-CPFEM并发多尺度方法[40]、粗粒化多尺度耦合技术[16,17]，以及基于物理信息神经网络（PINN）与深度神经算子驱动的自适应能量耦合算法[41,42]均展现出跨域求解潜力。尽管衍生出诸多耦合范式，界面处能量、动量与位移的有效协调始终是此类方法成功的关键[12,35]。
+现有共生耦合研究多默认FEM与DEM在较大范围内重叠共存，导致裂纹尚未扩展的未破裂阶段，仍须维持庞大的颗粒网络与海量接触检索[6,17]。相比之下，采用预分区局部共生策略（仅在潜在破裂区引入离散描述，远场保持纯FEM）可大幅压缩无效接触计算规模。然而，在三维完全显式动力学框架下，由于子域临界时间步与刚度差异显著，这种局部界面的力学有效性、求解稳定性及可复现验证体系仍存在明显不足[7,13]。本课题采用界面键连接路线（InterfaceBond），其界面协调机制与重叠域方法存在明显区别；广义桥域法[36]等重叠域方案可作为界面协调策略设计的重要参照背景。因此，本课题以InterfaceBond界面连接路线为基础，针对其在三维显式动力学场景下的适用性与验证问题展开研究。
+2.3界面力传递与位移协调研究现状
+界面力学协调机制直接决定了共生耦合算法的数值鲁棒性与计算精度。拉格朗日乘子法虽能实现高精度的位移与应力约束，但在完全显式求解框架下往往会引入高昂的计算成本[37]。相比之下，界面键连接（InterfaceBond）通过在非匹配节点间建立法向与切向约束弹簧，并辅以相应的断裂准则，成为一种兼顾效率与物理机制的有效手段[14]。此类界面力学模型已被广泛拓展应用于预制地下结构界面力传递[43]、砂浆–岩石异质界面动态断裂[44]以及流固耦合摩擦接触[45]等工程场景。然而，由于强动载下介质将发生非线性转变，键断裂前后必须在连续传力与允许局部分离之间实现平滑过渡，否则极易在界面处产生界面力残差（Ghost Force）与虚假的能量耗散[15,17]。
+此外，有限元宏观网格与离散元细观颗粒在空间尺度与刚度上的悬殊差异，往往会导致系统临界时间步严重失配，成为显式动力学求解时的另一大难题。为此，相关研究提出了基于重叠边界的异步长并行计算方法，以缓解多尺度界面上的时间积分失稳[15]；同时，也有研究引入粗粒化强化映射技术，显著改善了颗粒与连续体表面在动态作用过程中的接触力振荡响应[17]。尽管异质界面动态断裂已有试验与数值研究[21,44]，但针对键控FEM–DEM共生界面在标准动态断裂算例中的力学一致性与连续传递检验仍不充分。
+2.4显式动力学研究现状
+在处理强冲击与强动载问题时，完全显式时间积分被广泛应用于动力学方程的求解[10]。然而，由于多尺度模型中异质子域的刚度不协调，极易在交界处引发数值振荡与界面失稳。为此，研究者引入了质量集总（Mass-lumping）与广义特征值稳定化方法以抑制高频响应[10,13]；同时，如Versa-δ法等新型显隐式混合时间积分格式也被开发用于提升求解边界的鲁棒性[46]。此外，为了全面检验显式断裂模拟的可信度，动态相场法[47-49]、基于能量限制的非局部损伤技术[50]，以及各向异性加权Voronoi离散策略[22]等前沿方法，常被作为重要的对比验证工具。
+在算法的力学检验方面，学术界已形成了一套经典的动态断裂标准验证算例体系。其中，单轴拉伸杆模型常用于检验不开裂阶段的应力波传播规律及界面物理量传递的连续性[11]；巴西劈裂算例因能引发复杂的拉剪混合破坏，被广泛作为材料连续至非连续开裂转换的基准测试[18,19,22]；模式I裂纹板及相关的动态裂纹模型，则专门用于评估动态裂纹的扩展、分叉以及穿越界面的行为[20,21]。此外，仿生结构的脆性动态断裂响应[51]与冲击荷载下的断裂特征[52]以及非均匀沉降下的结构大变形失效[53]，也为复杂边界效应提供了丰富的参考数据。上述算例为本课题构建共生耦合力学对标体系提供了直接依据。
+2.5发展趋势与存在问题
+岩石动力学数值模拟正朝共生并发耦合与异构并行计算方向发展[9,34]。尽管前沿方法已取得丰硕成果，但在处理跨尺度动力破坏问题时仍面临诸多挑战：（1）桥接域、Arlequin等方法在三维完全显式时间积分与强动载条件下的界面求解稳定性仍有待加强[6,7,13]；（2）全域共生方案在远场连续区域内仍存在大量无效的颗粒接触检索，极大制约了工程大尺度模拟的计算效率[7,24]；（3）面向预分区局部共生耦合的标准验证算例体系尚不完善，难以系统评价界面键在不开裂与开裂两类典型问题上的力学精度与数值鲁棒性[11,18]；（4）在局部大幅缩小DEM的参与范围后，宏观力学保真度与整体计算效率之间如何进行定量权衡，目前仍缺乏可复现的对比评价范式[6,7]。
+2.6本课题研究切入点
+综上所述，本课题的切入点是：针对全域共生模型接触检索冗余与三维显式断裂验证不足的问题[7,13]，依托MultiFracS，建立预分区局部FEM-DEM共生耦合模型。该模型在远场区域保持纯FEM连续描述，仅在潜在破裂区布置带键DEM颗粒，并以界面键连接（InterfaceBond）作为核心协调机制实现跨域力与变形的传递[14]。在分析界面求解稳定性时，将异步长并行[15]与粗粒化映射[17]仅作为可借鉴的理论参照，不作核心贡献。在此基础上，课题配套设置全域共生参照模型，开展悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板4类标准算例的数值试验，通过完成力学响应与接触规模及计算耗时的双重定量对标[6,7]，最终为显式条件下共生耦合算法的有效性检验提供一条可复现的评价路径。
+主要参考文献：
+邓鹏海, 刘泉声, 卢海峰, 等. 基于 FDEM 数值模拟的土石混合体力学特性及破坏行为研究[J]. 工程力学, 2025, 42(12): 57-74. DOI: 10.6052/j.issn.1000-4750.2023.06.0451.
+Xu C, Sun J, Li G, et al. Applying FDEM for Blasting Fragmentation of Jointed Rock Mass[J]. Applied Sciences, 2026, 16(3). DOI: 10.3390/app16031470.
+刘健, 薛勇林, 张华磊, 等. 界面角度对层状复合岩石动态断裂及能量耗散影响的试验研究[J]. 振动与冲击, 2025, 44(21): 12-24. DOI: 10.13465/j.cnki.jvs.2025.21.002.
+Xu J, Deng Z, Feng Y, et al. Modeling progressive failure in steep rock slopes using the combined finite-discrete element method[J]. Scientific Reports, 2026, 16(1): 1-16. DOI: 10.1038/s41598-026-40966-w.
+Lei Y, Liu Q, Liu H, et al. An updated Lagrangian framework with quadratic element formulations for FDEM[J]. Computers and Geotechnics, 2023, 164. DOI: 10.1016/j.compgeo.2023.105837.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Finite element method-discrete element method bridging coupling for the modeling of gouge[J]. International Journal for Numerical Methods in Engineering, 2023, 124(6): 1474-1488. DOI: 10.1002/nme.7171.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Two-scale concurrent simulations for crack propagation using FEM–DEM bridging coupling[J]. Computational Particle Mechanics, 2024, 11(5): 2235-2243. DOI: 10.1007/s40571-024-00788-x.
+陈闯, 张一杰, 董志强. 含能材料冲击响应多尺度建模与多场耦合模拟方法研究进展[J]. 兵器装备工程学报, 2026, 47(2): 332-341. DOI: 10.11809/bqzbgcxb2026.02.038.
+Chen Z, Xu S, Yang G, et al. A novel GPGPU-parallelized contact detection algorithm for 3D-FDEM: Optimizing the computational structure[J]. Engineering Fracture Mechanics, 2025, 330. DOI: 10.1016/j.engfracmech.2025.111653.
+Scheidt L, Crété J-P, Longère P. Mass-lumping technique for fully explicit time integration of the shifted-basis variant of the 3D extended finite element method[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 451. DOI: 10.1016/j.cma.2025.118636.
+徐浩然, 刘平, 刘泉声, 等. 岩石类材料直接拉伸破坏的 FDEM 数值模拟[J]. 中南大学学报（自然科学版）, 2024, 55(9): 3416-3425. DOI: 10.11817/j.issn.1672-7207.2024.09.016.
+Lu Y, Thomas S, Zhang T J. Concurrent AtC Multiscale Modeling of Material Coupled Thermo-Mechanical Behaviors: A Review[J]. CivilEng, 2022, 3(4): 1013-1038. DOI: 10.3390/civileng3040057.
+Tim Bürchner,Lars Radtke,Sascha Eisenträger , et al.Generalized Eigenvalue stabilization for immersed explicit dynamics[J].Computer Methods in Applied Mechanics and Engineering,2026,452, Part A,DOI:10.1016/j.cma.2026.118727.
+李晓光, 李长洪, 冯春. 一种块体–颗粒–杆件的耦合方法及其在隧道支护模拟中的应用[J]. 工程科学学报, 2023, 45(6): 1023-1033. DOI: 10.13374/j.issn2095-9389.2022.03.25.005.
+李佟, 金先龙, 王小卫, 等. 基于重叠边界的有限元与离散元耦合异步长并行计算方法[J]. 农业机械学报, 2023, 54(6): 419-426. DOI: 10.6041/j.issn.1000-1298.2023.06.043.
+Niknafs S, Silani M, Concli F, et al. A coarse-grained concurrent multiscale method for simulating brittle fracture[J]. International Journal of Solids and Structures, 2022, 254-255. DOI: 10.1016/j.ijsolstr.2022.111898.
+程宏旸, Luding S, Weinhart T. 粗粒化强化有限-离散元多尺度耦合方法在颗粒-连续体表面动态作用问题上的应用[J]. Acta Mechanica Sinica, 2023, 39(1): 110-123. DOI: 10.1007/s10409-022-22218-x.
+Zhang H, Liu Y, Zhou X, et al. Mechanical behavior and fracture mechanism of rock under Brazilian splitting test via the FEM-CZM method[J]. Bulletin of Engineering Geology and the Environment, 2026, 85(6): 345. DOI: 10.1007/s10064-026-05013-y.
+Heng Z, Xu T, Konietzky H, et al. New insights into the continuous-discontinuous failure characteristics of granite under Brazilian splitting test conditions using acousto-optic-mechanical (AOM) method[J]. International Journal of Rock Mechanics and Mining Sciences, 2025, 187. DOI: 10.1016/j.ijrmms.2025.106041.
+Zhou J, Yue Z, Feng C, et al. Experiments and numerical simulations on dynamic crack behavior at the interface of layered brittle material[J]. Fatigue & Fracture of Engineering Materials & Structures, 2022, 45(12): 3546-3558. DOI: 10.1111/ffe.13829.
+Wang Y, Zhu T, Chen R, et al. Investigation of dynamic crack propagation behavior across the C-shaped UHPC-granite interface[J]. Engineering Fracture Mechanics, 2026, 338. DOI: 10.1016/j.engfracmech.2026.112049.
+Zhang J, Chen J. An anisotropic weighted Voronoi method for mesostructure reconstruction in rock materials and its application to Brazilian test simulations[J]. Computational Particle Mechanics, 2025, 12(6): 5007-5024. DOI: 10.1007/s40571-025-00978-1.
+Kamran M, Liu H, Fukuda D, et al. Insights Into the Dynamic Fracturing Behaviours of Rocks Under Multiaxial Static and Dynamic Coupled Loads Through 3D FDEM With Various Contact Algorithms and Cohesive Zone Models[J]. International Journal for Numerical and Analytical Methods in Geomechanics, 2026, 50(4): 1969-2005. DOI: 10.1002/nag.70212.
+杨开源, 陈锡忠. 颗粒破碎的离散元及有限离散元模拟方法比较[J]. 化工学报, 2025, 76(9): 4398-4411. DOI: 10.11949/0438-1157.20250078.
+Hu X, Yan X, Yu H. A PD-FEM Coupling Approach for Modeling Cracks Propagation in Brittle Rock under Compressive Load[C]//57th US Rock Mechanics/Geomechanics Symposium. 2023.
+Chen X, Yu H. A multiscale method coupling peridynamic and boundary element models for dynamic problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 401(Part B). DOI: 10.1016/j.cma.2022.115669.
+Yue Z, Zhou J, Feng C, et al. Coupling of material point and continuum discontinuum element methods for simulating blast-induced fractures in rock[J]. Computers and Geotechnics, 2022, 144. DOI: 10.1016/j.compgeo.2021.104629.
+Su D, Zhang R, Xiong H, et al. Dynamic analysis of rockfall impact on a protective structure via FEM-DEM coupling[J]. Natural Hazards, 2023, 119(3): 1771-1797. DOI: 10.1007/s11069-023-06183-8.
+Qu Y, Zou D, Liu J, et al. Two-dimensional DEM-FEM coupling analysis of seismic failure and anti-seismic measures for concrete faced rockfill dam[J]. Computers and Geotechnics, 2022, 151. DOI: 10.1016/j.compgeo.2022.104950.
+涂义亮, 陈晓虎, 王星驰, 等. 基于连续-离散耦合强度折减法的边坡稳定性分析[J]. 工程力学, 2025, 42(3): 238-249. DOI: 10.6052/j.issn.1000-4750.2022.12.1047.
+Cai W, Gao K, Ai S, et al. A 2D energy-conserving contact model for the combined finite-discrete element method (FDEM)[J]. Computers and Geotechnics, 2024, 166. DOI: 10.1016/j.compgeo.2023.105972.
+Cai W, Wang W, Zhang S, et al. A 3D contact interaction algorithm using unified distance potential field for the combined finite-discrete element method (FDEM)[J]. Engineering Analysis with Boundary Elements, 2025, 179(Part A). DOI: 10.1016/j.enganabound.2025.106336.
+张柏楠. 嵌岩海上风机海床岩石破碎 FDEM 数值仿真方法与单桩基础水平承载破坏机理研究[D]. 山东大学, 2024. DOI: 10.27272/d.cnki.gshdu.2024.008429.
+Zhao R, Wu Z, Xu X, et al. GPGPU-Parallelized Data-Driven Hierarchical Multiscale 3D FDEM for Rock Meso-macro-numerical Simulation[J]. Rock Mechanics and Rock Engineering, 2025, 58(2): 1503-1528. DOI: 10.1007/s00603-024-04218-5.
+Kang S, Masud A. CONCURRENT TWO-WAY COUPLING OF GLOBAL AND LOCAL MODELS ACROSS INTERNAL BOUNDARIES WITH NON-MATCHING DISCRETIZATIONS[J]. Advances in Computational Science and Engineering, 2025, 4: 168-200. DOI: 10.3934/acse.2025016.
+Tu F, Jiao Y, Chen Z, et al. Stress continuity in DEM-FEM multiscale coupling based on the generalized bridging domain method[J]. Applied Mathematical Modelling, 2020, 83: 220-236. DOI: 10.1016/j.apm.2020.02.030.
+Li X, Zhang Z, Ji C, et al. A Lagrange multiplier-based coupling approach for the combined finite-discrete element method applicable to mechanical investigation of composite materials[J]. Computational Particle Mechanics, 2024, 11(3): 989-1005. DOI: 10.1007/s40571-023-00668-w.
+Sun W, Bao S, Zhou J, et al. Concurrent multiscale analysis of anti-seepage structures in embankment dam based on the nonlinear Arlequin method[J]. Engineering Analysis with Boundary Elements, 2023, 149: 231-247. DOI: 10.1016/j.enganabound.2023.01.039.
+Grunwald C, Sauer M, Stolz A, et al. Enhancing Efficiency in Multiscale Simulation: Comparing a Lagrange Multiplier Based Approach and a Weak Staggered Coupling With Optional SPML Interface for Wave Propagation[J]. International Journal for Numerical Methods in Engineering, 2025, 126(9). DOI: 10.1002/nme.7633.
+Cui Y, Zhang Z. A novel concurrent multiscale method based on the coupling of Direct FE2 and CPFEM[J]. Thin-Walled Structures, 2025, 206(Part A). DOI: 10.1016/j.tws.2024.112610.
+Liu P, Fang L, Wang Y, et al. Concurrent atomistic-continuum coupling via physics-informed neural networks with adaptive energy weighting and direct boundary encoding[J]. Applied Mathematical Modelling, 2026, 158. DOI: 10.1016/j.apm.2026.116931.
+Yin M, Zhang E, Yu Y, et al. Interfacing finite elements with deep neural operators for fast multiscale modeling of mechanics problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 402. DOI: 10.1016/j.cma.2022.115027.
+Wu B, Qiu T, Chen X, et al. Interfacial force transfer mechanism of multi-hole closely-spaced prefabricated underground structures[J]. Tunnelling and Underground Space Technology, 2026, 168(Part 2). DOI: 10.1016/j.tust.2025.107204.
+邱豪, 张文康, 廖飞宇, 等. 不同倾斜界面的高强砂浆–花岗岩试件动态裂纹扩展行为研究[J]. 岩石力学与工程学报, 2026, 45(1): 79-98. DOI: 10.3724/1000-6915.jrme.2025.0512.
+Song J, Xu C, Jia K, et al. A frictional contact approach for saturated soil-structure dynamic interaction considering fluid-solid coupling and contact coupling effects[J]. Computers and Geotechnics, 2026, 194. DOI: 10.1016/j.compgeo.2026.108008.
+Malakiyeh M M, Shojaee S, Hamzehei-Javaran S. A novel explicit-implicit time integration method for solving time-dependent finite element equation: The Versa-δ method[J]. Computers & Structures, 2025, 309. DOI: 10.1016/j.compstruc.2025.107664.
+Anupama S, Kishen J M C. Influence of residual stress on dynamic fracture: A phase field study[J]. International Journal of Mechanical Sciences, 2026, 320. DOI: 10.1016/j.ijmecsci.2026.111610.
+Zhou S, Zhuang X, Zhou J, Liu F. Phase Field Characterization of Rock Fractures in Brazilian Splitting Test Specimens Containing Voids and Inclusions[J]. arXiv, 2023. DOI: 10.48550/arXiv.2309.03909.
+Li C, Liu J, Dong L, et al. Phase field fracture in elastoplastic solids: a stress-state, strain-rate, and orientation dependent model in explicit dynamics and its applications to additively manufactured metals[J]. Journal of the Mechanics and Physics of Solids, 2025, 197. DOI: 10.1016/j.jmps.2024.105978.
+Tran H T. A novel nonlocal damage zone adaptation technique for dynamic brittle fracture based on the energy limiter concept[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 455. DOI: 10.1016/j.cma.2026.118898.
+Cao M, Cao X, Wang Z, et al. Brittle dynamic fracture response and crack propagation behavior of biomimetic tree-like fractal groove structure[J]. Engineering Fracture Mechanics, 2026, 339. DOI: 10.1016/j.engfracmech.2026.112091.
+Zhang T, Zhu Z, Zhang F. Dynamic mode I fracture behavior of frozen soil under impact loading and FDEM numerical simulation: Based on a rate-dependent elastoplastic and cohesive model[J]. Theoretical and Applied Fracture Mechanics, 2026, 141(Part A). DOI: 10.1016/j.tafmec.2025.105261.
+武献龙, 陈旭东. 砌体墙在支座不均匀沉降下的有限离散元分析[J]. 土木工程与绿色建筑, 2023(5): 14-18. DOI: 10.3969/j.issn.1005-6270.2023.05.004. | 一、选题依据（包括选题的来源，研究的目的、意义；国内外研究现状和发展趋势；结合科学研究发展趋势来论述，或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应用前景。附主要参考文献目录）
+1选题背景、目的及意义
+1.1研究背景
+目前，我国基础设施建设所涉及的地质条件日益复杂，工程实践中遭遇土石混合体等非均质地质体的情形逐渐增多[1]。这类岩土介质往往具有显著的非均质特征与结构面效应，内部常发育有节理网络[2]或层状复合结构[3]。在爆破开挖或冲击等动力荷载作用下，应力易于在材料软弱面附近产生集中，进而诱发局部开裂，甚至可能导致陡峭边坡等工程岩体的整体失稳破坏[2,4]。对于此类问题，在数值分析中合理刻画岩石类材料在动载下由连续变形向非连续破裂演化的全过程，是计算力学领域的一项关键议题[5]。这种跨尺度演化过程的准确模拟，直接关系到工程岩体动力失稳与稳定性评价的可靠性[4]。
+就现有数值方法而言，材料在动载作用下的破坏通常会经历由连续变形、开裂乃至最终碎裂的过程；相关的多尺度与多场耦合建模不仅要反映结构的宏观连续变形，还须兼顾局部的强非连续特征[6-8]。传统的有限元法（FEM）在常规弹性分析中计算效率较高，但在处理强非连续演化及破裂后的接触问题时仍存在固有局限[9]。离散元法（DEM）虽适合处理复杂的接触与大变形问题，但细尺度模型庞大的计算开销往往制约了其在大区域问题中的直接应用[7]。对于爆破、冲击等高速动力问题，显式时间积分方法能够避免大型矩阵迭代求解，在处理强非线性、大变形及接触碰撞问题方面具有天然优势，因此被广泛应用于动力断裂与显式接触分析领域[10]。在这一脉络下，有限–离散元统一法（FDEM）通过构建更新拉格朗日力学框架，在单一求解器内实现了对材料从连续向非连续破裂全过程的覆盖[5]，并已广泛应用于岩石类材料的断裂模拟[11]。然而，作为统一求解架构，全域密布内聚力单元并持续进行海量接触检测，依然面临着极大的算力压力[7,9]。因此，让FEM与DEM在同一模型中协同求解的共生耦合方法受到越来越多关注[6,7]；与此同时，并发多尺度建模理论也为突破跨尺度动力破坏模拟的算力限制提供了重要思路[12]。
+对于岩石冲击破坏、爆破及高速动力响应等问题，破坏往往呈现出局部强非连续、远场以连续变形为主的空间特征。现有共生耦合方法虽已建立桥接域、Arlequin等重叠域方案，但针对三维显式动力学问题的系统验证研究仍相对有限，界面协调机制在动力条件下的适用性仍有待进一步评估[6,13]；而InterfaceBond等界面键连接方法在三维显式动力学场景下的力学有效性，以及面向连续—断裂全过程的系统验证体系，仍有待进一步研究[14]。因此，在显式动力学框架下，以预分区局部FEM–DEM共生方法与InterfaceBond界面机制为对象，构建从连续响应到断裂破坏的系统验证链条，对推动共生耦合方法在三维动力断裂分析中的工程应用具有重要意义[6,7,13]。
+在矿山工程、隧道开挖及重大基础设施建设等进程中，岩体爆破、冲击致裂与边坡失稳等动力学问题较为普遍[2-4]。工程实践不仅需要在关键的破裂区域保证动力学模拟的精度，同时也对大尺度岩体破坏全过程的分析效率提出了迫切要求。在此背景下，开展有限元–离散元共生耦合方法研究，能够为上述工程问题的数值预测提供支撑，具有明确的工程应用需求。
+1.2研究目的
+本课题旨在建立并验证预分区局部FEM-DEM共生耦合方法。课题的数值试验在MultiFracS上进行，其中本人独立负责共生耦合子模块的机制研究与算例验证。
+该方法的核心建模原则为：在同一连续部件（如岩石试件、岩柱、岩梁及含预制裂纹岩板等连续体构件）内，远场采用纯FEM描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，通过界面键（InterfaceBond）传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+具体而言，本课题将开展以下四项工作：（1）在MultiFracS共生耦合框架内建立预分区局部FEM-DEM模型，并配置全域共生参照算例，明确远场纯FEM区与潜在破裂区带键DEM子域的划分与界面连接方式。（2）明确界面键的法向/切向刚度与断裂准则，分析键断裂前后界面的力–位移连续传递与非连续分离机制[14]。（3）在显式动力学框架下，考察由异质子域引起的界面Ghost力、应力波异常反射及临界时间步失配等问题[10,13,15]。在此过程中，异步长并行[15]与粗粒化界面映射[16,17]仅作为可借鉴的理论参照，不作为本课题的核心贡献。（4）构建由显式动力学验证、连续响应验证、共生耦合验证及断裂行为验证组成的递进式验证体系：以三维悬臂梁大位移算例验证显式时间积分有限元求解器在几何非线性条件下的计算精度，并与Abaqus非线性有限元结果进行对比[5]；以三维单轴拉伸杆算例检验共生耦合模型在连续响应阶段的界面传递正确性，并与纯FEM结果进行对比；以巴西劈裂及模式I裂纹板等典型断裂算例通过数值复现与结果对比，验证共生耦合模型在裂纹扩展与动力响应预测方面的力学正确性[11,18-21]；并对比局部共生与全域共生参照模型在接触检索规模及计算耗时上的差异，评价预分区策略的计算效能。
+1.3研究意义
+（1）理论意义：本课题有助于深化对同部件内连续–非连续并发耦合机制的认识。通过探索显式动力学条件下的界面键连接规律，补充异质交界面的力学协调与求解稳定性评价体系[10,13,14]。将离散颗粒与接触检索限制在潜在破裂区，为权衡"力学保真度与计算效率"提供了可检验的理论路径[6,7]，丰富了共生耦合由全域重叠向局部预分区方向演进的学术讨论[6,16]。
+（2）方法与应用参考价值：作为一项算法验证型工作，本研究不展开大尺度地质工程设计，而是致力于形成可复用的标准化验证流程与评价指标。具体涵盖：以三维悬臂梁大位移算例对显式时间积分有限元求解器的几何非线性能力进行基准检验[5]；单轴拉伸杆的不开裂阶段波传播与界面连续传递[11]；巴西劈裂的拉剪混合开裂[18,19,22]；以及模式I裂纹板的动态裂纹扩展与界面穿越[20,21]等文献经典算例的数值复现与对标验证。该验证流程可为后续复杂岩石动力学数值研究提供基础参照[4,23]。
+2研究现状、发展趋势、存在问题及切入点
+2.1FEM-DEM与FDEM研究现状
+有限元法（FEM）在处理连续介质变形与多场耦合中具备成熟优势，但在应对强动载导致的强非连续演化及破裂后接触问题时存在固有局限[9]。离散元法（DEM）虽能自然处理颗粒分离与大变形，但利用细尺度模型表征完整连续体时存在宏观等效参数匹配困难，且全域模拟的庞大计算开销极大限制了其应用规模[7,24]。为兼顾连续与非连续特征，FEM-DEM耦合、近场动力学（PD）与有限元或边界元耦合[25,26]以及物质点与连续–非连续元法耦合[27]等多尺度路线不断发展。其中，传统的跨部件分区耦合多用于落石冲击防护结构[28]、大坝与边坡工程抗震[29,30]等本就相互独立的子系统，其界面以接触传力为主，通常不承担同一物理部件由完整连续体向非连续开裂演化的全过程。
+与此同时，有限–离散元统一法（FDEM）作为另一条代表性路线，在单一求解器内基于更新拉格朗日框架与四面体单元，通过嵌入内聚力单元实现材料的非连续化断裂[5]。近年来，该方法在二维与三维接触算法[31,32]以及数据驱动与GPGPU异构并行加速[9,34]上取得进展，并被广泛应用于节理岩体爆破破碎[2]、陡峭岩坡渐进破坏[4]及土石混合体破裂[1]以及嵌岩桩基失稳[33]等工程场景。总体而言，FDEM与FEM-DEM共生耦合是处理复杂断裂问题的两条并列路线：前者强调整体网格的统一求解，后者强调异质子域的并发协同[6,7]。然而，在面对远场弹性变形、近场剧烈破裂的跨尺度问题时，全域内聚断裂与海量接触检索仍消耗大量算力[7,9]；如何在局部高分辨率与整体计算成本之间取得平衡，是此类方法共同面临的矛盾[12]。
+2.2共生耦合研究现状
+共生耦合允许同一模型内有限元（FEM）宏观连续区与离散元（DEM）细观离散区同时存在并同步求解[12,35]。针对不同子域的边界处理，现有研究大体形成两类思路：一类是以重叠域能量加权为核心的协调方法，包括桥接域法（Bridging Domain）[6,7,36]与Arlequin方法[38,39]，通过在重叠区内对各子域能量进行加权混合，实现跨域位移协调与能量一致性；另一类是在非匹配节点间建立界面键（InterfaceBond）的边界连接方法，通过法向与切向弹簧约束传递跨域力与位移[14]。在此基础上，多尺度耦合框架得到广泛拓展。例如，Voisin-Leprince等基于桥接与重叠域框架，实现了宏观小变形与微观断裂的双尺度并发模拟[6,7]；此外，通过引入拉格朗日乘子或Arlequin方法，可在重叠域内对不同尺度的能量进行加权混合以实现强运动学约束[37-39]。为处理极端局部化失效，直接FE²-CPFEM并发多尺度方法[40]、粗粒化多尺度耦合技术[16,17]，以及基于物理信息神经网络（PINN）与深度神经算子驱动的自适应能量耦合算法[41,42]均展现出跨域求解潜力。尽管衍生出诸多耦合范式，界面处能量、动量与位移的有效协调始终是此类方法成功的关键[12,35]。
+现有共生耦合研究多默认FEM与DEM在较大范围内重叠共存，导致裂纹尚未扩展的未破裂阶段，仍须维持庞大的颗粒网络与海量接触检索[6,17]。相比之下，采用预分区局部共生策略（仅在潜在破裂区引入离散描述，远场保持纯FEM）可大幅压缩无效接触计算规模。然而，在三维完全显式动力学框架下，由于子域临界时间步与刚度差异显著，这种局部界面的力学有效性、求解稳定性及可复现验证体系仍存在明显不足[7,13]。本课题采用界面键连接路线（InterfaceBond），其界面协调机制与重叠域方法存在明显区别；广义桥域法[36]等重叠域方案可作为界面协调策略设计的重要参照背景。因此，本课题以InterfaceBond界面连接路线为基础，针对其在三维显式动力学场景下的适用性与验证问题展开研究。
+2.3界面力传递与位移协调研究现状
+界面力学协调机制直接决定了共生耦合算法的数值鲁棒性与计算精度。拉格朗日乘子法虽能实现高精度的位移与应力约束，但在完全显式求解框架下往往会引入高昂的计算成本[37]。相比之下，界面键连接（InterfaceBond）通过在非匹配节点间建立法向与切向约束弹簧，并辅以相应的断裂准则，成为一种兼顾效率与物理机制的有效手段[14]。此类界面力学模型已被广泛拓展应用于预制地下结构界面力传递[43]、砂浆–岩石异质界面动态断裂[44]以及流固耦合摩擦接触[45]等工程场景。然而，由于强动载下介质将发生非线性转变，键断裂前后必须在连续传力与允许局部分离之间实现平滑过渡，否则极易在界面处产生界面力残差（Ghost Force）与虚假的能量耗散[15,17]。
+此外，有限元宏观网格与离散元细观颗粒在空间尺度与刚度上的悬殊差异，往往会导致系统临界时间步严重失配，成为显式动力学求解时的另一大难题。为此，相关研究提出了基于重叠边界的异步长并行计算方法，以缓解多尺度界面上的时间积分失稳[15]；同时，也有研究引入粗粒化强化映射技术，显著改善了颗粒与连续体表面在动态作用过程中的接触力振荡响应[17]。尽管异质界面动态断裂已有试验与数值研究[21,44]，但针对键控FEM–DEM共生界面在标准动态断裂算例中的力学一致性与连续传递检验仍不充分。
+2.4显式动力学研究现状
+在处理强冲击与强动载问题时，完全显式时间积分被广泛应用于动力学方程的求解[10]。然而，由于多尺度模型中异质子域的刚度不协调，极易在交界处引发数值振荡与界面失稳。为此，研究者引入了质量集总（Mass-lumping）与广义特征值稳定化方法以抑制高频响应[10,13]；同时，如Versa-δ法等新型显隐式混合时间积分格式也被开发用于提升求解边界的鲁棒性[46]。此外，为了全面检验显式断裂模拟的可信度，动态相场法[47-49]、基于能量限制的非局部损伤技术[50]，以及各向异性加权Voronoi离散策略[22]等前沿方法，常被作为重要的对比验证工具。
+在算法的力学检验方面，学术界已形成了一套经典的动态断裂标准验证算例体系。其中，单轴拉伸杆模型常用于检验不开裂阶段的应力波传播规律及界面物理量传递的连续性[11]；巴西劈裂算例因能引发复杂的拉剪混合破坏，被广泛作为材料连续至非连续开裂转换的基准测试[18,19,22]；模式I裂纹板及相关的动态裂纹模型，则专门用于评估动态裂纹的扩展、分叉以及穿越界面的行为[20,21]。此外，仿生结构的脆性动态断裂响应[51]与冲击荷载下的断裂特征[52]以及非均匀沉降下的结构大变形失效[53]，也为复杂边界效应提供了丰富的参考数据。上述算例为本课题构建共生耦合力学对标体系提供了直接依据。
+2.5发展趋势与存在问题
+岩石动力学数值模拟正朝共生并发耦合与异构并行计算方向发展[9,34]。尽管前沿方法已取得丰硕成果，但在处理跨尺度动力破坏问题时仍面临诸多挑战：（1）桥接域、Arlequin等方法在三维完全显式时间积分与强动载条件下的界面求解稳定性仍有待加强[6,7,13]；（2）全域共生方案在远场连续区域内仍存在大量无效的颗粒接触检索，极大制约了工程大尺度模拟的计算效率[7,24]；（3）面向预分区局部共生耦合的标准验证算例体系尚不完善，难以系统评价界面键在不开裂与开裂两类典型问题上的力学精度与数值鲁棒性[11,18]；（4）在局部大幅缩小DEM的参与范围后，宏观力学保真度与整体计算效率之间如何进行定量权衡，目前仍缺乏可复现的对比评价范式[6,7]。
+2.6本课题研究切入点
+综上所述，本课题的切入点是：针对全域共生模型接触检索冗余与三维显式断裂验证不足的问题[7,13]，依托MultiFracS，建立预分区局部FEM-DEM共生耦合模型。该模型在远场区域保持纯FEM连续描述，仅在潜在破裂区布置带键DEM颗粒，并以界面键连接（InterfaceBond）作为核心协调机制实现跨域力与变形的传递[14]。在分析界面求解稳定性时，将异步长并行[15]与粗粒化映射[17]仅作为可借鉴的理论参照，不作核心贡献。在此基础上，课题配套设置全域共生参照模型，开展悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板4类标准算例的数值试验，通过完成力学响应与接触规模及计算耗时的双重定量对标[6,7]，最终为显式条件下共生耦合算法的有效性检验提供一条可复现的评价路径。
+主要参考文献：
+邓鹏海, 刘泉声, 卢海峰, 等. 基于 FDEM 数值模拟的土石混合体力学特性及破坏行为研究[J]. 工程力学, 2025, 42(12): 57-74. DOI: 10.6052/j.issn.1000-4750.2023.06.0451.
+Xu C, Sun J, Li G, et al. Applying FDEM for Blasting Fragmentation of Jointed Rock Mass[J]. Applied Sciences, 2026, 16(3). DOI: 10.3390/app16031470.
+刘健, 薛勇林, 张华磊, 等. 界面角度对层状复合岩石动态断裂及能量耗散影响的试验研究[J]. 振动与冲击, 2025, 44(21): 12-24. DOI: 10.13465/j.cnki.jvs.2025.21.002.
+Xu J, Deng Z, Feng Y, et al. Modeling progressive failure in steep rock slopes using the combined finite-discrete element method[J]. Scientific Reports, 2026, 16(1): 1-16. DOI: 10.1038/s41598-026-40966-w.
+Lei Y, Liu Q, Liu H, et al. An updated Lagrangian framework with quadratic element formulations for FDEM[J]. Computers and Geotechnics, 2023, 164. DOI: 10.1016/j.compgeo.2023.105837.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Finite element method-discrete element method bridging coupling for the modeling of gouge[J]. International Journal for Numerical Methods in Engineering, 2023, 124(6): 1474-1488. DOI: 10.1002/nme.7171.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Two-scale concurrent simulations for crack propagation using FEM–DEM bridging coupling[J]. Computational Particle Mechanics, 2024, 11(5): 2235-2243. DOI: 10.1007/s40571-024-00788-x.
+陈闯, 张一杰, 董志强. 含能材料冲击响应多尺度建模与多场耦合模拟方法研究进展[J]. 兵器装备工程学报, 2026, 47(2): 332-341. DOI: 10.11809/bqzbgcxb2026.02.038.
+Chen Z, Xu S, Yang G, et al. A novel GPGPU-parallelized contact detection algorithm for 3D-FDEM: Optimizing the computational structure[J]. Engineering Fracture Mechanics, 2025, 330. DOI: 10.1016/j.engfracmech.2025.111653.
+Scheidt L, Crété J-P, Longère P. Mass-lumping technique for fully explicit time integration of the shifted-basis variant of the 3D extended finite element method[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 451. DOI: 10.1016/j.cma.2025.118636.
+徐浩然, 刘平, 刘泉声, 等. 岩石类材料直接拉伸破坏的 FDEM 数值模拟[J]. 中南大学学报（自然科学版）, 2024, 55(9): 3416-3425. DOI: 10.11817/j.issn.1672-7207.2024.09.016.
+Lu Y, Thomas S, Zhang T J. Concurrent AtC Multiscale Modeling of Material Coupled Thermo-Mechanical Behaviors: A Review[J]. CivilEng, 2022, 3(4): 1013-1038. DOI: 10.3390/civileng3040057.
+Tim Bürchner,Lars Radtke,Sascha Eisenträger , et al.Generalized Eigenvalue stabilization for immersed explicit dynamics[J].Computer Methods in Applied Mechanics and Engineering,2026,452, Part A,DOI:10.1016/j.cma.2026.118727.
+李晓光, 李长洪, 冯春. 一种块体–颗粒–杆件的耦合方法及其在隧道支护模拟中的应用[J]. 工程科学学报, 2023, 45(6): 1023-1033. DOI: 10.13374/j.issn2095-9389.2022.03.25.005.
+李佟, 金先龙, 王小卫, 等. 基于重叠边界的有限元与离散元耦合异步长并行计算方法[J]. 农业机械学报, 2023, 54(6): 419-426. DOI: 10.6041/j.issn.1000-1298.2023.06.043.
+Niknafs S, Silani M, Concli F, et al. A coarse-grained concurrent multiscale method for simulating brittle fracture[J]. International Journal of Solids and Structures, 2022, 254-255. DOI: 10.1016/j.ijsolstr.2022.111898.
+程宏旸, Luding S, Weinhart T. 粗粒化强化有限-离散元多尺度耦合方法在颗粒-连续体表面动态作用问题上的应用[J]. Acta Mechanica Sinica, 2023, 39(1): 110-123. DOI: 10.1007/s10409-022-22218-x.
+Zhang H, Liu Y, Zhou X, et al. Mechanical behavior and fracture mechanism of rock under Brazilian splitting test via the FEM-CZM method[J]. Bulletin of Engineering Geology and the Environment, 2026, 85(6): 345. DOI: 10.1007/s10064-026-05013-y.
+Heng Z, Xu T, Konietzky H, et al. New insights into the continuous-discontinuous failure characteristics of granite under Brazilian splitting test conditions using acousto-optic-mechanical (AOM) method[J]. International Journal of Rock Mechanics and Mining Sciences, 2025, 187. DOI: 10.1016/j.ijrmms.2025.106041.
+Zhou J, Yue Z, Feng C, et al. Experiments and numerical simulations on dynamic crack behavior at the interface of layered brittle material[J]. Fatigue & Fracture of Engineering Materials & Structures, 2022, 45(12): 3546-3558. DOI: 10.1111/ffe.13829.
+Wang Y, Zhu T, Chen R, et al. Investigation of dynamic crack propagation behavior across the C-shaped UHPC-granite interface[J]. Engineering Fracture Mechanics, 2026, 338. DOI: 10.1016/j.engfracmech.2026.112049.
+Zhang J, Chen J. An anisotropic weighted Voronoi method for mesostructure reconstruction in rock materials and its application to Brazilian test simulations[J]. Computational Particle Mechanics, 2025, 12(6): 5007-5024. DOI: 10.1007/s40571-025-00978-1.
+Kamran M, Liu H, Fukuda D, et al. Insights Into the Dynamic Fracturing Behaviours of Rocks Under Multiaxial Static and Dynamic Coupled Loads Through 3D FDEM With Various Contact Algorithms and Cohesive Zone Models[J]. International Journal for Numerical and Analytical Methods in Geomechanics, 2026, 50(4): 1969-2005. DOI: 10.1002/nag.70212.
+杨开源, 陈锡忠. 颗粒破碎的离散元及有限离散元模拟方法比较[J]. 化工学报, 2025, 76(9): 4398-4411. DOI: 10.11949/0438-1157.20250078.
+Hu X, Yan X, Yu H. A PD-FEM Coupling Approach for Modeling Cracks Propagation in Brittle Rock under Compressive Load[C]//57th US Rock Mechanics/Geomechanics Symposium. 2023.
+Chen X, Yu H. A multiscale method coupling peridynamic and boundary element models for dynamic problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 401(Part B). DOI: 10.1016/j.cma.2022.115669.
+Yue Z, Zhou J, Feng C, et al. Coupling of material point and continuum discontinuum element methods for simulating blast-induced fractures in rock[J]. Computers and Geotechnics, 2022, 144. DOI: 10.1016/j.compgeo.2021.104629.
+Su D, Zhang R, Xiong H, et al. Dynamic analysis of rockfall impact on a protective structure via FEM-DEM coupling[J]. Natural Hazards, 2023, 119(3): 1771-1797. DOI: 10.1007/s11069-023-06183-8.
+Qu Y, Zou D, Liu J, et al. Two-dimensional DEM-FEM coupling analysis of seismic failure and anti-seismic measures for concrete faced rockfill dam[J]. Computers and Geotechnics, 2022, 151. DOI: 10.1016/j.compgeo.2022.104950.
+涂义亮, 陈晓虎, 王星驰, 等. 基于连续-离散耦合强度折减法的边坡稳定性分析[J]. 工程力学, 2025, 42(3): 238-249. DOI: 10.6052/j.issn.1000-4750.2022.12.1047.
+Cai W, Gao K, Ai S, et al. A 2D energy-conserving contact model for the combined finite-discrete element method (FDEM)[J]. Computers and Geotechnics, 2024, 166. DOI: 10.1016/j.compgeo.2023.105972.
+Cai W, Wang W, Zhang S, et al. A 3D contact interaction algorithm using unified distance potential field for the combined finite-discrete element method (FDEM)[J]. Engineering Analysis with Boundary Elements, 2025, 179(Part A). DOI: 10.1016/j.enganabound.2025.106336.
+张柏楠. 嵌岩海上风机海床岩石破碎 FDEM 数值仿真方法与单桩基础水平承载破坏机理研究[D]. 山东大学, 2024. DOI: 10.27272/d.cnki.gshdu.2024.008429.
+Zhao R, Wu Z, Xu X, et al. GPGPU-Parallelized Data-Driven Hierarchical Multiscale 3D FDEM for Rock Meso-macro-numerical Simulation[J]. Rock Mechanics and Rock Engineering, 2025, 58(2): 1503-1528. DOI: 10.1007/s00603-024-04218-5.
+Kang S, Masud A. CONCURRENT TWO-WAY COUPLING OF GLOBAL AND LOCAL MODELS ACROSS INTERNAL BOUNDARIES WITH NON-MATCHING DISCRETIZATIONS[J]. Advances in Computational Science and Engineering, 2025, 4: 168-200. DOI: 10.3934/acse.2025016.
+Tu F, Jiao Y, Chen Z, et al. Stress continuity in DEM-FEM multiscale coupling based on the generalized bridging domain method[J]. Applied Mathematical Modelling, 2020, 83: 220-236. DOI: 10.1016/j.apm.2020.02.030.
+Li X, Zhang Z, Ji C, et al. A Lagrange multiplier-based coupling approach for the combined finite-discrete element method applicable to mechanical investigation of composite materials[J]. Computational Particle Mechanics, 2024, 11(3): 989-1005. DOI: 10.1007/s40571-023-00668-w.
+Sun W, Bao S, Zhou J, et al. Concurrent multiscale analysis of anti-seepage structures in embankment dam based on the nonlinear Arlequin method[J]. Engineering Analysis with Boundary Elements, 2023, 149: 231-247. DOI: 10.1016/j.enganabound.2023.01.039.
+Grunwald C, Sauer M, Stolz A, et al. Enhancing Efficiency in Multiscale Simulation: Comparing a Lagrange Multiplier Based Approach and a Weak Staggered Coupling With Optional SPML Interface for Wave Propagation[J]. International Journal for Numerical Methods in Engineering, 2025, 126(9). DOI: 10.1002/nme.7633.
+Cui Y, Zhang Z. A novel concurrent multiscale method based on the coupling of Direct FE2 and CPFEM[J]. Thin-Walled Structures, 2025, 206(Part A). DOI: 10.1016/j.tws.2024.112610.
+Liu P, Fang L, Wang Y, et al. Concurrent atomistic-continuum coupling via physics-informed neural networks with adaptive energy weighting and direct boundary encoding[J]. Applied Mathematical Modelling, 2026, 158. DOI: 10.1016/j.apm.2026.116931.
+Yin M, Zhang E, Yu Y, et al. Interfacing finite elements with deep neural operators for fast multiscale modeling of mechanics problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 402. DOI: 10.1016/j.cma.2022.115027.
+Wu B, Qiu T, Chen X, et al. Interfacial force transfer mechanism of multi-hole closely-spaced prefabricated underground structures[J]. Tunnelling and Underground Space Technology, 2026, 168(Part 2). DOI: 10.1016/j.tust.2025.107204.
+邱豪, 张文康, 廖飞宇, 等. 不同倾斜界面的高强砂浆–花岗岩试件动态裂纹扩展行为研究[J]. 岩石力学与工程学报, 2026, 45(1): 79-98. DOI: 10.3724/1000-6915.jrme.2025.0512.
+Song J, Xu C, Jia K, et al. A frictional contact approach for saturated soil-structure dynamic interaction considering fluid-solid coupling and contact coupling effects[J]. Computers and Geotechnics, 2026, 194. DOI: 10.1016/j.compgeo.2026.108008.
+Malakiyeh M M, Shojaee S, Hamzehei-Javaran S. A novel explicit-implicit time integration method for solving time-dependent finite element equation: The Versa-δ method[J]. Computers & Structures, 2025, 309. DOI: 10.1016/j.compstruc.2025.107664.
+Anupama S, Kishen J M C. Influence of residual stress on dynamic fracture: A phase field study[J]. International Journal of Mechanical Sciences, 2026, 320. DOI: 10.1016/j.ijmecsci.2026.111610.
+Zhou S, Zhuang X, Zhou J, Liu F. Phase Field Characterization of Rock Fractures in Brazilian Splitting Test Specimens Containing Voids and Inclusions[J]. arXiv, 2023. DOI: 10.48550/arXiv.2309.03909.
+Li C, Liu J, Dong L, et al. Phase field fracture in elastoplastic solids: a stress-state, strain-rate, and orientation dependent model in explicit dynamics and its applications to additively manufactured metals[J]. Journal of the Mechanics and Physics of Solids, 2025, 197. DOI: 10.1016/j.jmps.2024.105978.
+Tran H T. A novel nonlocal damage zone adaptation technique for dynamic brittle fracture based on the energy limiter concept[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 455. DOI: 10.1016/j.cma.2026.118898.
+Cao M, Cao X, Wang Z, et al. Brittle dynamic fracture response and crack propagation behavior of biomimetic tree-like fractal groove structure[J]. Engineering Fracture Mechanics, 2026, 339. DOI: 10.1016/j.engfracmech.2026.112091.
+Zhang T, Zhu Z, Zhang F. Dynamic mode I fracture behavior of frozen soil under impact loading and FDEM numerical simulation: Based on a rate-dependent elastoplastic and cohesive model[J]. Theoretical and Applied Fracture Mechanics, 2026, 141(Part A). DOI: 10.1016/j.tafmec.2025.105261.
+武献龙, 陈旭东. 砌体墙在支座不均匀沉降下的有限离散元分析[J]. 土木工程与绿色建筑, 2023(5): 14-18. DOI: 10.3969/j.issn.1005-6270.2023.05.004. | 一、选题依据（包括选题的来源，研究的目的、意义；国内外研究现状和发展趋势；结合科学研究发展趋势来论述，或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应用前景。附主要参考文献目录）
+1选题背景、目的及意义
+1.1研究背景
+目前，我国基础设施建设所涉及的地质条件日益复杂，工程实践中遭遇土石混合体等非均质地质体的情形逐渐增多[1]。这类岩土介质往往具有显著的非均质特征与结构面效应，内部常发育有节理网络[2]或层状复合结构[3]。在爆破开挖或冲击等动力荷载作用下，应力易于在材料软弱面附近产生集中，进而诱发局部开裂，甚至可能导致陡峭边坡等工程岩体的整体失稳破坏[2,4]。对于此类问题，在数值分析中合理刻画岩石类材料在动载下由连续变形向非连续破裂演化的全过程，是计算力学领域的一项关键议题[5]。这种跨尺度演化过程的准确模拟，直接关系到工程岩体动力失稳与稳定性评价的可靠性[4]。
+就现有数值方法而言，材料在动载作用下的破坏通常会经历由连续变形、开裂乃至最终碎裂的过程；相关的多尺度与多场耦合建模不仅要反映结构的宏观连续变形，还须兼顾局部的强非连续特征[6-8]。传统的有限元法（FEM）在常规弹性分析中计算效率较高，但在处理强非连续演化及破裂后的接触问题时仍存在固有局限[9]。离散元法（DEM）虽适合处理复杂的接触与大变形问题，但细尺度模型庞大的计算开销往往制约了其在大区域问题中的直接应用[7]。对于爆破、冲击等高速动力问题，显式时间积分方法能够避免大型矩阵迭代求解，在处理强非线性、大变形及接触碰撞问题方面具有天然优势，因此被广泛应用于动力断裂与显式接触分析领域[10]。在这一脉络下，有限–离散元统一法（FDEM）通过构建更新拉格朗日力学框架，在单一求解器内实现了对材料从连续向非连续破裂全过程的覆盖[5]，并已广泛应用于岩石类材料的断裂模拟[11]。然而，作为统一求解架构，全域密布内聚力单元并持续进行海量接触检测，依然面临着极大的算力压力[7,9]。因此，让FEM与DEM在同一模型中协同求解的共生耦合方法受到越来越多关注[6,7]；与此同时，并发多尺度建模理论也为突破跨尺度动力破坏模拟的算力限制提供了重要思路[12]。
+对于岩石冲击破坏、爆破及高速动力响应等问题，破坏往往呈现出局部强非连续、远场以连续变形为主的空间特征。现有共生耦合方法虽已建立桥接域、Arlequin等重叠域方案，但针对三维显式动力学问题的系统验证研究仍相对有限，界面协调机制在动力条件下的适用性仍有待进一步评估[6,13]；而InterfaceBond等界面键连接方法在三维显式动力学场景下的力学有效性，以及面向连续—断裂全过程的系统验证体系，仍有待进一步研究[14]。因此，在显式动力学框架下，以预分区局部FEM–DEM共生方法与InterfaceBond界面机制为对象，构建从连续响应到断裂破坏的系统验证链条，对推动共生耦合方法在三维动力断裂分析中的工程应用具有重要意义[6,7,13]。
+在矿山工程、隧道开挖及重大基础设施建设等进程中，岩体爆破、冲击致裂与边坡失稳等动力学问题较为普遍[2-4]。工程实践不仅需要在关键的破裂区域保证动力学模拟的精度，同时也对大尺度岩体破坏全过程的分析效率提出了迫切要求。在此背景下，开展有限元–离散元共生耦合方法研究，能够为上述工程问题的数值预测提供支撑，具有明确的工程应用需求。
+1.2研究目的
+本课题旨在建立并验证预分区局部FEM-DEM共生耦合方法。课题的数值试验在MultiFracS上进行，其中本人独立负责共生耦合子模块的机制研究与算例验证。
+该方法的核心建模原则为：在同一连续部件（如岩石试件、岩柱、岩梁及含预制裂纹岩板等连续体构件）内，远场采用纯FEM描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，通过界面键（InterfaceBond）传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+具体而言，本课题将开展以下四项工作：（1）在MultiFracS共生耦合框架内建立预分区局部FEM-DEM模型，并配置全域共生参照算例，明确远场纯FEM区与潜在破裂区带键DEM子域的划分与界面连接方式。（2）明确界面键的法向/切向刚度与断裂准则，分析键断裂前后界面的力–位移连续传递与非连续分离机制[14]。（3）在显式动力学框架下，考察由异质子域引起的界面Ghost力、应力波异常反射及临界时间步失配等问题[10,13,15]。在此过程中，异步长并行[15]与粗粒化界面映射[16,17]仅作为可借鉴的理论参照，不作为本课题的核心贡献。（4）构建由显式动力学验证、连续响应验证、共生耦合验证及断裂行为验证组成的递进式验证体系：以三维悬臂梁大位移算例验证显式时间积分有限元求解器在几何非线性条件下的计算精度，并与Abaqus非线性有限元结果进行对比[5]；以三维单轴拉伸杆算例检验共生耦合模型在连续响应阶段的界面传递正确性，并与纯FEM结果进行对比；以巴西劈裂及模式I裂纹板等典型断裂算例通过数值复现与结果对比，验证共生耦合模型在裂纹扩展与动力响应预测方面的力学正确性[11,18-21]；并对比局部共生与全域共生参照模型在接触检索规模及计算耗时上的差异，评价预分区策略的计算效能。
+1.3研究意义
+（1）理论意义：本课题有助于深化对同部件内连续–非连续并发耦合机制的认识。通过探索显式动力学条件下的界面键连接规律，补充异质交界面的力学协调与求解稳定性评价体系[10,13,14]。将离散颗粒与接触检索限制在潜在破裂区，为权衡"力学保真度与计算效率"提供了可检验的理论路径[6,7]，丰富了共生耦合由全域重叠向局部预分区方向演进的学术讨论[6,16]。
+（2）方法与应用参考价值：作为一项算法验证型工作，本研究不展开大尺度地质工程设计，而是致力于形成可复用的标准化验证流程与评价指标。具体涵盖：以三维悬臂梁大位移算例对显式时间积分有限元求解器的几何非线性能力进行基准检验[5]；单轴拉伸杆的不开裂阶段波传播与界面连续传递[11]；巴西劈裂的拉剪混合开裂[18,19,22]；以及模式I裂纹板的动态裂纹扩展与界面穿越[20,21]等文献经典算例的数值复现与对标验证。该验证流程可为后续复杂岩石动力学数值研究提供基础参照[4,23]。
+2研究现状、发展趋势、存在问题及切入点
+2.1FEM-DEM与FDEM研究现状
+有限元法（FEM）在处理连续介质变形与多场耦合中具备成熟优势，但在应对强动载导致的强非连续演化及破裂后接触问题时存在固有局限[9]。离散元法（DEM）虽能自然处理颗粒分离与大变形，但利用细尺度模型表征完整连续体时存在宏观等效参数匹配困难，且全域模拟的庞大计算开销极大限制了其应用规模[7,24]。为兼顾连续与非连续特征，FEM-DEM耦合、近场动力学（PD）与有限元或边界元耦合[25,26]以及物质点与连续–非连续元法耦合[27]等多尺度路线不断发展。其中，传统的跨部件分区耦合多用于落石冲击防护结构[28]、大坝与边坡工程抗震[29,30]等本就相互独立的子系统，其界面以接触传力为主，通常不承担同一物理部件由完整连续体向非连续开裂演化的全过程。
+与此同时，有限–离散元统一法（FDEM）作为另一条代表性路线，在单一求解器内基于更新拉格朗日框架与四面体单元，通过嵌入内聚力单元实现材料的非连续化断裂[5]。近年来，该方法在二维与三维接触算法[31,32]以及数据驱动与GPGPU异构并行加速[9,34]上取得进展，并被广泛应用于节理岩体爆破破碎[2]、陡峭岩坡渐进破坏[4]及土石混合体破裂[1]以及嵌岩桩基失稳[33]等工程场景。总体而言，FDEM与FEM-DEM共生耦合是处理复杂断裂问题的两条并列路线：前者强调整体网格的统一求解，后者强调异质子域的并发协同[6,7]。然而，在面对远场弹性变形、近场剧烈破裂的跨尺度问题时，全域内聚断裂与海量接触检索仍消耗大量算力[7,9]；如何在局部高分辨率与整体计算成本之间取得平衡，是此类方法共同面临的矛盾[12]。
+2.2共生耦合研究现状
+共生耦合允许同一模型内有限元（FEM）宏观连续区与离散元（DEM）细观离散区同时存在并同步求解[12,35]。针对不同子域的边界处理，现有研究大体形成两类思路：一类是以重叠域能量加权为核心的协调方法，包括桥接域法（Bridging Domain）[6,7,36]与Arlequin方法[38,39]，通过在重叠区内对各子域能量进行加权混合，实现跨域位移协调与能量一致性；另一类是在非匹配节点间建立界面键（InterfaceBond）的边界连接方法，通过法向与切向弹簧约束传递跨域力与位移[14]。在此基础上，多尺度耦合框架得到广泛拓展。例如，Voisin-Leprince等基于桥接与重叠域框架，实现了宏观小变形与微观断裂的双尺度并发模拟[6,7]；此外，通过引入拉格朗日乘子或Arlequin方法，可在重叠域内对不同尺度的能量进行加权混合以实现强运动学约束[37-39]。为处理极端局部化失效，直接FE²-CPFEM并发多尺度方法[40]、粗粒化多尺度耦合技术[16,17]，以及基于物理信息神经网络（PINN）与深度神经算子驱动的自适应能量耦合算法[41,42]均展现出跨域求解潜力。尽管衍生出诸多耦合范式，界面处能量、动量与位移的有效协调始终是此类方法成功的关键[12,35]。
+现有共生耦合研究多默认FEM与DEM在较大范围内重叠共存，导致裂纹尚未扩展的未破裂阶段，仍须维持庞大的颗粒网络与海量接触检索[6,17]。相比之下，采用预分区局部共生策略（仅在潜在破裂区引入离散描述，远场保持纯FEM）可大幅压缩无效接触计算规模。然而，在三维完全显式动力学框架下，由于子域临界时间步与刚度差异显著，这种局部界面的力学有效性、求解稳定性及可复现验证体系仍存在明显不足[7,13]。本课题采用界面键连接路线（InterfaceBond），其界面协调机制与重叠域方法存在明显区别；广义桥域法[36]等重叠域方案可作为界面协调策略设计的重要参照背景。因此，本课题以InterfaceBond界面连接路线为基础，针对其在三维显式动力学场景下的适用性与验证问题展开研究。
+2.3界面力传递与位移协调研究现状
+界面力学协调机制直接决定了共生耦合算法的数值鲁棒性与计算精度。拉格朗日乘子法虽能实现高精度的位移与应力约束，但在完全显式求解框架下往往会引入高昂的计算成本[37]。相比之下，界面键连接（InterfaceBond）通过在非匹配节点间建立法向与切向约束弹簧，并辅以相应的断裂准则，成为一种兼顾效率与物理机制的有效手段[14]。此类界面力学模型已被广泛拓展应用于预制地下结构界面力传递[43]、砂浆–岩石异质界面动态断裂[44]以及流固耦合摩擦接触[45]等工程场景。然而，由于强动载下介质将发生非线性转变，键断裂前后必须在连续传力与允许局部分离之间实现平滑过渡，否则极易在界面处产生界面力残差（Ghost Force）与虚假的能量耗散[15,17]。
+此外，有限元宏观网格与离散元细观颗粒在空间尺度与刚度上的悬殊差异，往往会导致系统临界时间步严重失配，成为显式动力学求解时的另一大难题。为此，相关研究提出了基于重叠边界的异步长并行计算方法，以缓解多尺度界面上的时间积分失稳[15]；同时，也有研究引入粗粒化强化映射技术，显著改善了颗粒与连续体表面在动态作用过程中的接触力振荡响应[17]。尽管异质界面动态断裂已有试验与数值研究[21,44]，但针对键控FEM–DEM共生界面在标准动态断裂算例中的力学一致性与连续传递检验仍不充分。
+2.4显式动力学研究现状
+在处理强冲击与强动载问题时，完全显式时间积分被广泛应用于动力学方程的求解[10]。然而，由于多尺度模型中异质子域的刚度不协调，极易在交界处引发数值振荡与界面失稳。为此，研究者引入了质量集总（Mass-lumping）与广义特征值稳定化方法以抑制高频响应[10,13]；同时，如Versa-δ法等新型显隐式混合时间积分格式也被开发用于提升求解边界的鲁棒性[46]。此外，为了全面检验显式断裂模拟的可信度，动态相场法[47-49]、基于能量限制的非局部损伤技术[50]，以及各向异性加权Voronoi离散策略[22]等前沿方法，常被作为重要的对比验证工具。
+在算法的力学检验方面，学术界已形成了一套经典的动态断裂标准验证算例体系。其中，单轴拉伸杆模型常用于检验不开裂阶段的应力波传播规律及界面物理量传递的连续性[11]；巴西劈裂算例因能引发复杂的拉剪混合破坏，被广泛作为材料连续至非连续开裂转换的基准测试[18,19,22]；模式I裂纹板及相关的动态裂纹模型，则专门用于评估动态裂纹的扩展、分叉以及穿越界面的行为[20,21]。此外，仿生结构的脆性动态断裂响应[51]与冲击荷载下的断裂特征[52]以及非均匀沉降下的结构大变形失效[53]，也为复杂边界效应提供了丰富的参考数据。上述算例为本课题构建共生耦合力学对标体系提供了直接依据。
+2.5发展趋势与存在问题
+岩石动力学数值模拟正朝共生并发耦合与异构并行计算方向发展[9,34]。尽管前沿方法已取得丰硕成果，但在处理跨尺度动力破坏问题时仍面临诸多挑战：（1）桥接域、Arlequin等方法在三维完全显式时间积分与强动载条件下的界面求解稳定性仍有待加强[6,7,13]；（2）全域共生方案在远场连续区域内仍存在大量无效的颗粒接触检索，极大制约了工程大尺度模拟的计算效率[7,24]；（3）面向预分区局部共生耦合的标准验证算例体系尚不完善，难以系统评价界面键在不开裂与开裂两类典型问题上的力学精度与数值鲁棒性[11,18]；（4）在局部大幅缩小DEM的参与范围后，宏观力学保真度与整体计算效率之间如何进行定量权衡，目前仍缺乏可复现的对比评价范式[6,7]。
+2.6本课题研究切入点
+综上所述，本课题的切入点是：针对全域共生模型接触检索冗余与三维显式断裂验证不足的问题[7,13]，依托MultiFracS，建立预分区局部FEM-DEM共生耦合模型。该模型在远场区域保持纯FEM连续描述，仅在潜在破裂区布置带键DEM颗粒，并以界面键连接（InterfaceBond）作为核心协调机制实现跨域力与变形的传递[14]。在分析界面求解稳定性时，将异步长并行[15]与粗粒化映射[17]仅作为可借鉴的理论参照，不作核心贡献。在此基础上，课题配套设置全域共生参照模型，开展悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板4类标准算例的数值试验，通过完成力学响应与接触规模及计算耗时的双重定量对标[6,7]，最终为显式条件下共生耦合算法的有效性检验提供一条可复现的评价路径。
+主要参考文献：
+邓鹏海, 刘泉声, 卢海峰, 等. 基于 FDEM 数值模拟的土石混合体力学特性及破坏行为研究[J]. 工程力学, 2025, 42(12): 57-74. DOI: 10.6052/j.issn.1000-4750.2023.06.0451.
+Xu C, Sun J, Li G, et al. Applying FDEM for Blasting Fragmentation of Jointed Rock Mass[J]. Applied Sciences, 2026, 16(3). DOI: 10.3390/app16031470.
+刘健, 薛勇林, 张华磊, 等. 界面角度对层状复合岩石动态断裂及能量耗散影响的试验研究[J]. 振动与冲击, 2025, 44(21): 12-24. DOI: 10.13465/j.cnki.jvs.2025.21.002.
+Xu J, Deng Z, Feng Y, et al. Modeling progressive failure in steep rock slopes using the combined finite-discrete element method[J]. Scientific Reports, 2026, 16(1): 1-16. DOI: 10.1038/s41598-026-40966-w.
+Lei Y, Liu Q, Liu H, et al. An updated Lagrangian framework with quadratic element formulations for FDEM[J]. Computers and Geotechnics, 2023, 164. DOI: 10.1016/j.compgeo.2023.105837.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Finite element method-discrete element method bridging coupling for the modeling of gouge[J]. International Journal for Numerical Methods in Engineering, 2023, 124(6): 1474-1488. DOI: 10.1002/nme.7171.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Two-scale concurrent simulations for crack propagation using FEM–DEM bridging coupling[J]. Computational Particle Mechanics, 2024, 11(5): 2235-2243. DOI: 10.1007/s40571-024-00788-x.
+陈闯, 张一杰, 董志强. 含能材料冲击响应多尺度建模与多场耦合模拟方法研究进展[J]. 兵器装备工程学报, 2026, 47(2): 332-341. DOI: 10.11809/bqzbgcxb2026.02.038.
+Chen Z, Xu S, Yang G, et al. A novel GPGPU-parallelized contact detection algorithm for 3D-FDEM: Optimizing the computational structure[J]. Engineering Fracture Mechanics, 2025, 330. DOI: 10.1016/j.engfracmech.2025.111653.
+Scheidt L, Crété J-P, Longère P. Mass-lumping technique for fully explicit time integration of the shifted-basis variant of the 3D extended finite element method[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 451. DOI: 10.1016/j.cma.2025.118636.
+徐浩然, 刘平, 刘泉声, 等. 岩石类材料直接拉伸破坏的 FDEM 数值模拟[J]. 中南大学学报（自然科学版）, 2024, 55(9): 3416-3425. DOI: 10.11817/j.issn.1672-7207.2024.09.016.
+Lu Y, Thomas S, Zhang T J. Concurrent AtC Multiscale Modeling of Material Coupled Thermo-Mechanical Behaviors: A Review[J]. CivilEng, 2022, 3(4): 1013-1038. DOI: 10.3390/civileng3040057.
+Tim Bürchner,Lars Radtke,Sascha Eisenträger , et al.Generalized Eigenvalue stabilization for immersed explicit dynamics[J].Computer Methods in Applied Mechanics and Engineering,2026,452, Part A,DOI:10.1016/j.cma.2026.118727.
+李晓光, 李长洪, 冯春. 一种块体–颗粒–杆件的耦合方法及其在隧道支护模拟中的应用[J]. 工程科学学报, 2023, 45(6): 1023-1033. DOI: 10.13374/j.issn2095-9389.2022.03.25.005.
+李佟, 金先龙, 王小卫, 等. 基于重叠边界的有限元与离散元耦合异步长并行计算方法[J]. 农业机械学报, 2023, 54(6): 419-426. DOI: 10.6041/j.issn.1000-1298.2023.06.043.
+Niknafs S, Silani M, Concli F, et al. A coarse-grained concurrent multiscale method for simulating brittle fracture[J]. International Journal of Solids and Structures, 2022, 254-255. DOI: 10.1016/j.ijsolstr.2022.111898.
+程宏旸, Luding S, Weinhart T. 粗粒化强化有限-离散元多尺度耦合方法在颗粒-连续体表面动态作用问题上的应用[J]. Acta Mechanica Sinica, 2023, 39(1): 110-123. DOI: 10.1007/s10409-022-22218-x.
+Zhang H, Liu Y, Zhou X, et al. Mechanical behavior and fracture mechanism of rock under Brazilian splitting test via the FEM-CZM method[J]. Bulletin of Engineering Geology and the Environment, 2026, 85(6): 345. DOI: 10.1007/s10064-026-05013-y.
+Heng Z, Xu T, Konietzky H, et al. New insights into the continuous-discontinuous failure characteristics of granite under Brazilian splitting test conditions using acousto-optic-mechanical (AOM) method[J]. International Journal of Rock Mechanics and Mining Sciences, 2025, 187. DOI: 10.1016/j.ijrmms.2025.106041.
+Zhou J, Yue Z, Feng C, et al. Experiments and numerical simulations on dynamic crack behavior at the interface of layered brittle material[J]. Fatigue & Fracture of Engineering Materials & Structures, 2022, 45(12): 3546-3558. DOI: 10.1111/ffe.13829.
+Wang Y, Zhu T, Chen R, et al. Investigation of dynamic crack propagation behavior across the C-shaped UHPC-granite interface[J]. Engineering Fracture Mechanics, 2026, 338. DOI: 10.1016/j.engfracmech.2026.112049.
+Zhang J, Chen J. An anisotropic weighted Voronoi method for mesostructure reconstruction in rock materials and its application to Brazilian test simulations[J]. Computational Particle Mechanics, 2025, 12(6): 5007-5024. DOI: 10.1007/s40571-025-00978-1.
+Kamran M, Liu H, Fukuda D, et al. Insights Into the Dynamic Fracturing Behaviours of Rocks Under Multiaxial Static and Dynamic Coupled Loads Through 3D FDEM With Various Contact Algorithms and Cohesive Zone Models[J]. International Journal for Numerical and Analytical Methods in Geomechanics, 2026, 50(4): 1969-2005. DOI: 10.1002/nag.70212.
+杨开源, 陈锡忠. 颗粒破碎的离散元及有限离散元模拟方法比较[J]. 化工学报, 2025, 76(9): 4398-4411. DOI: 10.11949/0438-1157.20250078.
+Hu X, Yan X, Yu H. A PD-FEM Coupling Approach for Modeling Cracks Propagation in Brittle Rock under Compressive Load[C]//57th US Rock Mechanics/Geomechanics Symposium. 2023.
+Chen X, Yu H. A multiscale method coupling peridynamic and boundary element models for dynamic problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 401(Part B). DOI: 10.1016/j.cma.2022.115669.
+Yue Z, Zhou J, Feng C, et al. Coupling of material point and continuum discontinuum element methods for simulating blast-induced fractures in rock[J]. Computers and Geotechnics, 2022, 144. DOI: 10.1016/j.compgeo.2021.104629.
+Su D, Zhang R, Xiong H, et al. Dynamic analysis of rockfall impact on a protective structure via FEM-DEM coupling[J]. Natural Hazards, 2023, 119(3): 1771-1797. DOI: 10.1007/s11069-023-06183-8.
+Qu Y, Zou D, Liu J, et al. Two-dimensional DEM-FEM coupling analysis of seismic failure and anti-seismic measures for concrete faced rockfill dam[J]. Computers and Geotechnics, 2022, 151. DOI: 10.1016/j.compgeo.2022.104950.
+涂义亮, 陈晓虎, 王星驰, 等. 基于连续-离散耦合强度折减法的边坡稳定性分析[J]. 工程力学, 2025, 42(3): 238-249. DOI: 10.6052/j.issn.1000-4750.2022.12.1047.
+Cai W, Gao K, Ai S, et al. A 2D energy-conserving contact model for the combined finite-discrete element method (FDEM)[J]. Computers and Geotechnics, 2024, 166. DOI: 10.1016/j.compgeo.2023.105972.
+Cai W, Wang W, Zhang S, et al. A 3D contact interaction algorithm using unified distance potential field for the combined finite-discrete element method (FDEM)[J]. Engineering Analysis with Boundary Elements, 2025, 179(Part A). DOI: 10.1016/j.enganabound.2025.106336.
+张柏楠. 嵌岩海上风机海床岩石破碎 FDEM 数值仿真方法与单桩基础水平承载破坏机理研究[D]. 山东大学, 2024. DOI: 10.27272/d.cnki.gshdu.2024.008429.
+Zhao R, Wu Z, Xu X, et al. GPGPU-Parallelized Data-Driven Hierarchical Multiscale 3D FDEM for Rock Meso-macro-numerical Simulation[J]. Rock Mechanics and Rock Engineering, 2025, 58(2): 1503-1528. DOI: 10.1007/s00603-024-04218-5.
+Kang S, Masud A. CONCURRENT TWO-WAY COUPLING OF GLOBAL AND LOCAL MODELS ACROSS INTERNAL BOUNDARIES WITH NON-MATCHING DISCRETIZATIONS[J]. Advances in Computational Science and Engineering, 2025, 4: 168-200. DOI: 10.3934/acse.2025016.
+Tu F, Jiao Y, Chen Z, et al. Stress continuity in DEM-FEM multiscale coupling based on the generalized bridging domain method[J]. Applied Mathematical Modelling, 2020, 83: 220-236. DOI: 10.1016/j.apm.2020.02.030.
+Li X, Zhang Z, Ji C, et al. A Lagrange multiplier-based coupling approach for the combined finite-discrete element method applicable to mechanical investigation of composite materials[J]. Computational Particle Mechanics, 2024, 11(3): 989-1005. DOI: 10.1007/s40571-023-00668-w.
+Sun W, Bao S, Zhou J, et al. Concurrent multiscale analysis of anti-seepage structures in embankment dam based on the nonlinear Arlequin method[J]. Engineering Analysis with Boundary Elements, 2023, 149: 231-247. DOI: 10.1016/j.enganabound.2023.01.039.
+Grunwald C, Sauer M, Stolz A, et al. Enhancing Efficiency in Multiscale Simulation: Comparing a Lagrange Multiplier Based Approach and a Weak Staggered Coupling With Optional SPML Interface for Wave Propagation[J]. International Journal for Numerical Methods in Engineering, 2025, 126(9). DOI: 10.1002/nme.7633.
+Cui Y, Zhang Z. A novel concurrent multiscale method based on the coupling of Direct FE2 and CPFEM[J]. Thin-Walled Structures, 2025, 206(Part A). DOI: 10.1016/j.tws.2024.112610.
+Liu P, Fang L, Wang Y, et al. Concurrent atomistic-continuum coupling via physics-informed neural networks with adaptive energy weighting and direct boundary encoding[J]. Applied Mathematical Modelling, 2026, 158. DOI: 10.1016/j.apm.2026.116931.
+Yin M, Zhang E, Yu Y, et al. Interfacing finite elements with deep neural operators for fast multiscale modeling of mechanics problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 402. DOI: 10.1016/j.cma.2022.115027.
+Wu B, Qiu T, Chen X, et al. Interfacial force transfer mechanism of multi-hole closely-spaced prefabricated underground structures[J]. Tunnelling and Underground Space Technology, 2026, 168(Part 2). DOI: 10.1016/j.tust.2025.107204.
+邱豪, 张文康, 廖飞宇, 等. 不同倾斜界面的高强砂浆–花岗岩试件动态裂纹扩展行为研究[J]. 岩石力学与工程学报, 2026, 45(1): 79-98. DOI: 10.3724/1000-6915.jrme.2025.0512.
+Song J, Xu C, Jia K, et al. A frictional contact approach for saturated soil-structure dynamic interaction considering fluid-solid coupling and contact coupling effects[J]. Computers and Geotechnics, 2026, 194. DOI: 10.1016/j.compgeo.2026.108008.
+Malakiyeh M M, Shojaee S, Hamzehei-Javaran S. A novel explicit-implicit time integration method for solving time-dependent finite element equation: The Versa-δ method[J]. Computers & Structures, 2025, 309. DOI: 10.1016/j.compstruc.2025.107664.
+Anupama S, Kishen J M C. Influence of residual stress on dynamic fracture: A phase field study[J]. International Journal of Mechanical Sciences, 2026, 320. DOI: 10.1016/j.ijmecsci.2026.111610.
+Zhou S, Zhuang X, Zhou J, Liu F. Phase Field Characterization of Rock Fractures in Brazilian Splitting Test Specimens Containing Voids and Inclusions[J]. arXiv, 2023. DOI: 10.48550/arXiv.2309.03909.
+Li C, Liu J, Dong L, et al. Phase field fracture in elastoplastic solids: a stress-state, strain-rate, and orientation dependent model in explicit dynamics and its applications to additively manufactured metals[J]. Journal of the Mechanics and Physics of Solids, 2025, 197. DOI: 10.1016/j.jmps.2024.105978.
+Tran H T. A novel nonlocal damage zone adaptation technique for dynamic brittle fracture based on the energy limiter concept[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 455. DOI: 10.1016/j.cma.2026.118898.
+Cao M, Cao X, Wang Z, et al. Brittle dynamic fracture response and crack propagation behavior of biomimetic tree-like fractal groove structure[J]. Engineering Fracture Mechanics, 2026, 339. DOI: 10.1016/j.engfracmech.2026.112091.
+Zhang T, Zhu Z, Zhang F. Dynamic mode I fracture behavior of frozen soil under impact loading and FDEM numerical simulation: Based on a rate-dependent elastoplastic and cohesive model[J]. Theoretical and Applied Fracture Mechanics, 2026, 141(Part A). DOI: 10.1016/j.tafmec.2025.105261.
+武献龙, 陈旭东. 砌体墙在支座不均匀沉降下的有限离散元分析[J]. 土木工程与绿色建筑, 2023(5): 14-18. DOI: 10.3969/j.issn.1005-6270.2023.05.004. | 一、选题依据（包括选题的来源，研究的目的、意义；国内外研究现状和发展趋势；结合科学研究发展趋势来论述，或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应用前景。附主要参考文献目录）
+1选题背景、目的及意义
+1.1研究背景
+目前，我国基础设施建设所涉及的地质条件日益复杂，工程实践中遭遇土石混合体等非均质地质体的情形逐渐增多[1]。这类岩土介质往往具有显著的非均质特征与结构面效应，内部常发育有节理网络[2]或层状复合结构[3]。在爆破开挖或冲击等动力荷载作用下，应力易于在材料软弱面附近产生集中，进而诱发局部开裂，甚至可能导致陡峭边坡等工程岩体的整体失稳破坏[2,4]。对于此类问题，在数值分析中合理刻画岩石类材料在动载下由连续变形向非连续破裂演化的全过程，是计算力学领域的一项关键议题[5]。这种跨尺度演化过程的准确模拟，直接关系到工程岩体动力失稳与稳定性评价的可靠性[4]。
+就现有数值方法而言，材料在动载作用下的破坏通常会经历由连续变形、开裂乃至最终碎裂的过程；相关的多尺度与多场耦合建模不仅要反映结构的宏观连续变形，还须兼顾局部的强非连续特征[6-8]。传统的有限元法（FEM）在常规弹性分析中计算效率较高，但在处理强非连续演化及破裂后的接触问题时仍存在固有局限[9]。离散元法（DEM）虽适合处理复杂的接触与大变形问题，但细尺度模型庞大的计算开销往往制约了其在大区域问题中的直接应用[7]。对于爆破、冲击等高速动力问题，显式时间积分方法能够避免大型矩阵迭代求解，在处理强非线性、大变形及接触碰撞问题方面具有天然优势，因此被广泛应用于动力断裂与显式接触分析领域[10]。在这一脉络下，有限–离散元统一法（FDEM）通过构建更新拉格朗日力学框架，在单一求解器内实现了对材料从连续向非连续破裂全过程的覆盖[5]，并已广泛应用于岩石类材料的断裂模拟[11]。然而，作为统一求解架构，全域密布内聚力单元并持续进行海量接触检测，依然面临着极大的算力压力[7,9]。因此，让FEM与DEM在同一模型中协同求解的共生耦合方法受到越来越多关注[6,7]；与此同时，并发多尺度建模理论也为突破跨尺度动力破坏模拟的算力限制提供了重要思路[12]。
+对于岩石冲击破坏、爆破及高速动力响应等问题，破坏往往呈现出局部强非连续、远场以连续变形为主的空间特征。现有共生耦合方法虽已建立桥接域、Arlequin等重叠域方案，但针对三维显式动力学问题的系统验证研究仍相对有限，界面协调机制在动力条件下的适用性仍有待进一步评估[6,13]；而InterfaceBond等界面键连接方法在三维显式动力学场景下的力学有效性，以及面向连续—断裂全过程的系统验证体系，仍有待进一步研究[14]。因此，在显式动力学框架下，以预分区局部FEM–DEM共生方法与InterfaceBond界面机制为对象，构建从连续响应到断裂破坏的系统验证链条，对推动共生耦合方法在三维动力断裂分析中的工程应用具有重要意义[6,7,13]。
+在矿山工程、隧道开挖及重大基础设施建设等进程中，岩体爆破、冲击致裂与边坡失稳等动力学问题较为普遍[2-4]。工程实践不仅需要在关键的破裂区域保证动力学模拟的精度，同时也对大尺度岩体破坏全过程的分析效率提出了迫切要求。在此背景下，开展有限元–离散元共生耦合方法研究，能够为上述工程问题的数值预测提供支撑，具有明确的工程应用需求。
+1.2研究目的
+本课题旨在建立并验证预分区局部FEM-DEM共生耦合方法。课题的数值试验在MultiFracS上进行，其中本人独立负责共生耦合子模块的机制研究与算例验证。
+该方法的核心建模原则为：在同一连续部件（如岩石试件、岩柱、岩梁及含预制裂纹岩板等连续体构件）内，远场采用纯FEM描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，通过界面键（InterfaceBond）传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+具体而言，本课题将开展以下四项工作：（1）在MultiFracS共生耦合框架内建立预分区局部FEM-DEM模型，并配置全域共生参照算例，明确远场纯FEM区与潜在破裂区带键DEM子域的划分与界面连接方式。（2）明确界面键的法向/切向刚度与断裂准则，分析键断裂前后界面的力–位移连续传递与非连续分离机制[14]。（3）在显式动力学框架下，考察由异质子域引起的界面Ghost力、应力波异常反射及临界时间步失配等问题[10,13,15]。在此过程中，异步长并行[15]与粗粒化界面映射[16,17]仅作为可借鉴的理论参照，不作为本课题的核心贡献。（4）构建由显式动力学验证、连续响应验证、共生耦合验证及断裂行为验证组成的递进式验证体系：以三维悬臂梁大位移算例验证显式时间积分有限元求解器在几何非线性条件下的计算精度，并与Abaqus非线性有限元结果进行对比[5]；以三维单轴拉伸杆算例检验共生耦合模型在连续响应阶段的界面传递正确性，并与纯FEM结果进行对比；以巴西劈裂及模式I裂纹板等典型断裂算例通过数值复现与结果对比，验证共生耦合模型在裂纹扩展与动力响应预测方面的力学正确性[11,18-21]；并对比局部共生与全域共生参照模型在接触检索规模及计算耗时上的差异，评价预分区策略的计算效能。
+1.3研究意义
+（1）理论意义：本课题有助于深化对同部件内连续–非连续并发耦合机制的认识。通过探索显式动力学条件下的界面键连接规律，补充异质交界面的力学协调与求解稳定性评价体系[10,13,14]。将离散颗粒与接触检索限制在潜在破裂区，为权衡"力学保真度与计算效率"提供了可检验的理论路径[6,7]，丰富了共生耦合由全域重叠向局部预分区方向演进的学术讨论[6,16]。
+（2）方法与应用参考价值：作为一项算法验证型工作，本研究不展开大尺度地质工程设计，而是致力于形成可复用的标准化验证流程与评价指标。具体涵盖：以三维悬臂梁大位移算例对显式时间积分有限元求解器的几何非线性能力进行基准检验[5]；单轴拉伸杆的不开裂阶段波传播与界面连续传递[11]；巴西劈裂的拉剪混合开裂[18,19,22]；以及模式I裂纹板的动态裂纹扩展与界面穿越[20,21]等文献经典算例的数值复现与对标验证。该验证流程可为后续复杂岩石动力学数值研究提供基础参照[4,23]。
+2研究现状、发展趋势、存在问题及切入点
+2.1FEM-DEM与FDEM研究现状
+有限元法（FEM）在处理连续介质变形与多场耦合中具备成熟优势，但在应对强动载导致的强非连续演化及破裂后接触问题时存在固有局限[9]。离散元法（DEM）虽能自然处理颗粒分离与大变形，但利用细尺度模型表征完整连续体时存在宏观等效参数匹配困难，且全域模拟的庞大计算开销极大限制了其应用规模[7,24]。为兼顾连续与非连续特征，FEM-DEM耦合、近场动力学（PD）与有限元或边界元耦合[25,26]以及物质点与连续–非连续元法耦合[27]等多尺度路线不断发展。其中，传统的跨部件分区耦合多用于落石冲击防护结构[28]、大坝与边坡工程抗震[29,30]等本就相互独立的子系统，其界面以接触传力为主，通常不承担同一物理部件由完整连续体向非连续开裂演化的全过程。
+与此同时，有限–离散元统一法（FDEM）作为另一条代表性路线，在单一求解器内基于更新拉格朗日框架与四面体单元，通过嵌入内聚力单元实现材料的非连续化断裂[5]。近年来，该方法在二维与三维接触算法[31,32]以及数据驱动与GPGPU异构并行加速[9,34]上取得进展，并被广泛应用于节理岩体爆破破碎[2]、陡峭岩坡渐进破坏[4]及土石混合体破裂[1]以及嵌岩桩基失稳[33]等工程场景。总体而言，FDEM与FEM-DEM共生耦合是处理复杂断裂问题的两条并列路线：前者强调整体网格的统一求解，后者强调异质子域的并发协同[6,7]。然而，在面对远场弹性变形、近场剧烈破裂的跨尺度问题时，全域内聚断裂与海量接触检索仍消耗大量算力[7,9]；如何在局部高分辨率与整体计算成本之间取得平衡，是此类方法共同面临的矛盾[12]。
+2.2共生耦合研究现状
+共生耦合允许同一模型内有限元（FEM）宏观连续区与离散元（DEM）细观离散区同时存在并同步求解[12,35]。针对不同子域的边界处理，现有研究大体形成两类思路：一类是以重叠域能量加权为核心的协调方法，包括桥接域法（Bridging Domain）[6,7,36]与Arlequin方法[38,39]，通过在重叠区内对各子域能量进行加权混合，实现跨域位移协调与能量一致性；另一类是在非匹配节点间建立界面键（InterfaceBond）的边界连接方法，通过法向与切向弹簧约束传递跨域力与位移[14]。在此基础上，多尺度耦合框架得到广泛拓展。例如，Voisin-Leprince等基于桥接与重叠域框架，实现了宏观小变形与微观断裂的双尺度并发模拟[6,7]；此外，通过引入拉格朗日乘子或Arlequin方法，可在重叠域内对不同尺度的能量进行加权混合以实现强运动学约束[37-39]。为处理极端局部化失效，直接FE²-CPFEM并发多尺度方法[40]、粗粒化多尺度耦合技术[16,17]，以及基于物理信息神经网络（PINN）与深度神经算子驱动的自适应能量耦合算法[41,42]均展现出跨域求解潜力。尽管衍生出诸多耦合范式，界面处能量、动量与位移的有效协调始终是此类方法成功的关键[12,35]。
+现有共生耦合研究多默认FEM与DEM在较大范围内重叠共存，导致裂纹尚未扩展的未破裂阶段，仍须维持庞大的颗粒网络与海量接触检索[6,17]。相比之下，采用预分区局部共生策略（仅在潜在破裂区引入离散描述，远场保持纯FEM）可大幅压缩无效接触计算规模。然而，在三维完全显式动力学框架下，由于子域临界时间步与刚度差异显著，这种局部界面的力学有效性、求解稳定性及可复现验证体系仍存在明显不足[7,13]。本课题采用界面键连接路线（InterfaceBond），其界面协调机制与重叠域方法存在明显区别；广义桥域法[36]等重叠域方案可作为界面协调策略设计的重要参照背景。因此，本课题以InterfaceBond界面连接路线为基础，针对其在三维显式动力学场景下的适用性与验证问题展开研究。
+2.3界面力传递与位移协调研究现状
+界面力学协调机制直接决定了共生耦合算法的数值鲁棒性与计算精度。拉格朗日乘子法虽能实现高精度的位移与应力约束，但在完全显式求解框架下往往会引入高昂的计算成本[37]。相比之下，界面键连接（InterfaceBond）通过在非匹配节点间建立法向与切向约束弹簧，并辅以相应的断裂准则，成为一种兼顾效率与物理机制的有效手段[14]。此类界面力学模型已被广泛拓展应用于预制地下结构界面力传递[43]、砂浆–岩石异质界面动态断裂[44]以及流固耦合摩擦接触[45]等工程场景。然而，由于强动载下介质将发生非线性转变，键断裂前后必须在连续传力与允许局部分离之间实现平滑过渡，否则极易在界面处产生界面力残差（Ghost Force）与虚假的能量耗散[15,17]。
+此外，有限元宏观网格与离散元细观颗粒在空间尺度与刚度上的悬殊差异，往往会导致系统临界时间步严重失配，成为显式动力学求解时的另一大难题。为此，相关研究提出了基于重叠边界的异步长并行计算方法，以缓解多尺度界面上的时间积分失稳[15]；同时，也有研究引入粗粒化强化映射技术，显著改善了颗粒与连续体表面在动态作用过程中的接触力振荡响应[17]。尽管异质界面动态断裂已有试验与数值研究[21,44]，但针对键控FEM–DEM共生界面在标准动态断裂算例中的力学一致性与连续传递检验仍不充分。
+2.4显式动力学研究现状
+在处理强冲击与强动载问题时，完全显式时间积分被广泛应用于动力学方程的求解[10]。然而，由于多尺度模型中异质子域的刚度不协调，极易在交界处引发数值振荡与界面失稳。为此，研究者引入了质量集总（Mass-lumping）与广义特征值稳定化方法以抑制高频响应[10,13]；同时，如Versa-δ法等新型显隐式混合时间积分格式也被开发用于提升求解边界的鲁棒性[46]。此外，为了全面检验显式断裂模拟的可信度，动态相场法[47-49]、基于能量限制的非局部损伤技术[50]，以及各向异性加权Voronoi离散策略[22]等前沿方法，常被作为重要的对比验证工具。
+在算法的力学检验方面，学术界已形成了一套经典的动态断裂标准验证算例体系。其中，单轴拉伸杆模型常用于检验不开裂阶段的应力波传播规律及界面物理量传递的连续性[11]；巴西劈裂算例因能引发复杂的拉剪混合破坏，被广泛作为材料连续至非连续开裂转换的基准测试[18,19,22]；模式I裂纹板及相关的动态裂纹模型，则专门用于评估动态裂纹的扩展、分叉以及穿越界面的行为[20,21]。此外，仿生结构的脆性动态断裂响应[51]与冲击荷载下的断裂特征[52]以及非均匀沉降下的结构大变形失效[53]，也为复杂边界效应提供了丰富的参考数据。上述算例为本课题构建共生耦合力学对标体系提供了直接依据。
+2.5发展趋势与存在问题
+岩石动力学数值模拟正朝共生并发耦合与异构并行计算方向发展[9,34]。尽管前沿方法已取得丰硕成果，但在处理跨尺度动力破坏问题时仍面临诸多挑战：（1）桥接域、Arlequin等方法在三维完全显式时间积分与强动载条件下的界面求解稳定性仍有待加强[6,7,13]；（2）全域共生方案在远场连续区域内仍存在大量无效的颗粒接触检索，极大制约了工程大尺度模拟的计算效率[7,24]；（3）面向预分区局部共生耦合的标准验证算例体系尚不完善，难以系统评价界面键在不开裂与开裂两类典型问题上的力学精度与数值鲁棒性[11,18]；（4）在局部大幅缩小DEM的参与范围后，宏观力学保真度与整体计算效率之间如何进行定量权衡，目前仍缺乏可复现的对比评价范式[6,7]。
+2.6本课题研究切入点
+综上所述，本课题的切入点是：针对全域共生模型接触检索冗余与三维显式断裂验证不足的问题[7,13]，依托MultiFracS，建立预分区局部FEM-DEM共生耦合模型。该模型在远场区域保持纯FEM连续描述，仅在潜在破裂区布置带键DEM颗粒，并以界面键连接（InterfaceBond）作为核心协调机制实现跨域力与变形的传递[14]。在分析界面求解稳定性时，将异步长并行[15]与粗粒化映射[17]仅作为可借鉴的理论参照，不作核心贡献。在此基础上，课题配套设置全域共生参照模型，开展悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板4类标准算例的数值试验，通过完成力学响应与接触规模及计算耗时的双重定量对标[6,7]，最终为显式条件下共生耦合算法的有效性检验提供一条可复现的评价路径。
+主要参考文献：
+邓鹏海, 刘泉声, 卢海峰, 等. 基于 FDEM 数值模拟的土石混合体力学特性及破坏行为研究[J]. 工程力学, 2025, 42(12): 57-74. DOI: 10.6052/j.issn.1000-4750.2023.06.0451.
+Xu C, Sun J, Li G, et al. Applying FDEM for Blasting Fragmentation of Jointed Rock Mass[J]. Applied Sciences, 2026, 16(3). DOI: 10.3390/app16031470.
+刘健, 薛勇林, 张华磊, 等. 界面角度对层状复合岩石动态断裂及能量耗散影响的试验研究[J]. 振动与冲击, 2025, 44(21): 12-24. DOI: 10.13465/j.cnki.jvs.2025.21.002.
+Xu J, Deng Z, Feng Y, et al. Modeling progressive failure in steep rock slopes using the combined finite-discrete element method[J]. Scientific Reports, 2026, 16(1): 1-16. DOI: 10.1038/s41598-026-40966-w.
+Lei Y, Liu Q, Liu H, et al. An updated Lagrangian framework with quadratic element formulations for FDEM[J]. Computers and Geotechnics, 2023, 164. DOI: 10.1016/j.compgeo.2023.105837.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Finite element method-discrete element method bridging coupling for the modeling of gouge[J]. International Journal for Numerical Methods in Engineering, 2023, 124(6): 1474-1488. DOI: 10.1002/nme.7171.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Two-scale concurrent simulations for crack propagation using FEM–DEM bridging coupling[J]. Computational Particle Mechanics, 2024, 11(5): 2235-2243. DOI: 10.1007/s40571-024-00788-x.
+陈闯, 张一杰, 董志强. 含能材料冲击响应多尺度建模与多场耦合模拟方法研究进展[J]. 兵器装备工程学报, 2026, 47(2): 332-341. DOI: 10.11809/bqzbgcxb2026.02.038.
+Chen Z, Xu S, Yang G, et al. A novel GPGPU-parallelized contact detection algorithm for 3D-FDEM: Optimizing the computational structure[J]. Engineering Fracture Mechanics, 2025, 330. DOI: 10.1016/j.engfracmech.2025.111653.
+Scheidt L, Crété J-P, Longère P. Mass-lumping technique for fully explicit time integration of the shifted-basis variant of the 3D extended finite element method[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 451. DOI: 10.1016/j.cma.2025.118636.
+徐浩然, 刘平, 刘泉声, 等. 岩石类材料直接拉伸破坏的 FDEM 数值模拟[J]. 中南大学学报（自然科学版）, 2024, 55(9): 3416-3425. DOI: 10.11817/j.issn.1672-7207.2024.09.016.
+Lu Y, Thomas S, Zhang T J. Concurrent AtC Multiscale Modeling of Material Coupled Thermo-Mechanical Behaviors: A Review[J]. CivilEng, 2022, 3(4): 1013-1038. DOI: 10.3390/civileng3040057.
+Tim Bürchner,Lars Radtke,Sascha Eisenträger , et al.Generalized Eigenvalue stabilization for immersed explicit dynamics[J].Computer Methods in Applied Mechanics and Engineering,2026,452, Part A,DOI:10.1016/j.cma.2026.118727.
+李晓光, 李长洪, 冯春. 一种块体–颗粒–杆件的耦合方法及其在隧道支护模拟中的应用[J]. 工程科学学报, 2023, 45(6): 1023-1033. DOI: 10.13374/j.issn2095-9389.2022.03.25.005.
+李佟, 金先龙, 王小卫, 等. 基于重叠边界的有限元与离散元耦合异步长并行计算方法[J]. 农业机械学报, 2023, 54(6): 419-426. DOI: 10.6041/j.issn.1000-1298.2023.06.043.
+Niknafs S, Silani M, Concli F, et al. A coarse-grained concurrent multiscale method for simulating brittle fracture[J]. International Journal of Solids and Structures, 2022, 254-255. DOI: 10.1016/j.ijsolstr.2022.111898.
+程宏旸, Luding S, Weinhart T. 粗粒化强化有限-离散元多尺度耦合方法在颗粒-连续体表面动态作用问题上的应用[J]. Acta Mechanica Sinica, 2023, 39(1): 110-123. DOI: 10.1007/s10409-022-22218-x.
+Zhang H, Liu Y, Zhou X, et al. Mechanical behavior and fracture mechanism of rock under Brazilian splitting test via the FEM-CZM method[J]. Bulletin of Engineering Geology and the Environment, 2026, 85(6): 345. DOI: 10.1007/s10064-026-05013-y.
+Heng Z, Xu T, Konietzky H, et al. New insights into the continuous-discontinuous failure characteristics of granite under Brazilian splitting test conditions using acousto-optic-mechanical (AOM) method[J]. International Journal of Rock Mechanics and Mining Sciences, 2025, 187. DOI: 10.1016/j.ijrmms.2025.106041.
+Zhou J, Yue Z, Feng C, et al. Experiments and numerical simulations on dynamic crack behavior at the interface of layered brittle material[J]. Fatigue & Fracture of Engineering Materials & Structures, 2022, 45(12): 3546-3558. DOI: 10.1111/ffe.13829.
+Wang Y, Zhu T, Chen R, et al. Investigation of dynamic crack propagation behavior across the C-shaped UHPC-granite interface[J]. Engineering Fracture Mechanics, 2026, 338. DOI: 10.1016/j.engfracmech.2026.112049.
+Zhang J, Chen J. An anisotropic weighted Voronoi method for mesostructure reconstruction in rock materials and its application to Brazilian test simulations[J]. Computational Particle Mechanics, 2025, 12(6): 5007-5024. DOI: 10.1007/s40571-025-00978-1.
+Kamran M, Liu H, Fukuda D, et al. Insights Into the Dynamic Fracturing Behaviours of Rocks Under Multiaxial Static and Dynamic Coupled Loads Through 3D FDEM With Various Contact Algorithms and Cohesive Zone Models[J]. International Journal for Numerical and Analytical Methods in Geomechanics, 2026, 50(4): 1969-2005. DOI: 10.1002/nag.70212.
+杨开源, 陈锡忠. 颗粒破碎的离散元及有限离散元模拟方法比较[J]. 化工学报, 2025, 76(9): 4398-4411. DOI: 10.11949/0438-1157.20250078.
+Hu X, Yan X, Yu H. A PD-FEM Coupling Approach for Modeling Cracks Propagation in Brittle Rock under Compressive Load[C]//57th US Rock Mechanics/Geomechanics Symposium. 2023.
+Chen X, Yu H. A multiscale method coupling peridynamic and boundary element models for dynamic problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 401(Part B). DOI: 10.1016/j.cma.2022.115669.
+Yue Z, Zhou J, Feng C, et al. Coupling of material point and continuum discontinuum element methods for simulating blast-induced fractures in rock[J]. Computers and Geotechnics, 2022, 144. DOI: 10.1016/j.compgeo.2021.104629.
+Su D, Zhang R, Xiong H, et al. Dynamic analysis of rockfall impact on a protective structure via FEM-DEM coupling[J]. Natural Hazards, 2023, 119(3): 1771-1797. DOI: 10.1007/s11069-023-06183-8.
+Qu Y, Zou D, Liu J, et al. Two-dimensional DEM-FEM coupling analysis of seismic failure and anti-seismic measures for concrete faced rockfill dam[J]. Computers and Geotechnics, 2022, 151. DOI: 10.1016/j.compgeo.2022.104950.
+涂义亮, 陈晓虎, 王星驰, 等. 基于连续-离散耦合强度折减法的边坡稳定性分析[J]. 工程力学, 2025, 42(3): 238-249. DOI: 10.6052/j.issn.1000-4750.2022.12.1047.
+Cai W, Gao K, Ai S, et al. A 2D energy-conserving contact model for the combined finite-discrete element method (FDEM)[J]. Computers and Geotechnics, 2024, 166. DOI: 10.1016/j.compgeo.2023.105972.
+Cai W, Wang W, Zhang S, et al. A 3D contact interaction algorithm using unified distance potential field for the combined finite-discrete element method (FDEM)[J]. Engineering Analysis with Boundary Elements, 2025, 179(Part A). DOI: 10.1016/j.enganabound.2025.106336.
+张柏楠. 嵌岩海上风机海床岩石破碎 FDEM 数值仿真方法与单桩基础水平承载破坏机理研究[D]. 山东大学, 2024. DOI: 10.27272/d.cnki.gshdu.2024.008429.
+Zhao R, Wu Z, Xu X, et al. GPGPU-Parallelized Data-Driven Hierarchical Multiscale 3D FDEM for Rock Meso-macro-numerical Simulation[J]. Rock Mechanics and Rock Engineering, 2025, 58(2): 1503-1528. DOI: 10.1007/s00603-024-04218-5.
+Kang S, Masud A. CONCURRENT TWO-WAY COUPLING OF GLOBAL AND LOCAL MODELS ACROSS INTERNAL BOUNDARIES WITH NON-MATCHING DISCRETIZATIONS[J]. Advances in Computational Science and Engineering, 2025, 4: 168-200. DOI: 10.3934/acse.2025016.
+Tu F, Jiao Y, Chen Z, et al. Stress continuity in DEM-FEM multiscale coupling based on the generalized bridging domain method[J]. Applied Mathematical Modelling, 2020, 83: 220-236. DOI: 10.1016/j.apm.2020.02.030.
+Li X, Zhang Z, Ji C, et al. A Lagrange multiplier-based coupling approach for the combined finite-discrete element method applicable to mechanical investigation of composite materials[J]. Computational Particle Mechanics, 2024, 11(3): 989-1005. DOI: 10.1007/s40571-023-00668-w.
+Sun W, Bao S, Zhou J, et al. Concurrent multiscale analysis of anti-seepage structures in embankment dam based on the nonlinear Arlequin method[J]. Engineering Analysis with Boundary Elements, 2023, 149: 231-247. DOI: 10.1016/j.enganabound.2023.01.039.
+Grunwald C, Sauer M, Stolz A, et al. Enhancing Efficiency in Multiscale Simulation: Comparing a Lagrange Multiplier Based Approach and a Weak Staggered Coupling With Optional SPML Interface for Wave Propagation[J]. International Journal for Numerical Methods in Engineering, 2025, 126(9). DOI: 10.1002/nme.7633.
+Cui Y, Zhang Z. A novel concurrent multiscale method based on the coupling of Direct FE2 and CPFEM[J]. Thin-Walled Structures, 2025, 206(Part A). DOI: 10.1016/j.tws.2024.112610.
+Liu P, Fang L, Wang Y, et al. Concurrent atomistic-continuum coupling via physics-informed neural networks with adaptive energy weighting and direct boundary encoding[J]. Applied Mathematical Modelling, 2026, 158. DOI: 10.1016/j.apm.2026.116931.
+Yin M, Zhang E, Yu Y, et al. Interfacing finite elements with deep neural operators for fast multiscale modeling of mechanics problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 402. DOI: 10.1016/j.cma.2022.115027.
+Wu B, Qiu T, Chen X, et al. Interfacial force transfer mechanism of multi-hole closely-spaced prefabricated underground structures[J]. Tunnelling and Underground Space Technology, 2026, 168(Part 2). DOI: 10.1016/j.tust.2025.107204.
+邱豪, 张文康, 廖飞宇, 等. 不同倾斜界面的高强砂浆–花岗岩试件动态裂纹扩展行为研究[J]. 岩石力学与工程学报, 2026, 45(1): 79-98. DOI: 10.3724/1000-6915.jrme.2025.0512.
+Song J, Xu C, Jia K, et al. A frictional contact approach for saturated soil-structure dynamic interaction considering fluid-solid coupling and contact coupling effects[J]. Computers and Geotechnics, 2026, 194. DOI: 10.1016/j.compgeo.2026.108008.
+Malakiyeh M M, Shojaee S, Hamzehei-Javaran S. A novel explicit-implicit time integration method for solving time-dependent finite element equation: The Versa-δ method[J]. Computers & Structures, 2025, 309. DOI: 10.1016/j.compstruc.2025.107664.
+Anupama S, Kishen J M C. Influence of residual stress on dynamic fracture: A phase field study[J]. International Journal of Mechanical Sciences, 2026, 320. DOI: 10.1016/j.ijmecsci.2026.111610.
+Zhou S, Zhuang X, Zhou J, Liu F. Phase Field Characterization of Rock Fractures in Brazilian Splitting Test Specimens Containing Voids and Inclusions[J]. arXiv, 2023. DOI: 10.48550/arXiv.2309.03909.
+Li C, Liu J, Dong L, et al. Phase field fracture in elastoplastic solids: a stress-state, strain-rate, and orientation dependent model in explicit dynamics and its applications to additively manufactured metals[J]. Journal of the Mechanics and Physics of Solids, 2025, 197. DOI: 10.1016/j.jmps.2024.105978.
+Tran H T. A novel nonlocal damage zone adaptation technique for dynamic brittle fracture based on the energy limiter concept[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 455. DOI: 10.1016/j.cma.2026.118898.
+Cao M, Cao X, Wang Z, et al. Brittle dynamic fracture response and crack propagation behavior of biomimetic tree-like fractal groove structure[J]. Engineering Fracture Mechanics, 2026, 339. DOI: 10.1016/j.engfracmech.2026.112091.
+Zhang T, Zhu Z, Zhang F. Dynamic mode I fracture behavior of frozen soil under impact loading and FDEM numerical simulation: Based on a rate-dependent elastoplastic and cohesive model[J]. Theoretical and Applied Fracture Mechanics, 2026, 141(Part A). DOI: 10.1016/j.tafmec.2025.105261.
+武献龙, 陈旭东. 砌体墙在支座不均匀沉降下的有限离散元分析[J]. 土木工程与绿色建筑, 2023(5): 14-18. DOI: 10.3969/j.issn.1005-6270.2023.05.004. | 一、选题依据（包括选题的来源，研究的目的、意义；国内外研究现状和发展趋势；结合科学研究发展趋势来论述，或结合国民经济和社会发展中迫切需要解决的关键科技问题来论述其应用前景。附主要参考文献目录）
+1选题背景、目的及意义
+1.1研究背景
+目前，我国基础设施建设所涉及的地质条件日益复杂，工程实践中遭遇土石混合体等非均质地质体的情形逐渐增多[1]。这类岩土介质往往具有显著的非均质特征与结构面效应，内部常发育有节理网络[2]或层状复合结构[3]。在爆破开挖或冲击等动力荷载作用下，应力易于在材料软弱面附近产生集中，进而诱发局部开裂，甚至可能导致陡峭边坡等工程岩体的整体失稳破坏[2,4]。对于此类问题，在数值分析中合理刻画岩石类材料在动载下由连续变形向非连续破裂演化的全过程，是计算力学领域的一项关键议题[5]。这种跨尺度演化过程的准确模拟，直接关系到工程岩体动力失稳与稳定性评价的可靠性[4]。
+就现有数值方法而言，材料在动载作用下的破坏通常会经历由连续变形、开裂乃至最终碎裂的过程；相关的多尺度与多场耦合建模不仅要反映结构的宏观连续变形，还须兼顾局部的强非连续特征[6-8]。传统的有限元法（FEM）在常规弹性分析中计算效率较高，但在处理强非连续演化及破裂后的接触问题时仍存在固有局限[9]。离散元法（DEM）虽适合处理复杂的接触与大变形问题，但细尺度模型庞大的计算开销往往制约了其在大区域问题中的直接应用[7]。对于爆破、冲击等高速动力问题，显式时间积分方法能够避免大型矩阵迭代求解，在处理强非线性、大变形及接触碰撞问题方面具有天然优势，因此被广泛应用于动力断裂与显式接触分析领域[10]。在这一脉络下，有限–离散元统一法（FDEM）通过构建更新拉格朗日力学框架，在单一求解器内实现了对材料从连续向非连续破裂全过程的覆盖[5]，并已广泛应用于岩石类材料的断裂模拟[11]。然而，作为统一求解架构，全域密布内聚力单元并持续进行海量接触检测，依然面临着极大的算力压力[7,9]。因此，让FEM与DEM在同一模型中协同求解的共生耦合方法受到越来越多关注[6,7]；与此同时，并发多尺度建模理论也为突破跨尺度动力破坏模拟的算力限制提供了重要思路[12]。
+对于岩石冲击破坏、爆破及高速动力响应等问题，破坏往往呈现出局部强非连续、远场以连续变形为主的空间特征。现有共生耦合方法虽已建立桥接域、Arlequin等重叠域方案，但针对三维显式动力学问题的系统验证研究仍相对有限，界面协调机制在动力条件下的适用性仍有待进一步评估[6,13]；而InterfaceBond等界面键连接方法在三维显式动力学场景下的力学有效性，以及面向连续—断裂全过程的系统验证体系，仍有待进一步研究[14]。因此，在显式动力学框架下，以预分区局部FEM–DEM共生方法与InterfaceBond界面机制为对象，构建从连续响应到断裂破坏的系统验证链条，对推动共生耦合方法在三维动力断裂分析中的工程应用具有重要意义[6,7,13]。
+在矿山工程、隧道开挖及重大基础设施建设等进程中，岩体爆破、冲击致裂与边坡失稳等动力学问题较为普遍[2-4]。工程实践不仅需要在关键的破裂区域保证动力学模拟的精度，同时也对大尺度岩体破坏全过程的分析效率提出了迫切要求。在此背景下，开展有限元–离散元共生耦合方法研究，能够为上述工程问题的数值预测提供支撑，具有明确的工程应用需求。
+1.2研究目的
+本课题旨在建立并验证预分区局部FEM-DEM共生耦合方法。课题的数值试验在MultiFracS上进行，其中本人独立负责共生耦合子模块的机制研究与算例验证。
+该方法的核心建模原则为：在同一连续部件（如岩石试件、岩柱、岩梁及含预制裂纹岩板等连续体构件）内，远场采用纯FEM描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，通过界面键（InterfaceBond）传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+具体而言，本课题将开展以下四项工作：（1）在MultiFracS共生耦合框架内建立预分区局部FEM-DEM模型，并配置全域共生参照算例，明确远场纯FEM区与潜在破裂区带键DEM子域的划分与界面连接方式。（2）明确界面键的法向/切向刚度与断裂准则，分析键断裂前后界面的力–位移连续传递与非连续分离机制[14]。（3）在显式动力学框架下，考察由异质子域引起的界面Ghost力、应力波异常反射及临界时间步失配等问题[10,13,15]。在此过程中，异步长并行[15]与粗粒化界面映射[16,17]仅作为可借鉴的理论参照，不作为本课题的核心贡献。（4）构建由显式动力学验证、连续响应验证、共生耦合验证及断裂行为验证组成的递进式验证体系：以三维悬臂梁大位移算例验证显式时间积分有限元求解器在几何非线性条件下的计算精度，并与Abaqus非线性有限元结果进行对比[5]；以三维单轴拉伸杆算例检验共生耦合模型在连续响应阶段的界面传递正确性，并与纯FEM结果进行对比；以巴西劈裂及模式I裂纹板等典型断裂算例通过数值复现与结果对比，验证共生耦合模型在裂纹扩展与动力响应预测方面的力学正确性[11,18-21]；并对比局部共生与全域共生参照模型在接触检索规模及计算耗时上的差异，评价预分区策略的计算效能。
+1.3研究意义
+（1）理论意义：本课题有助于深化对同部件内连续–非连续并发耦合机制的认识。通过探索显式动力学条件下的界面键连接规律，补充异质交界面的力学协调与求解稳定性评价体系[10,13,14]。将离散颗粒与接触检索限制在潜在破裂区，为权衡"力学保真度与计算效率"提供了可检验的理论路径[6,7]，丰富了共生耦合由全域重叠向局部预分区方向演进的学术讨论[6,16]。
+（2）方法与应用参考价值：作为一项算法验证型工作，本研究不展开大尺度地质工程设计，而是致力于形成可复用的标准化验证流程与评价指标。具体涵盖：以三维悬臂梁大位移算例对显式时间积分有限元求解器的几何非线性能力进行基准检验[5]；单轴拉伸杆的不开裂阶段波传播与界面连续传递[11]；巴西劈裂的拉剪混合开裂[18,19,22]；以及模式I裂纹板的动态裂纹扩展与界面穿越[20,21]等文献经典算例的数值复现与对标验证。该验证流程可为后续复杂岩石动力学数值研究提供基础参照[4,23]。
+2研究现状、发展趋势、存在问题及切入点
+2.1FEM-DEM与FDEM研究现状
+有限元法（FEM）在处理连续介质变形与多场耦合中具备成熟优势，但在应对强动载导致的强非连续演化及破裂后接触问题时存在固有局限[9]。离散元法（DEM）虽能自然处理颗粒分离与大变形，但利用细尺度模型表征完整连续体时存在宏观等效参数匹配困难，且全域模拟的庞大计算开销极大限制了其应用规模[7,24]。为兼顾连续与非连续特征，FEM-DEM耦合、近场动力学（PD）与有限元或边界元耦合[25,26]以及物质点与连续–非连续元法耦合[27]等多尺度路线不断发展。其中，传统的跨部件分区耦合多用于落石冲击防护结构[28]、大坝与边坡工程抗震[29,30]等本就相互独立的子系统，其界面以接触传力为主，通常不承担同一物理部件由完整连续体向非连续开裂演化的全过程。
+与此同时，有限–离散元统一法（FDEM）作为另一条代表性路线，在单一求解器内基于更新拉格朗日框架与四面体单元，通过嵌入内聚力单元实现材料的非连续化断裂[5]。近年来，该方法在二维与三维接触算法[31,32]以及数据驱动与GPGPU异构并行加速[9,34]上取得进展，并被广泛应用于节理岩体爆破破碎[2]、陡峭岩坡渐进破坏[4]及土石混合体破裂[1]以及嵌岩桩基失稳[33]等工程场景。总体而言，FDEM与FEM-DEM共生耦合是处理复杂断裂问题的两条并列路线：前者强调整体网格的统一求解，后者强调异质子域的并发协同[6,7]。然而，在面对远场弹性变形、近场剧烈破裂的跨尺度问题时，全域内聚断裂与海量接触检索仍消耗大量算力[7,9]；如何在局部高分辨率与整体计算成本之间取得平衡，是此类方法共同面临的矛盾[12]。
+2.2共生耦合研究现状
+共生耦合允许同一模型内有限元（FEM）宏观连续区与离散元（DEM）细观离散区同时存在并同步求解[12,35]。针对不同子域的边界处理，现有研究大体形成两类思路：一类是以重叠域能量加权为核心的协调方法，包括桥接域法（Bridging Domain）[6,7,36]与Arlequin方法[38,39]，通过在重叠区内对各子域能量进行加权混合，实现跨域位移协调与能量一致性；另一类是在非匹配节点间建立界面键（InterfaceBond）的边界连接方法，通过法向与切向弹簧约束传递跨域力与位移[14]。在此基础上，多尺度耦合框架得到广泛拓展。例如，Voisin-Leprince等基于桥接与重叠域框架，实现了宏观小变形与微观断裂的双尺度并发模拟[6,7]；此外，通过引入拉格朗日乘子或Arlequin方法，可在重叠域内对不同尺度的能量进行加权混合以实现强运动学约束[37-39]。为处理极端局部化失效，直接FE²-CPFEM并发多尺度方法[40]、粗粒化多尺度耦合技术[16,17]，以及基于物理信息神经网络（PINN）与深度神经算子驱动的自适应能量耦合算法[41,42]均展现出跨域求解潜力。尽管衍生出诸多耦合范式，界面处能量、动量与位移的有效协调始终是此类方法成功的关键[12,35]。
+现有共生耦合研究多默认FEM与DEM在较大范围内重叠共存，导致裂纹尚未扩展的未破裂阶段，仍须维持庞大的颗粒网络与海量接触检索[6,17]。相比之下，采用预分区局部共生策略（仅在潜在破裂区引入离散描述，远场保持纯FEM）可大幅压缩无效接触计算规模。然而，在三维完全显式动力学框架下，由于子域临界时间步与刚度差异显著，这种局部界面的力学有效性、求解稳定性及可复现验证体系仍存在明显不足[7,13]。本课题采用界面键连接路线（InterfaceBond），其界面协调机制与重叠域方法存在明显区别；广义桥域法[36]等重叠域方案可作为界面协调策略设计的重要参照背景。因此，本课题以InterfaceBond界面连接路线为基础，针对其在三维显式动力学场景下的适用性与验证问题展开研究。
+2.3界面力传递与位移协调研究现状
+界面力学协调机制直接决定了共生耦合算法的数值鲁棒性与计算精度。拉格朗日乘子法虽能实现高精度的位移与应力约束，但在完全显式求解框架下往往会引入高昂的计算成本[37]。相比之下，界面键连接（InterfaceBond）通过在非匹配节点间建立法向与切向约束弹簧，并辅以相应的断裂准则，成为一种兼顾效率与物理机制的有效手段[14]。此类界面力学模型已被广泛拓展应用于预制地下结构界面力传递[43]、砂浆–岩石异质界面动态断裂[44]以及流固耦合摩擦接触[45]等工程场景。然而，由于强动载下介质将发生非线性转变，键断裂前后必须在连续传力与允许局部分离之间实现平滑过渡，否则极易在界面处产生界面力残差（Ghost Force）与虚假的能量耗散[15,17]。
+此外，有限元宏观网格与离散元细观颗粒在空间尺度与刚度上的悬殊差异，往往会导致系统临界时间步严重失配，成为显式动力学求解时的另一大难题。为此，相关研究提出了基于重叠边界的异步长并行计算方法，以缓解多尺度界面上的时间积分失稳[15]；同时，也有研究引入粗粒化强化映射技术，显著改善了颗粒与连续体表面在动态作用过程中的接触力振荡响应[17]。尽管异质界面动态断裂已有试验与数值研究[21,44]，但针对键控FEM–DEM共生界面在标准动态断裂算例中的力学一致性与连续传递检验仍不充分。
+2.4显式动力学研究现状
+在处理强冲击与强动载问题时，完全显式时间积分被广泛应用于动力学方程的求解[10]。然而，由于多尺度模型中异质子域的刚度不协调，极易在交界处引发数值振荡与界面失稳。为此，研究者引入了质量集总（Mass-lumping）与广义特征值稳定化方法以抑制高频响应[10,13]；同时，如Versa-δ法等新型显隐式混合时间积分格式也被开发用于提升求解边界的鲁棒性[46]。此外，为了全面检验显式断裂模拟的可信度，动态相场法[47-49]、基于能量限制的非局部损伤技术[50]，以及各向异性加权Voronoi离散策略[22]等前沿方法，常被作为重要的对比验证工具。
+在算法的力学检验方面，学术界已形成了一套经典的动态断裂标准验证算例体系。其中，单轴拉伸杆模型常用于检验不开裂阶段的应力波传播规律及界面物理量传递的连续性[11]；巴西劈裂算例因能引发复杂的拉剪混合破坏，被广泛作为材料连续至非连续开裂转换的基准测试[18,19,22]；模式I裂纹板及相关的动态裂纹模型，则专门用于评估动态裂纹的扩展、分叉以及穿越界面的行为[20,21]。此外，仿生结构的脆性动态断裂响应[51]与冲击荷载下的断裂特征[52]以及非均匀沉降下的结构大变形失效[53]，也为复杂边界效应提供了丰富的参考数据。上述算例为本课题构建共生耦合力学对标体系提供了直接依据。
+2.5发展趋势与存在问题
+岩石动力学数值模拟正朝共生并发耦合与异构并行计算方向发展[9,34]。尽管前沿方法已取得丰硕成果，但在处理跨尺度动力破坏问题时仍面临诸多挑战：（1）桥接域、Arlequin等方法在三维完全显式时间积分与强动载条件下的界面求解稳定性仍有待加强[6,7,13]；（2）全域共生方案在远场连续区域内仍存在大量无效的颗粒接触检索，极大制约了工程大尺度模拟的计算效率[7,24]；（3）面向预分区局部共生耦合的标准验证算例体系尚不完善，难以系统评价界面键在不开裂与开裂两类典型问题上的力学精度与数值鲁棒性[11,18]；（4）在局部大幅缩小DEM的参与范围后，宏观力学保真度与整体计算效率之间如何进行定量权衡，目前仍缺乏可复现的对比评价范式[6,7]。
+2.6本课题研究切入点
+综上所述，本课题的切入点是：针对全域共生模型接触检索冗余与三维显式断裂验证不足的问题[7,13]，依托MultiFracS，建立预分区局部FEM-DEM共生耦合模型。该模型在远场区域保持纯FEM连续描述，仅在潜在破裂区布置带键DEM颗粒，并以界面键连接（InterfaceBond）作为核心协调机制实现跨域力与变形的传递[14]。在分析界面求解稳定性时，将异步长并行[15]与粗粒化映射[17]仅作为可借鉴的理论参照，不作核心贡献。在此基础上，课题配套设置全域共生参照模型，开展悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板4类标准算例的数值试验，通过完成力学响应与接触规模及计算耗时的双重定量对标[6,7]，最终为显式条件下共生耦合算法的有效性检验提供一条可复现的评价路径。
+主要参考文献：
+邓鹏海, 刘泉声, 卢海峰, 等. 基于 FDEM 数值模拟的土石混合体力学特性及破坏行为研究[J]. 工程力学, 2025, 42(12): 57-74. DOI: 10.6052/j.issn.1000-4750.2023.06.0451.
+Xu C, Sun J, Li G, et al. Applying FDEM for Blasting Fragmentation of Jointed Rock Mass[J]. Applied Sciences, 2026, 16(3). DOI: 10.3390/app16031470.
+刘健, 薛勇林, 张华磊, 等. 界面角度对层状复合岩石动态断裂及能量耗散影响的试验研究[J]. 振动与冲击, 2025, 44(21): 12-24. DOI: 10.13465/j.cnki.jvs.2025.21.002.
+Xu J, Deng Z, Feng Y, et al. Modeling progressive failure in steep rock slopes using the combined finite-discrete element method[J]. Scientific Reports, 2026, 16(1): 1-16. DOI: 10.1038/s41598-026-40966-w.
+Lei Y, Liu Q, Liu H, et al. An updated Lagrangian framework with quadratic element formulations for FDEM[J]. Computers and Geotechnics, 2023, 164. DOI: 10.1016/j.compgeo.2023.105837.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Finite element method-discrete element method bridging coupling for the modeling of gouge[J]. International Journal for Numerical Methods in Engineering, 2023, 124(6): 1474-1488. DOI: 10.1002/nme.7171.
+Voisin-Leprince M, Garcia-Suarez J, Anciaux G, et al. Two-scale concurrent simulations for crack propagation using FEM–DEM bridging coupling[J]. Computational Particle Mechanics, 2024, 11(5): 2235-2243. DOI: 10.1007/s40571-024-00788-x.
+陈闯, 张一杰, 董志强. 含能材料冲击响应多尺度建模与多场耦合模拟方法研究进展[J]. 兵器装备工程学报, 2026, 47(2): 332-341. DOI: 10.11809/bqzbgcxb2026.02.038.
+Chen Z, Xu S, Yang G, et al. A novel GPGPU-parallelized contact detection algorithm for 3D-FDEM: Optimizing the computational structure[J]. Engineering Fracture Mechanics, 2025, 330. DOI: 10.1016/j.engfracmech.2025.111653.
+Scheidt L, Crété J-P, Longère P. Mass-lumping technique for fully explicit time integration of the shifted-basis variant of the 3D extended finite element method[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 451. DOI: 10.1016/j.cma.2025.118636.
+徐浩然, 刘平, 刘泉声, 等. 岩石类材料直接拉伸破坏的 FDEM 数值模拟[J]. 中南大学学报（自然科学版）, 2024, 55(9): 3416-3425. DOI: 10.11817/j.issn.1672-7207.2024.09.016.
+Lu Y, Thomas S, Zhang T J. Concurrent AtC Multiscale Modeling of Material Coupled Thermo-Mechanical Behaviors: A Review[J]. CivilEng, 2022, 3(4): 1013-1038. DOI: 10.3390/civileng3040057.
+Tim Bürchner,Lars Radtke,Sascha Eisenträger , et al.Generalized Eigenvalue stabilization for immersed explicit dynamics[J].Computer Methods in Applied Mechanics and Engineering,2026,452, Part A,DOI:10.1016/j.cma.2026.118727.
+李晓光, 李长洪, 冯春. 一种块体–颗粒–杆件的耦合方法及其在隧道支护模拟中的应用[J]. 工程科学学报, 2023, 45(6): 1023-1033. DOI: 10.13374/j.issn2095-9389.2022.03.25.005.
+李佟, 金先龙, 王小卫, 等. 基于重叠边界的有限元与离散元耦合异步长并行计算方法[J]. 农业机械学报, 2023, 54(6): 419-426. DOI: 10.6041/j.issn.1000-1298.2023.06.043.
+Niknafs S, Silani M, Concli F, et al. A coarse-grained concurrent multiscale method for simulating brittle fracture[J]. International Journal of Solids and Structures, 2022, 254-255. DOI: 10.1016/j.ijsolstr.2022.111898.
+程宏旸, Luding S, Weinhart T. 粗粒化强化有限-离散元多尺度耦合方法在颗粒-连续体表面动态作用问题上的应用[J]. Acta Mechanica Sinica, 2023, 39(1): 110-123. DOI: 10.1007/s10409-022-22218-x.
+Zhang H, Liu Y, Zhou X, et al. Mechanical behavior and fracture mechanism of rock under Brazilian splitting test via the FEM-CZM method[J]. Bulletin of Engineering Geology and the Environment, 2026, 85(6): 345. DOI: 10.1007/s10064-026-05013-y.
+Heng Z, Xu T, Konietzky H, et al. New insights into the continuous-discontinuous failure characteristics of granite under Brazilian splitting test conditions using acousto-optic-mechanical (AOM) method[J]. International Journal of Rock Mechanics and Mining Sciences, 2025, 187. DOI: 10.1016/j.ijrmms.2025.106041.
+Zhou J, Yue Z, Feng C, et al. Experiments and numerical simulations on dynamic crack behavior at the interface of layered brittle material[J]. Fatigue & Fracture of Engineering Materials & Structures, 2022, 45(12): 3546-3558. DOI: 10.1111/ffe.13829.
+Wang Y, Zhu T, Chen R, et al. Investigation of dynamic crack propagation behavior across the C-shaped UHPC-granite interface[J]. Engineering Fracture Mechanics, 2026, 338. DOI: 10.1016/j.engfracmech.2026.112049.
+Zhang J, Chen J. An anisotropic weighted Voronoi method for mesostructure reconstruction in rock materials and its application to Brazilian test simulations[J]. Computational Particle Mechanics, 2025, 12(6): 5007-5024. DOI: 10.1007/s40571-025-00978-1.
+Kamran M, Liu H, Fukuda D, et al. Insights Into the Dynamic Fracturing Behaviours of Rocks Under Multiaxial Static and Dynamic Coupled Loads Through 3D FDEM With Various Contact Algorithms and Cohesive Zone Models[J]. International Journal for Numerical and Analytical Methods in Geomechanics, 2026, 50(4): 1969-2005. DOI: 10.1002/nag.70212.
+杨开源, 陈锡忠. 颗粒破碎的离散元及有限离散元模拟方法比较[J]. 化工学报, 2025, 76(9): 4398-4411. DOI: 10.11949/0438-1157.20250078.
+Hu X, Yan X, Yu H. A PD-FEM Coupling Approach for Modeling Cracks Propagation in Brittle Rock under Compressive Load[C]//57th US Rock Mechanics/Geomechanics Symposium. 2023.
+Chen X, Yu H. A multiscale method coupling peridynamic and boundary element models for dynamic problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 401(Part B). DOI: 10.1016/j.cma.2022.115669.
+Yue Z, Zhou J, Feng C, et al. Coupling of material point and continuum discontinuum element methods for simulating blast-induced fractures in rock[J]. Computers and Geotechnics, 2022, 144. DOI: 10.1016/j.compgeo.2021.104629.
+Su D, Zhang R, Xiong H, et al. Dynamic analysis of rockfall impact on a protective structure via FEM-DEM coupling[J]. Natural Hazards, 2023, 119(3): 1771-1797. DOI: 10.1007/s11069-023-06183-8.
+Qu Y, Zou D, Liu J, et al. Two-dimensional DEM-FEM coupling analysis of seismic failure and anti-seismic measures for concrete faced rockfill dam[J]. Computers and Geotechnics, 2022, 151. DOI: 10.1016/j.compgeo.2022.104950.
+涂义亮, 陈晓虎, 王星驰, 等. 基于连续-离散耦合强度折减法的边坡稳定性分析[J]. 工程力学, 2025, 42(3): 238-249. DOI: 10.6052/j.issn.1000-4750.2022.12.1047.
+Cai W, Gao K, Ai S, et al. A 2D energy-conserving contact model for the combined finite-discrete element method (FDEM)[J]. Computers and Geotechnics, 2024, 166. DOI: 10.1016/j.compgeo.2023.105972.
+Cai W, Wang W, Zhang S, et al. A 3D contact interaction algorithm using unified distance potential field for the combined finite-discrete element method (FDEM)[J]. Engineering Analysis with Boundary Elements, 2025, 179(Part A). DOI: 10.1016/j.enganabound.2025.106336.
+张柏楠. 嵌岩海上风机海床岩石破碎 FDEM 数值仿真方法与单桩基础水平承载破坏机理研究[D]. 山东大学, 2024. DOI: 10.27272/d.cnki.gshdu.2024.008429.
+Zhao R, Wu Z, Xu X, et al. GPGPU-Parallelized Data-Driven Hierarchical Multiscale 3D FDEM for Rock Meso-macro-numerical Simulation[J]. Rock Mechanics and Rock Engineering, 2025, 58(2): 1503-1528. DOI: 10.1007/s00603-024-04218-5.
+Kang S, Masud A. CONCURRENT TWO-WAY COUPLING OF GLOBAL AND LOCAL MODELS ACROSS INTERNAL BOUNDARIES WITH NON-MATCHING DISCRETIZATIONS[J]. Advances in Computational Science and Engineering, 2025, 4: 168-200. DOI: 10.3934/acse.2025016.
+Tu F, Jiao Y, Chen Z, et al. Stress continuity in DEM-FEM multiscale coupling based on the generalized bridging domain method[J]. Applied Mathematical Modelling, 2020, 83: 220-236. DOI: 10.1016/j.apm.2020.02.030.
+Li X, Zhang Z, Ji C, et al. A Lagrange multiplier-based coupling approach for the combined finite-discrete element method applicable to mechanical investigation of composite materials[J]. Computational Particle Mechanics, 2024, 11(3): 989-1005. DOI: 10.1007/s40571-023-00668-w.
+Sun W, Bao S, Zhou J, et al. Concurrent multiscale analysis of anti-seepage structures in embankment dam based on the nonlinear Arlequin method[J]. Engineering Analysis with Boundary Elements, 2023, 149: 231-247. DOI: 10.1016/j.enganabound.2023.01.039.
+Grunwald C, Sauer M, Stolz A, et al. Enhancing Efficiency in Multiscale Simulation: Comparing a Lagrange Multiplier Based Approach and a Weak Staggered Coupling With Optional SPML Interface for Wave Propagation[J]. International Journal for Numerical Methods in Engineering, 2025, 126(9). DOI: 10.1002/nme.7633.
+Cui Y, Zhang Z. A novel concurrent multiscale method based on the coupling of Direct FE2 and CPFEM[J]. Thin-Walled Structures, 2025, 206(Part A). DOI: 10.1016/j.tws.2024.112610.
+Liu P, Fang L, Wang Y, et al. Concurrent atomistic-continuum coupling via physics-informed neural networks with adaptive energy weighting and direct boundary encoding[J]. Applied Mathematical Modelling, 2026, 158. DOI: 10.1016/j.apm.2026.116931.
+Yin M, Zhang E, Yu Y, et al. Interfacing finite elements with deep neural operators for fast multiscale modeling of mechanics problems[J]. Computer Methods in Applied Mechanics and Engineering, 2022, 402. DOI: 10.1016/j.cma.2022.115027.
+Wu B, Qiu T, Chen X, et al. Interfacial force transfer mechanism of multi-hole closely-spaced prefabricated underground structures[J]. Tunnelling and Underground Space Technology, 2026, 168(Part 2). DOI: 10.1016/j.tust.2025.107204.
+邱豪, 张文康, 廖飞宇, 等. 不同倾斜界面的高强砂浆–花岗岩试件动态裂纹扩展行为研究[J]. 岩石力学与工程学报, 2026, 45(1): 79-98. DOI: 10.3724/1000-6915.jrme.2025.0512.
+Song J, Xu C, Jia K, et al. A frictional contact approach for saturated soil-structure dynamic interaction considering fluid-solid coupling and contact coupling effects[J]. Computers and Geotechnics, 2026, 194. DOI: 10.1016/j.compgeo.2026.108008.
+Malakiyeh M M, Shojaee S, Hamzehei-Javaran S. A novel explicit-implicit time integration method for solving time-dependent finite element equation: The Versa-δ method[J]. Computers & Structures, 2025, 309. DOI: 10.1016/j.compstruc.2025.107664.
+Anupama S, Kishen J M C. Influence of residual stress on dynamic fracture: A phase field study[J]. International Journal of Mechanical Sciences, 2026, 320. DOI: 10.1016/j.ijmecsci.2026.111610.
+Zhou S, Zhuang X, Zhou J, Liu F. Phase Field Characterization of Rock Fractures in Brazilian Splitting Test Specimens Containing Voids and Inclusions[J]. arXiv, 2023. DOI: 10.48550/arXiv.2309.03909.
+Li C, Liu J, Dong L, et al. Phase field fracture in elastoplastic solids: a stress-state, strain-rate, and orientation dependent model in explicit dynamics and its applications to additively manufactured metals[J]. Journal of the Mechanics and Physics of Solids, 2025, 197. DOI: 10.1016/j.jmps.2024.105978.
+Tran H T. A novel nonlocal damage zone adaptation technique for dynamic brittle fracture based on the energy limiter concept[J]. Computer Methods in Applied Mechanics and Engineering, 2026, 455. DOI: 10.1016/j.cma.2026.118898.
+Cao M, Cao X, Wang Z, et al. Brittle dynamic fracture response and crack propagation behavior of biomimetic tree-like fractal groove structure[J]. Engineering Fracture Mechanics, 2026, 339. DOI: 10.1016/j.engfracmech.2026.112091.
+Zhang T, Zhu Z, Zhang F. Dynamic mode I fracture behavior of frozen soil under impact loading and FDEM numerical simulation: Based on a rate-dependent elastoplastic and cohesive model[J]. Theoretical and Applied Fracture Mechanics, 2026, 141(Part A). DOI: 10.1016/j.tafmec.2025.105261.
+武献龙, 陈旭东. 砌体墙在支座不均匀沉降下的有限离散元分析[J]. 土木工程与绿色建筑, 2023(5): 14-18. DOI: 10.3969/j.issn.1005-6270.2023.05.004.
+二、研究内容和目标（说明选题的具体研究内容，研究目标，以及拟解决的关键问题。）
+本课题面向显式动力学条件下岩石类材料的断裂分析问题，研究预分区局部FEM–DEM共生耦合方法，构建InterfaceBond界面连接及局部共生计算模块，并在MultiFracS完成相关功能集成。研究对象限定为同一连续部件内的双域模型：远场采用纯FEM连续描述且不布置颗粒；仅在潜在破裂区布置带键DEM颗粒，经InterfaceBond传递力与变形；破裂区在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。课题区别于自适应转化路线与跨部件分区接触耦合，重点通过典型动力断裂验证算例的数值复现与对标验证，检验局部共生策略的力学正确性与计算效能。
+2.1研究内容
+（1）预分区局部FEM–DEM共生模型构建
+在MultiFracS共生耦合框架内建立预分区局部FEM–DEM模型，并配置全域共生参照模型。在同一连续部件内划分远场纯FEM区与潜在破裂区带键DEM子域，明确InterfaceBond的布置位置、连接关系及跨域传力路径，为后续界面机理分析与动力学验证提供模型基础。
+（2）界面键连接机制研究
+研究InterfaceBond在异质子域交界处的力学作用机制，明确法向与切向刚度参数、断裂准则及其对界面响应的影响规律。分析键断裂前后的力–位移传递特征以及连续—非连续转化过程中的界面响应行为，为共生耦合模型的力学一致性提供依据。
+（3）显式动力学条件下界面协调与稳定性分析
+针对显式时间积分条件下FEM子域与DEM子域尺度差异引起的界面协调问题，分析Ghost Force、应力波异常反射及临界时间步失配等现象对计算稳定性的影响。建立界面力残差、能量演化及波传播特征等稳定性评价指标，为模型参数选取与算例计算提供参考。
+（4）标准验证算例与计算效能评价
+开展由悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板组成的四类典型验证算例，分别覆盖显式动力学精度、连续响应与界面传递、共生耦合协调及断裂行为模拟等层次；通过数值复现与结果对比验证共生耦合模型的力学正确性，并与全域共生参照模型开展接触检索规模及计算耗时对比分析，评价预分区策略对计算效能的影响。
+2.2研究目标
+总体目标：本课题面向显式动力学条件下岩石类材料的断裂分析问题，研究预分区局部FEM–DEM共生耦合方法，构建并实现界面键连接及局部共生计算模块，在MultiFracS平台完成相关功能集成。通过典型动力断裂算例开展数值复现与对标验证，检验模型在应力波传播、裂纹扩展及动力响应预测中的适用性与力学正确性，并评价其相对于全域共生策略在接触检索规模与计算耗时方面的变化规律。具体目标如下：
+（1）完成预分区局部共生耦合方法设计，构建并实现InterfaceBond界面连接机制及局部共生计算模块，在MultiFracS平台完成相关功能集成，并建立局部共生模型与全域共生参照模型；
+（2）明确界面键刚度与断裂准则参数配置方法，建立显式动力学条件下的稳定性观测指标体系；
+（3）完成4类典型验证算例（悬臂梁、单轴拉伸杆、巴西劈裂、模式I裂纹板）的数值复现与结果对比验证；
+（4）完成局部共生模型与全域共生参照模型的计算效能对比分析，定量评估接触检索规模与计算耗时的变化规律。
+2.3拟解决的关键问题
+（1）预分区局部共生模型中，FEM连续域与DEM离散域在尺度、刚度及自由度差异条件下的界面传力与位移协调问题；
+（2）InterfaceBond键断裂前后连续—非连续转化过程中界面力学响应的一致性及Ghost力、应力波异常反射等非物理现象控制问题；
+（3）显式动力学条件下宏微观子域临界时间步差异引起的积分稳定性与数值振荡控制问题；
+（4）预分区局部共生策略下计算效率提升与断裂模拟精度保持之间的平衡评价问题。
+三、选题研究方案及可行性分析（包括：研究方法，技术路线，理论分析、计算、实验方法和步骤及其可行性等）
+3.1 研究方案
+本课题采用理论分析、程序实现与数值验证相结合的研究方法，通过MultiFracS开展预分区局部FEM–DEM共生耦合方法研究。研究过程按照「方法构建—模块实现—算例验证—效能评价」的技术路线展开，不涉及现场试验与物理模型试验。
+（1）理论分析方法
+在显式动力学框架下，建立InterfaceBond界面键的弹簧–强度型力学描述，研究法向/切向刚度与断裂准则对界面传力及连续—非连续转化的影响规律；结合系统运动方程与显式时间积分稳定性条件，分析FEM连续域与DEM离散域在尺度、刚度差异下的界面协调机制，为键参数配置与稳定性观测指标选取提供理论依据。
+（2）模块开发与平台集成方法
+在课题组MultiFracS共生耦合框架内，开展预分区局部共生计算模块及InterfaceBond界面连接机制的研究与程序实现，包括远场纯FEM区与潜在破裂区带键DEM子域的划分与数据组织、跨域传力路径实现，以及全域共生参照模型的配置。通过典型算例测试与程序验证，检验键未断前连续传力、键断裂后允许局部分离等核心功能在计算中的可执行性与合理性。
+（3）数值复现与对比验证方法
+选取悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板等经典验证算例，按标准算例公开设定的几何模型、材料参数及加载条件开展数值复现；将计算结果与已有算例结果进行对比，考察显式动力学精度、应力波传播、裂纹扩展及动力响应预测的一致性。其中，悬臂梁算例侧重显式时间积分FEM在大变形几何非线性条件下的精度验证；拉伸杆算例侧重不开裂阶段的弹性波传播与界面连续传递验证；巴西劈裂与裂纹板算例侧重连续—非连续转化过程中的开裂行为验证。
+（4）稳定性观测与计算效能评价方法
+在算例计算过程中，监测界面力残差、系统能量演化、临界时间步及波传播特征等稳定性指标，识别Ghost Force、应力波异常反射等非物理现象。在此基础上，将局部共生模型与全域共生参照模型在相同或可比条件下进行对比，统计接触检索规模与计算耗时，分析预分区策略对计算效能的影响及其与断裂模拟精度之间的平衡关系。
+3.2理论分析
+3.2.1预分区局部共生耦合基本思想
+本课题采用双域并发的共生耦合路线：远场区域以FEM描述宏观连续变形，潜在破裂区域布置带键连接的DEM颗粒；FEM网格仅保留于远场区，两类子域在同一物理部件内同步求解，（见图1）。与全域共生模型相比，预分区策略按破坏可能性预先划分子域，将颗粒布置与接触检索限制在破裂区及其邻域，在裂纹尚未扩展时避免远场产生大量无效接触计算。连续区与离散区采用非共节点连接，不要求两侧网格一一对应。破裂区范围在建模阶段预先给定，不涉及加载过程中的单元–颗粒在线转化。
+3.2.2界面键连接力学模型
+InterfaceBond用于建立FEM区域与DEM区域之间的界面约束关系（见图2）。在界面处，识别FEM侧边界颗粒（其运动由所属有限元节点位移场插值控制）与DEM侧颗粒，在二者之间建立法向与切向键连接，实现力与位移的跨域传递；连接本质为颗粒间键，FEM侧颗粒的运动学状态受有限元节点控制，从而保证颗粒与单元的协调运动。键断裂前界面保持连续传力，键断裂后允许局部分离并由接触算法接管后续相互作用。其具体实现形式依赖于MultiFracS共生耦合框架。
+（1）位移协调与力更新
+设时刻界面力为，相对位移增量为，采用增量形式的本构更新：
+                                                                                                          （3-1）
+其中为局部坐标系下的接触刚度矩阵。连续侧接触点速度由FEM侧边界颗粒速度由面节点速度插值得到：
+                                                                                                                                 （3-2）
+式中为插值形函数。颗粒速度记为，相对位移增量由两侧速度差与时间步确定。接触力分配至DEM颗粒质心与FEM面节点。
+（2）断裂准则
+键未断裂前，界面以弹簧约束维持连续传力；当满足强度准则时，键发生断裂，界面转入允许分离的非连续状态。法向拉伸断裂准则为：
+                                                                                                                                     （3-3）
+剪切断裂采用Mohr–Coulomb准则：
+                                                                                                                        （3-4）
+式中、分别为法向、切向接触力，为抗拉强度，、为黏聚力与内摩擦角，为等效截面积。拉伸断裂后法向力、与置零；剪切断裂后切向力按残余摩擦滑动修正，与同样置零。键断裂后，仅在必要的接触面上进行离散体接触检索与接触力计算。
+（3）参数配置说明
+InterfaceBond的、需结合FEM网格与DEM颗粒的特征尺度，通过预试算对刚度与强度参数进行标定，并在典型验证算例中检验其对界面响应与计算稳定性的影响。
+3.2.3显式动力学求解基础
+共生耦合算例在显式动力学条件下求解。系统运动方程写为：
+                                                                                                                               （3-5）
+其中为质量矩阵，为阻尼矩阵，)为节点合力，包括FEM单元内力、DEM接触力及InterfaceBond界面键力。本课题采用中心差分等显式格式进行时间推进；界面力更新中显含时间步。全局时间步长须满足稳定性要求，可写为
+                                                                                                                                    （3-6）
+式中为子域最小特征尺寸，为材料波速。当FEM区与DEM区尺度差异较大时，两子域临界时间步可能不一致，需在计算中记录各子域时间步长、界面力残差与系统总能量变化，以判断积分是否稳定、是否存在Ghost Force或异常能量耗散。
+
+图1 预分区局部FEM–DEM共生双域模型示意
+
+图2 InterfaceBond界面传力示意（法向/切向弹簧与断裂准则）
+3.3计算方法与实施步骤
+3.3.1建模与区域预分区
+（1）在MultiFracS共生耦合框架内建立算例几何模型，按预分区原则划分远场纯FEM区与潜在破裂区；破裂区布置DEM颗粒，远场区仅保留FEM网格，明确InterfaceBond的布置位置与跨域连接关系。
+（2）建立预分区局部共生计算模型；在相同或可比几何与加载条件下，同步配置全域共生参照模型，作为计算效能对比的对照算例。
+（3）按标准算例设定施加材料参数、边界条件与动载（位移控制或速度控制加载）；典型验证算例均建立三维模型。
+3.3.2键连接参数与断裂判据
+（1）结合FEM网格与DEM颗粒特征尺度，按式(3-1)-(3-4)初设法向、切向刚度及拉伸、剪切断裂参数（、、等），必要时通过预试算调整，避免界面过软或过硬。
+（2）明确键断裂后接触是否激活及残余摩擦处理方式，保证连续传力与非连续分离之间的合理过渡。
+（3）完成InterfaceBond连接机制及局部共生计算流程的程序实现后，以简单算例检验键未断前连续传力、键断裂后局部分离等核心功能是否正常；重点检查FEM–DEM交界键在动载下的力–位移响应，记录键断裂顺序与界面力演化。
+3.3.3显式时间积分与结果提取
+（1）依据式（3-6）及子域最小特征尺寸、材料波速，选取满足稳定性条件的显式时间步长，记录各子域临界时间步。
+（2）采用中心差分等显式格式按时间步推进计算，输出位移、应力、界面力、系统能量等时程曲线。
+（3）同步监测界面力残差、系统总能量演化及波传播特征等稳定性指标，识别Ghost Force、应力波异常反射等非物理现象。
+（4）对不开裂算例，提取加载方向应力–应变或载荷–位移曲线，考察弹性阶段波传播与界面连续传递；对开裂算例，提取裂纹扩展路径、峰值载荷及破裂区演化特征。
+3.3.4接触检索与效率统计
+（1）将局部共生计算结果与已有算例结果进行对比验证；对单轴拉伸杆等不开裂算例，可与一维弹性解析解（如有）对照，考察应力波传播及界面物理量传递的合理性。
+（2）对巴西劈裂、模式I裂纹板等开裂算例，对比裂纹起裂位置、扩展路径、峰值载荷及动力响应时程，评价连续—非连续转化过程的表征能力。
+（3）在相同或可比条件下，统计局部共生模型与全域共生参照模型的DEM接触对数目、接触检索耗时、CPU墙钟时间及内存占用。
+（4）将力学对比结果与效能指标一并列表，分析预分区策略下接触规模缩减对断裂模拟精度与计算耗时之间的影响。
+3.4数值试验方案
+本课题以数值试验开展验证，不设物理试验。验证体系按照"显式动力学正确性—连续响应能力—共生耦合协调能力—断裂行为模拟能力"逐层递进设计，形成面向显式动力学共生耦合方法的验证链条。典型验证算例包括悬臂梁、单轴拉伸杆、巴西劈裂及模式I裂纹板四类，其中拉伸杆同时承担连续响应验证与共生耦合协调验证两项功能。典型验证算例设计见表1；拉伸杆算例弹性阶段主要参数见表2；其余算例的几何、材料及加载条件按所选对标算例公开设定；InterfaceBond参数标定与建模随程序实现分步落实。
+表1 典型验证算例设计
+表2 单轴拉伸杆算例主要参数（弹性阶段）
+（1）悬臂梁算例
+建立三维悬臂梁计算模型，材料参数取E=60GPa、ν=0.2、ρ=2000kg/m³，梁长1.0m，截面0.01m×0.01m。左端完全固定，右端施加准静态集中力（1s内线性加载至80N），采用中心差分显式积分（Δt=1×10⁻⁷s）进行求解。将梁端位移时程与Abaqus几何非线性有限元结果进行对比，检验显式时间积分求解器在大位移几何非线性条件下的计算精度，并考察线性FEM与非线性FEM之间的响应差异
+（2）单轴拉伸杆算例
+建立50mm×100mm矩形杆模型，在潜在破裂区布置带键DEM颗粒，远场保持纯FEM。采用单端脉冲加载，考察应力波在FEM–DEM交界处的传播与透射；将局部共生计算结果与一维弹性波传播解及同模型纯FEM区结果进行对比，检验InterfaceBond在未开裂阶段的连续传递及Ghost力水平。
+（3）巴西劈裂算例
+建立圆柱试件模型，中部设矩形DEM颗粒区，两侧为FEM四面体网格，以InterfaceBond连接子域界面。不设预制裂纹，通过径向对压加载，考察DEM颗粒区内InterfaceBond键的拉伸/剪切失效分布，验证共生耦合模型对拉剪混合开裂的模拟能力；将局部共生结果与已有数值/试验结果对比，重点比对裂纹起裂位置、扩展过程及最终破坏模式。
+（4）模式I裂纹板算例
+建立层状梁板模型：两侧远场纯FEM，中间含预制缺口的潜在破裂区FEM–带键DEM，层状斜界面以InterfaceBond连接（见图3）。材料参数、几何尺寸及冲击加载条件按所选对标算例公开设定。在多点冲击速度下，将局部共生结果与已有数值/试验结果对比，考察动态裂纹向倾斜界面的偏转、沿界面扩展或穿越行为，以及裂纹路径、扩展速度时程与界面裂纹长度等指标。
+（5）计算效能对比
+在上述算例或几何可比模型上，同步配置全域共生参照算例，在相同加载与可比离散规模下统计接触对数、检索耗时与CPU时间，与§3.3.4一并列表，分析预分区对效率与精度的影响。
+
+图3 模式I裂纹板预分区示意（连续域—离散域—连续域及InterfaceBond连接）
+3.5技术路线
+本课题按照「方法构建—方法实现—算例验证—综合评价」开展研究，总体流程见图4。研究以MultiFracS共生耦合框架为基础，完成预分区局部FEM–DEM共生模型构建与InterfaceBond界面机制实现，在显式动力学条件下开展典型验证算例的数值复现，并从力学正确性、稳定性与计算效能三个维度进行评价；验证过程中同步建立全域共生参照模型，用于计算效能对比分析。
+
+图4 技术路线图
+3.6可行性分析
+（1）理论可行性。FEM–DEM耦合、界面键连接及显式动力学求解等相关方法已在连续–非连续数值模拟中得到广泛应用，为本课题开展预分区局部共生耦合研究提供了理论基础。本课题在InterfaceBond弹簧–强度型界面描述基础上，将问题归结为预分区建模、界面力–位移协调及显式稳定性评价，理论路线与§3.2分析框架一致。
+（2）平台与代码可行性。课题组自主研发的MultiFracS平台已具备FEM、DEM及相互作用计算模块，可支撑显式动力学断裂分析；课题组在平台上已具备共生耦合基础实现，InterfaceBond相关模块虽仍需进一步完善，但已具备开展本课题数值试验的程序基础。
+（3）算例与算力可行性。本课题选取的悬臂梁、单轴拉伸杆（不开裂）、巴西劈裂及模式I裂纹板4类验证算例，均为断裂力学领域常用基准，几何规模适中，可按研究方案分步开展三维计算；效率对比可依托全域共生参照模型，采用几何可比配置；课题组现有计算资源可满足硕士研究周期内的算例需求。
+（4）个人工作基础。导师团队长期从事MultiFracS及相关数值方法研发，已具备共生耦合研究基础。本人已参与相关方向调研与平台熟悉工作，在导师指导下承担InterfaceBond检验、典型算例数值复现及结果分析等工作，具备完成本课题研究任务的基础条件。
+四、本研究课题的创新点
+（1）在三维显式动力学框架下，提出预分区局部 FEM–DEM 共生耦合方法，将颗粒布置与接触检索限定在预先指定的潜在破裂区，远场保持纯 FEM 连续描述，以减少全域共生模型中的冗余接触计算，并建立局部共生与全域共生的统一评价体系。
+（2）建立基于 InterfaceBond 的异质子域界面协调机制，研究显式动力学条件下法向/切向弹簧约束的力–位移传递规律，并分析界面区域波传播畸变、附加力效应及时间积分稳定性问题对界面协调性能的影响。
+（3）局部共生策略对计算效能影响的定量评价：针对全域共生模型中接触检索规模随计算域增大而快速增长的问题，构建局部共生与全域共生参照模型，在可比条件下对接触检索规模、计算耗时及力学响应进行比较，分析预分区范围对计算效率与结果精度的影响，为局部共生方法的工程应用提供评价依据。
+五、研究基础与工作条件（与本项目相关的研究工作基础，包括已具备的工作条件，尚缺乏的工作条件及拟解决途径等）
+5.1已有的研究基础
+（1）理论方面：本人已系统阅读有限元–离散元共生耦合、界面键连接及显式动力学等相关文献与技术资料，对分区耦合、共生耦合及自适应转化等典型技术路线的特点与适用场景具有较为清晰的认识，并明确了本课题预分区局部共生方法的研究定位。
+（2）平台与代码方面：导师团队长期从事MultiFracS及相关数值方法研发，平台已具备FEM、DEM及相互作用求解等基础模块，并形成共生耦合初步实现。本人已参与相关模块测试、InterfaceBond机制检验以及典型算例复现工作，对平台的数据结构、建模流程及计算结果后处理具有一定基础。
+（3）数值能力方面：在前阶段课程学习与科研训练中，已初步掌握Gmsh、Abaqus等建模工具及MATLAB数据处理、Paraview后处理等基本技能，具备独立完成标准算例建模、结果提取与对比分析的能力。
+（4）选题与指导条件：本课题依托课题组有限元–离散元共生耦合研究方向及MultiFracS平台开展，可获得导师在方法实现、InterfaceBond参数调试与算例分析方面的指导。
+5.2尚缺乏的工作条件
+（1）预分区局部共生模型中，InterfaceBond在显式动力学条件下的刚度匹配、断裂前后力–位移协调及稳定性判据尚需进一步完善与检验。
+（2）悬臂梁、单轴拉伸杆、巴西劈裂、模式I裂纹板4类算例的数值复现及局部共生与全域共生参照对比，尚待按研究方案系统开展。
+（3）破裂区范围、InterfaceBond参数与宏观力学响应之间的标定方案仍需通过算例迭代确定。
+5.3拟解决途径
+（1）在导师指导下，基于MultiFracS共生耦合基础实现完善并验证InterfaceBond相关功能模块，按第三章技术路线分步开展预分区建模、显式求解与后处理。
+（2）按由简到繁顺序开展数值试验：先完成单轴拉伸杆等不开裂算例，检验连续阶段界面传递与稳定性；再开展巴西劈裂、模式I裂纹板等开裂算例及局部/全域共生效能对比。
+（3）通过监测界面力残差、系统能量、接触检索规模与计算耗时等指标，迭代调整InterfaceBond参数与破裂区范围，形成适用于典型验证算例的参数配置方案。
+时间 | 研究内容 | 预期研究成果
+2024年09月20日-2025年06月30日 | 阅读有限元–离散元耦合及显式动力学相关文献；学习MultiFracS平台及Gmsh、Paraview等建模与后处理工具 | 熟悉平台操作流程与后处理基本方法
+2025年07月01日-2026年05月31日 | 参与MultiFracS共生耦合相关模块测试；学习InterfaceBond机制及典型算例建模流程 | 明确预分区局部共生课题方向，具备算例建模与结果提取初步能力
+2026年06月01日-2026年06月22日 | 梳理课题技术路线与研究方案，撰写并完善开题报告 | 完成开题报告
+2026年06月23日-2026年09月02日 | 完善InterfaceBond功能模块；建立预分区局部共生与全域共生参照建模流程；开展三维悬臂梁算例及三维单轴拉伸杆算例 | 完成InterfaceBond模块验证；悬臂梁显式动力学精度对比及拉伸杆三维计算结果
+2026年09月03日-2026年11月01日 | 开展三维巴西劈裂、模式I裂纹板算例，与已有数值/试验结果对比 | 开展三维巴西劈裂、模式I裂纹板算例，与已有数值/试验结果对比
+2026年11月02日- 2027年01月01日 | 完成局部共生与全域共生的接触检索规模、计算耗时及力学响应对比；整理全部算例结果 | 完成局部共生与全域共生的接触检索规模、计算耗时及力学响应对比；整理全部算例结果
+2027年01月02日-2027年01月31日 | 整理算例与图表，撰写学位论文各章 | 完成学位论文初稿
+2027年02月01日-2027年03月31日 | 根据导师意见修改论文，完成格式规范与查重 | 完成学位论文定稿
+2027月04月01日-2027年05月31日 | 准备毕业论文答辩 | 完成论文答辩
+评
+定
+小
+组
+成
+员 | 姓 名 | 职 称 | 单位名称 | 职务
+评
+定
+小
+组
+成
+员 | 程毅 | 副教授 | 中国地质大学(武汉)工程学院 | 组长
+评
+定
+小
+组
+成
+员 | 殷其放 | 讲师 | 中国地质大学(武汉)工程学院 | 成员
+评
+定
+小
+组
+成
+员 | 骆进 | 副教授 | 中国地质大学(武汉)工程学院 | 成员
+评
+定
+小
+组
+成
+员 |  |  |  | 
+评
+定
+小
+组
+成
+员 |  |  |  | 
+ | 冯庆高 | 副教授 | 中国地质大学(武汉)工程学院 | 秘书
+导师意见： | 导师意见： | 导师意见： | 导师意见： | 导师意见：
+导师：
+
+日期：     年    月    日 | 导师：
+
+日期：     年    月    日 | 导师：
+
+日期：     年    月    日 | 导师：
+
+日期：     年    月    日 | 导师：
+
+日期：     年    月    日
+开题报告评议小组意见： | 开题报告评议小组意见： | 开题报告评议小组意见： | 开题报告评议小组意见： | 开题报告评议小组意见：
+组长：                   组员：                                  秘书：
+                                     
+
+日期：     年     月    日 | 组长：                   组员：                                  秘书：
+                                     
+
+日期：     年     月    日 | 组长：                   组员：                                  秘书：
+                                     
+
+日期：     年     月    日 | 组长：                   组员：                                  秘书：
+                                     
+
+日期：     年     月    日 | 组长：                   组员：                                  秘书：
+                                     
+
+日期：     年     月    日
+学院意见： | 学院意见： | 学院意见： | 学院意见： | 学院意见：
+负责人：                 单位（公章）
+
+日期：     年    月    日 | 负责人：                 单位（公章）
+
+日期：     年    月    日 | 负责人：                 单位（公章）
+
+日期：     年    月    日 | 负责人：                 单位（公章）
+
+日期：     年    月    日 | 负责人：                 单位（公章）
+
+日期：     年    月    日
