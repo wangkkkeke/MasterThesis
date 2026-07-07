@@ -15,12 +15,27 @@
     <ClInclude Include="Cpucore.h" />
     <ClInclude Include="Cpuuser.h" />
     <ClInclude Include="Cpuuser_abstract.h" />
+    <ClInclude Include="InterfaceBond\ibond_benchmark.h" />
+    <ClInclude Include="InterfaceBond\ibond_math.h" />
+    <ClInclude Include="InterfaceBond\ibond_provider.h" />
+    <ClInclude Include="InterfaceBond\ibond_table.h" />
+    <ClInclude Include="InterfaceBond\ibond_types.h" />
     <ClInclude Include="Real.h" />
     <ClInclude Include="Standard_library.h" />
   </ItemGroup>
 
   <ItemGroup>
-    <ClCompile Include="ibond_init.c" />
+    <ClCompile Include="InterfaceBond\ibond_apply.c" />
+    <ClCompile Include="InterfaceBond\ibond_benchmark.c" />
+    <ClCompile Include="InterfaceBond\ibond_benchmark_vtk.c" />
+    <ClCompile Include="InterfaceBond\ibond_distribute.c" />
+    <ClCompile Include="InterfaceBond\ibond_entity.c" />
+    <ClCompile Include="InterfaceBond\ibond_force.c" />
+    <ClCompile Include="InterfaceBond\ibond_init.c" />
+    <ClCompile Include="InterfaceBond\ibond_kinematics.c" />
+    <ClCompile Include="InterfaceBond\ibond_manager.c" />
+    <ClCompile Include="InterfaceBond\ibond_provider.c" />
+    <ClCompile Include="InterfaceBond\ibond_table.c" />
     <ClCompile Include="User_create.c" />
     <ClCompile Include="User_postprocess.c" />
     <ClCompile Include="User_preprocess.c" />
@@ -105,7 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

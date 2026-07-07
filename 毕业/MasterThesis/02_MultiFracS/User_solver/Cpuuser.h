@@ -1,47 +1,50 @@
 #ifndef CPUUSER_H
 #define CPUUSER_H
 #include "Real.h"
+#include "InterfaceBond/ibond_types.h"
 
 struct CPUUSER_struct
 {
-    /* framework fields (do not remove) */
     char userInputFileName[100];
     int  nuser;
     int  nuserstep;
     Real dusertime;
     Real duserdt;
 
-    /* -------------------------------------------------------
-     * InterfaceBond fields (Issue002)
-     * Naming matches CPUCORE convention: i1xxx=int[], d1xxx=Real[]
-     * Proxy = SPH element centroid (see ADR001, ibond_init.c)
-     * ------------------------------------------------------- */
+    int   ibond_level;
+    int   ibond_verify_case;
+    int   nibond;
 
-    /* Bond count and pair arrays */
-    int   nibond;        /* number of InterfaceBond pairs */
-    int  *i1ibsphid;     /* [nibond] FEM-side SPH element index */
-    int  *i1ibdnid;      /* [nibond] DEM discrete node index */
+    BondManager ibond_mgr;
 
-    /* Per-bond stiffness (supports heterogeneous calibration) */
-    Real *d1ibkn;        /* [nibond] normal stiffness Kn (Pa/m) */
-    Real *d1ibkt;        /* [nibond] shear stiffness  Kt (Pa/m) */
+    Real  dev_anchor_ux;
 
-    /* Accumulated bond forces (updated each step) */
-    Real *d1ibfnx;       /* [nibond] normal force x (N) */
-    Real *d1ibfny;       /* [nibond] normal force y (N) */
-    Real *d1ibfnz;       /* [nibond] normal force z (N) */
-    Real *d1ibfsx;       /* [nibond] shear force x (N) */
-    Real *d1ibfsy;       /* [nibond] shear force y (N) */
-    Real *d1ibfsz;       /* [nibond] shear force z (N) */
-    int  *i1ibbk;        /* [nibond] broken flag: 0=intact 1=tensile 2=shear */
+    int  *i1ibsphid;
+    int  *i1ibdnid;
+    Real *d1ibkn;
+    Real *d1ibkt;
+    Real *d1ibfnx;
+    Real *d1ibfny;
+    Real *d1ibfnz;
+    Real *d1ibfsx;
+    Real *d1ibfsy;
+    Real *d1ibfsz;
+    int  *i1ibbk;
 
-    /* Global calibration parameters (read from inp *InterfaceBond) */
-    Real ibond_kn;       /* default normal stiffness (Pa/m) */
-    Real ibond_kt;       /* default shear  stiffness (Pa/m) */
-    Real ibond_ft;       /* tensile strength (Pa) */
-    Real ibond_fs;       /* shear  strength base value (Pa) */
-    Real ibond_phi;      /* friction angle (rad) */
-    Real ibond_rcut;     /* identification cutoff distance (m) */
+    Real ibond_kn;
+    Real ibond_kt;
+    Real ibond_ft;
+    Real ibond_fs;
+    Real ibond_phi;
+    Real ibond_rcut;
+
+    int  bench_kind;       /* 0=off 1=Benchmark01 2=Benchmark02 */
+    int  bench1_test_id;
+    Real bench1_sphere_x;
+    Real bench1_sphere_y;
+    Real bench1_sphere_z;
+    Real bench1_particle_du_n;
+    Real bench1_anchor_ux;
 };
 
 #endif

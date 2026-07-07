@@ -1,0 +1,12 @@
+benchmark=Benchmark-2
+stage=identify_only
+test_id=0
+ibond_level=2
+nibond=1
+rcut=2.000000e-02
+anchor=(5.000000e-02,1.666667e-02,1.666667e-02)
+sphere=(6.000000e-02,1.666667e-02,1.666667e-02)
+d0=1.000000e-02
+representation=R2_FaceCentroid iface_nodes=2,3,4
+Bond Active=Yes
+status=OK_identify

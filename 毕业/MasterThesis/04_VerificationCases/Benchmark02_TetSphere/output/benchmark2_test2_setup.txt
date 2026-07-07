@@ -1,0 +1,11 @@
+benchmark=Benchmark-2
+stage=identify_only
+test_id=2
+ibond_level=2
+nibond=0
+rcut=2.000000e-02
+anchor=(0.000000e+00,0.000000e+00,0.000000e+00)
+sphere=(1.000000e+00,1.666667e-02,1.666667e-02)
+d0=0.000000e+00
+Bond Active=No
+status=FAIL_nibond

@@ -1,39 +1,33 @@
 #include "Cpuuser.h"
 #include "Cpuuser_abstract.h"
+#include "InterfaceBond/ibond_types.h"
+#include "InterfaceBond/ibond_benchmark.h"
 #include "Standard_library.h"
 
 CPUUSER Create_cpuuser()
 {
-    CPUUSER cpuuser = (CPUUSER)malloc(sizeof(CPUUSER_struct));
-    if (cpuuser == NULL) return NULL;
+    CPUUSER u;
+    FILE *log = fopen("user_solver_loaded.txt", "w");
+    if (log != NULL)
+    {
+        fprintf(log, "Create_cpuuser called\n");
+        fclose(log);
+    }
 
-    /* framework fields */
-    cpuuser->userInputFileName[0] = '\0';
-    cpuuser->nuser     = 1;
-    cpuuser->nuserstep = 0;
-    cpuuser->dusertime = R0;
-    cpuuser->duserdt   = R0;
+    u = (CPUUSER)malloc(sizeof(CPUUSER_struct));
+    if (u == NULL) return NULL;
 
-    /* InterfaceBond fields -- all pointers NULL, counts zero */
-    cpuuser->nibond    = 0;
-    cpuuser->i1ibsphid = NULL;
-    cpuuser->i1ibdnid  = NULL;
-    cpuuser->d1ibkn    = NULL;
-    cpuuser->d1ibkt    = NULL;
-    cpuuser->d1ibfnx   = NULL;
-    cpuuser->d1ibfny   = NULL;
-    cpuuser->d1ibfnz   = NULL;
-    cpuuser->d1ibfsx   = NULL;
-    cpuuser->d1ibfsy   = NULL;
-    cpuuser->d1ibfsz   = NULL;
-    cpuuser->i1ibbk    = NULL;
+    memset(u, 0, sizeof(CPUUSER_struct));
 
-    cpuuser->ibond_kn   = R0;
-    cpuuser->ibond_kt   = R0;
-    cpuuser->ibond_ft   = R0;
-    cpuuser->ibond_fs   = R0;
-    cpuuser->ibond_phi  = R0;
-    cpuuser->ibond_rcut = R0;
+    u->nuser     = 1;
+    u->nuserstep = 0;
+    u->dusertime = R0;
+    u->duserdt   = R0;
 
-    return cpuuser;
+    u->ibond_level = 0;
+    u->ibond_verify_case = 0;
+    ibond_mgr_init(&u->ibond_mgr);
+    ibond_config_mock(u);
+
+    return u;
 }

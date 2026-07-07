@@ -1,0 +1,22 @@
+Benchmark01 — Reference Benchmark（物理验证）
+
+生成 inp：
+  python Scripts/build_benchmark1_inp.py
+
+运行（verify_case=0，勿放 ibond_verify_case.txt）：
+  1. 复制 Input/benchmark1_testN.inp 到 Source/2025-12-14/
+  2. MultiFracS.exe benchmark1_test0.inp
+  3. 查看 benchmark1_test0_log.txt
+
+当前：nsph=0 → status=BLOCKED_need_FEM_DEM_inp（正常）
+待团队补充 DEM/SPH 段后跑通 Test0–4
+
+Test 列表
+  test0  初始化
+  test1  法向加载 +1mm
+  test2  超 rcut（方案 A）
+  test3  反向加载
+  test4a 球动
+  test4b 锚点动 -1mm（与 4a 同 Δu）
+
+规格：README.md  预期：expected_results.md

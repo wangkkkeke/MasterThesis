@@ -1,0 +1,10 @@
+benchmark=Benchmark-1
+stage=identify_only
+test_id=0
+nibond=1
+rcut=2.000000e-02
+anchor=(5.000000e-02,0.000000e+00,1.000000e-01)
+sphere=(6.000000e-02,0.000000e+00,1.000000e-01)
+d0=1.000000e-02
+Bond Active=Yes
+status=OK_identify
