@@ -1,0 +1,11 @@
+# Build artifacts
+*.obj
+*.o
+*.exe
+*.pdb
+*.ilk
+*.idb
+
+# Editor
+.vs/
+*.user
