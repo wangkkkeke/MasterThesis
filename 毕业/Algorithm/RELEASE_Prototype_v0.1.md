@@ -51,6 +51,7 @@ This release freezes the first verified prototype of the mentor's symbiotic FEMâ
 | Algorithm note | `Algorithm_Note_01.md` |
 | ADR | `ADR002_GlobalSphereEmbedding.md` |
 | Concept model | `CONCEPT_MODEL_AutomaticSymbioticTopology.md` |
+| Algorithm definition | `AlgorithmSpecification_v1.0.md` |
 
 ## Capability Q&A (frozen)
 
